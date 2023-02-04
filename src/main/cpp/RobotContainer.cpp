@@ -45,7 +45,7 @@ RobotContainer::RobotContainer() {
                 m_driverController.GetRightX(), OIConstants::kDriveDeadband)},
             m_relative, m_rate_limit);
       },
-      {&m_drive, &m_relative, &m_rate_limit}));
+      {&m_drive}));
 }
 
 void RobotContainer::ConfigureButtonBindings() {
@@ -57,19 +57,19 @@ void RobotContainer::ConfigureButtonBindings() {
 
     // Toggle Field Relative
     frc2::JoystickButton(&m_driverController, 
-    frc::XboxController::Button::kY).OnTrue(new frc2::RunCommand([this] { m_relative ^= true; }, {&m_relative}));
+    frc::XboxController::Button::kY).OnTrue(new frc2::RunCommand([this] { m_relative ^= true; }, {&m_drive}));
 
     // Toggle RateLimit
     frc2::JoystickButton(&m_driverController, 
-    frc::XboxController::Button::kB).OnTrue(new frc2::RunCommand([this] { m_rate_limit ^= true; }, {&m_rate_limit}));
+    frc::XboxController::Button::kB).OnTrue(new frc2::RunCommand([this] { m_rate_limit ^= true; }, {&m_drive}));
 
 
-    // Log some information
-    //frc2::JoystickButton(&m_driverController,
-    //frc::XboxController::Button::kA).OnTrue(new frc2::RunCommand([this] {
-    //    Logger::setGlobalLevel(LogLevel::Dev);
-    //    Logger::log(LogLevel::Dev) << "Relative: [" << m_relative << "], RateLimit: [" << m_rate_limit << "], Heading: [" << m_drive.GetHeading().abbreviation() << "], Pose Rotation: [" << m_drive.GetPose().Rotation().Degrees().abbreviation() << "]" << LoggerCommand::Flush;
-    //}, {&m_drive, &m_relative, &m_rate_limit}));
+    //Log some information
+    frc2::JoystickButton(&m_driverController,
+    frc::XboxController::Button::kA).OnTrue(new frc2::RunCommand([this] {
+       Logger::setGlobalLevel(LogLevel::Dev);
+       Logger::log(LogLevel::Dev) << "Relative: [" << m_relative << "], RateLimit: [" << m_rate_limit << "], Heading: [" << m_drive.GetHeading().abbreviation() << "], Pose Rotation: [" << m_drive.GetPose().Rotation().Degrees().abbreviation() << "]" << LoggerCommand::Flush;
+    }, {&m_drive}));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {

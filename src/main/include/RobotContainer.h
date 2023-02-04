@@ -38,6 +38,8 @@ class RobotContainer {
 
   // The robot's subsystems
   DriveSubsystem m_drive;
+  bool m_relative = true;
+  bool m_rate_limit = true;
 
   // The chooser for the autonomous routines
   frc::SendableChooser<frc2::Command*> m_chooser;

@@ -21,6 +21,8 @@
 #include "Constants.h"
 #include "subsystems/DriveSubsystem.h"
 
+#include "Logging.hpp"
+
 using namespace DriveConstants;
 
 RobotContainer::RobotContainer() {
@@ -41,15 +43,33 @@ RobotContainer::RobotContainer() {
                 m_driverController.GetLeftX(), OIConstants::kDriveDeadband)},
             -units::radians_per_second_t{frc::ApplyDeadband(
                 m_driverController.GetRightX(), OIConstants::kDriveDeadband)},
-            true, true);
+            m_relative, m_rate_limit);
       },
-      {&m_drive}));
+      {&m_drive, &m_relative, &m_rate_limit}));
 }
 
 void RobotContainer::ConfigureButtonBindings() {
   frc2::JoystickButton(&m_driverController,
-                       frc::XboxController::Button::kRightBumper)
+                       frc::XboxController::Button::kX)
       .WhileTrue(new frc2::RunCommand([this] { m_drive.SetX(); }, {&m_drive}));
+
+    // Temporary Commands
+
+    // Toggle Field Relative
+    frc2::JoystickButton(&m_driverController, 
+    frc::XboxController::Button::kY).OnTrue(new frc2::RunCommand([this] { m_relative ^= true; }, {&m_relative}));
+
+    // Toggle RateLimit
+    frc2::JoystickButton(&m_driverController, 
+    frc::XboxController::Button::kB).OnTrue(new frc2::RunCommand([this] { m_rate_limit ^= true; }, {&m_rate_limit}));
+
+
+    // Log some information
+    //frc2::JoystickButton(&m_driverController,
+    //frc::XboxController::Button::kA).OnTrue(new frc2::RunCommand([this] {
+    //    Logger::setGlobalLevel(LogLevel::Dev);
+    //    Logger::log(LogLevel::Dev) << "Relative: [" << m_relative << "], RateLimit: [" << m_rate_limit << "], Heading: [" << m_drive.GetHeading().abbreviation() << "], Pose Rotation: [" << m_drive.GetPose().Rotation().Degrees().abbreviation() << "]" << LoggerCommand::Flush;
+    //}, {&m_drive, &m_relative, &m_rate_limit}));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {

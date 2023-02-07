@@ -15,6 +15,7 @@
 
 #include "Constants.h"
 #include "MAXSwerveModule.h"
+#include "AHRS.h"
 
 class DriveSubsystem : public frc2::SubsystemBase {
  public:
@@ -111,7 +112,7 @@ class DriveSubsystem : public frc2::SubsystemBase {
   MAXSwerveModule m_rearRight;
 
   // The gyro sensor
-  frc::ADIS16470_IMU m_gyro;
+  AHRS m_gyro;
 
   // Slew rate filter variables for controlling lateral acceleration
   double m_currentRotation = 0.0;

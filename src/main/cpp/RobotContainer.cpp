@@ -68,12 +68,13 @@ void RobotContainer::ConfigureButtonBindings() {
     frc2::JoystickButton(&m_driverController,
     frc::XboxController::Button::kA).OnTrue(new frc2::InstantCommand([this] {
        Logger::setGlobalLevel(LogLevel::Dev);
-       Logger::log(LogLevel::Dev) << "Relative: [" << m_relative << "], RateLimit: [" << m_rate_limit  << "], Gyro Angle: [" << m_drive.GetHeading().value() << "]" << LoggerCommand::Flush;
+       Logger::log(LogLevel::Dev) << "Speed [" << m_drive.GetSpeed().value() << " mps], Relative: [" << m_relative << "], RateLimit: [" << m_rate_limit  << "], Gyro Angle: [" << m_drive.GetHeading().value() << "]" << LoggerCommand::Flush;
     }, {&m_drive}));
 
     frc2::JoystickButton(&m_driverController, 
     frc::XboxController::Button::kLeftBumper).OnTrue(new frc2::InstantCommand([this] {
-        m_speed = m_low_speed ? DriveConstants::FastSpeed : DriveConstants::LowSpeed;
+         if (m_low_speed) m_drive.SetSpeed(DriveConstants::FastSpeed);
+         else m_drive.SetSpeed(DriveConstants::LowSpeed);
         m_low_speed ^= true;
     }, {&m_drive}));
 }

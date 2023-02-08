@@ -49,6 +49,10 @@ class DriveSubsystem : public frc2::SubsystemBase {
    */
   void SetX();
 
+  // Speed
+  void SetSpeed(units::meters_per_second_t value);
+  units::meters_per_second_t GetSpeed();
+
   /**
    * Resets the drive encoders to currently read a position of 0.
    */
@@ -113,6 +117,9 @@ class DriveSubsystem : public frc2::SubsystemBase {
 
   // The gyro sensor
   AHRS m_gyro;
+
+  // Current Speed
+  units::meters_per_second_t m_speed = DriveConstants::LowSpeed;  
 
   // Slew rate filter variables for controlling lateral acceleration
   double m_currentRotation = 0.0;

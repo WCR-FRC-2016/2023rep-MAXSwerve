@@ -135,6 +135,10 @@ void DriveSubsystem::SetX() {
       frc::SwerveModuleState{0_mps, frc::Rotation2d{45_deg}});
 }
 
+  // Speed
+  void DriveSubsystem::SetSpeed(units::meters_per_second_t value) { m_speed = value; }
+  units::meters_per_second_t DriveSubsystem::GetSpeed() { return m_speed; }
+
 void DriveSubsystem::SetModuleStates(
     wpi::array<frc::SwerveModuleState, 4> desiredStates) {
   kDriveKinematics.DesaturateWheelSpeeds(&desiredStates,

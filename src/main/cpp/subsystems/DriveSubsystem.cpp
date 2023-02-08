@@ -12,6 +12,8 @@
 #include "Constants.h"
 #include "utils/SwerveUtils.h"
 
+#include "Logging.hpp"
+
 using namespace DriveConstants;
 
 DriveSubsystem::DriveSubsystem()
@@ -101,11 +103,13 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
 
   // Convert the commanded speeds into the correct units for the drivetrain
   units::meters_per_second_t xSpeedDelivered =
-      xSpeedCommanded * kMaxSpeed /* * m_speed*/;
+      xSpeedCommanded * m_speed;
   units::meters_per_second_t ySpeedDelivered =
-      ySpeedCommanded * kMaxSpeed /* * m_speed*/;
+      ySpeedCommanded * m_speed;
   units::radians_per_second_t rotDelivered =
       m_currentRotation * DriveConstants::kMaxAngularSpeed;
+
+      Logger::log(LogLevel::Dev) << "m_speed: " << m_speed.value() << LoggerCommand::Flush;
 
   auto states = kDriveKinematics.ToSwerveModuleStates(
       fieldRelative
@@ -114,7 +118,7 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
                 frc::Rotation2d(units::degree_t{-m_gyro.GetAngle()}))
           : frc::ChassisSpeeds{xSpeedDelivered, ySpeedDelivered, rotDelivered});
 
-  kDriveKinematics.DesaturateWheelSpeeds(&states, DriveConstants::kMaxSpeed);
+  kDriveKinematics.DesaturateWheelSpeeds(&states, m_speed);
 
   auto [fl, fr, bl, br] = states;
 
@@ -134,6 +138,10 @@ void DriveSubsystem::SetX() {
   m_rearRight.SetDesiredState(
       frc::SwerveModuleState{0_mps, frc::Rotation2d{45_deg}});
 }
+
+  // Speed
+  void DriveSubsystem::SetSpeed(units::meters_per_second_t value) { m_speed = value; }
+  units::meters_per_second_t DriveSubsystem::GetSpeed() { return m_speed; }
 
 void DriveSubsystem::SetModuleStates(
     wpi::array<frc::SwerveModuleState, 4> desiredStates) {

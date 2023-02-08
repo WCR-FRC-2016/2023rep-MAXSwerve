@@ -109,8 +109,6 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
   units::radians_per_second_t rotDelivered =
       m_currentRotation * DriveConstants::kMaxAngularSpeed;
 
-      Logger::log(LogLevel::Dev) << "m_speed: " << m_speed.value() << LoggerCommand::Flush;
-
   auto states = kDriveKinematics.ToSwerveModuleStates(
       fieldRelative
           ? frc::ChassisSpeeds::FromFieldRelativeSpeeds(

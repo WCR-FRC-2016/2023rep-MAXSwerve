@@ -20,6 +20,7 @@
 
 #include "Constants.h"
 #include "subsystems/DriveSubsystem.h"
+#include "commands/AutoAlignCommand.h"
 
 #include "Logging.hpp"
 
@@ -63,13 +64,15 @@ void RobotContainer::ConfigureButtonBindings() {
     frc2::JoystickButton(&m_driverController, 
     ControlConstants::RateLimitButton).OnTrue(new frc2::InstantCommand([this] { m_rate_limit ^= true; }, {&m_drive}));
 
-
     //Log some information
     frc2::JoystickButton(&m_driverController,
     ControlConstants::DebugPrintButton).OnTrue(new frc2::InstantCommand([this] {
        Logger::setGlobalLevel(LogLevel::Dev);
        Logger::log(LogLevel::Dev) << "Speed [" << m_drive.GetSpeed().value() << " mps], Relative: [" << m_relative << "], RateLimit: [" << m_rate_limit  << "], Gyro Angle: [" << m_drive.GetHeading().value() << "]" << LoggerCommand::Flush;
     }, {&m_drive}));
+
+    frc2::JoystickButton(&m_driverController, 
+    ControlConstants::AlignButton).WhileTrue(new AutoAlignCommand(m_drive, m_limelight));
 
     frc2::JoystickButton(&m_driverController, 
     ControlConstants::SwapSpeedButton).OnTrue(new frc2::InstantCommand([this] {

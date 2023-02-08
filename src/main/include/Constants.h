@@ -36,12 +36,13 @@ namespace ControlConstants {
     constexpr int RateLimitButton = frc::XboxController::Button::kB;
     constexpr int DebugPrintButton = frc::XboxController::Button::kA;
     constexpr int SwapSpeedButton = frc::XboxController::Button::kLeftBumper;
+    constexpr int AlignButton = frc::XboxController::Button::kRightBumper;
 }
 
 namespace DriveConstants {
 // Driving Parameters - Note that these are not the maximum capable speeds of
 // the robot, rather the allowed maximum speeds
-constexpr units::meters_per_second_t kMaxSpeed = 1.0_mps;
+constexpr units::meters_per_second_t kMaxSpeed = 4.8_mps;
 constexpr units::radians_per_second_t kMaxAngularSpeed{2 * std::numbers::pi};
 
 // Mode Switch Speeds
@@ -148,8 +149,8 @@ constexpr auto kMaxAcceleration = 3_mps_sq;
 constexpr auto kMaxAngularSpeed = 3.142_rad_per_s;
 constexpr auto kMaxAngularAcceleration = 3.142_rad_per_s_sq;
 
-constexpr double kAutoTargetX = 0;
-constexpr double kAutoTargetZ = 0;
+constexpr units::meter_t kAutoTargetX = 6.5_in;
+constexpr units::meter_t kAutoTargetZ = 1_m;
 
 constexpr double kPXController = 0.5;
 constexpr double kPYController = 0.5;

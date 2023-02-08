@@ -16,6 +16,7 @@
 
 #include "Constants.h"
 #include "subsystems/DriveSubsystem.h"
+#include "subsystems/Limelight.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -38,6 +39,7 @@ class RobotContainer {
 
   // The robot's subsystems
   DriveSubsystem m_drive;
+  Limelight m_limelight;
   bool m_relative = true;
   bool m_rate_limit = true;
 

@@ -18,17 +18,17 @@ void AutoAlignCommand::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
 void AutoAlignCommand::Execute() {
-    double x = m_limelight.GetX()+AutoConstants::kAutoTargetX;
-    double z = m_limelight.GetZ()+AutoConstants::kAutoTargetZ;
+    double x = m_limelight.GetX()+AutoConstants::kAutoTargetX.value();
+    double z = m_limelight.GetZ()+AutoConstants::kAutoTargetZ.value();
     double angle = m_limelight.GetHeading();
     
-    Logger::log(LogLevel::Info) << "AutoAlignCommand x: " << x << " z: " << z << " angle: " << angle << "\n";
+    Logger::log(LogLevel::Dev) << "AutoAlignCommand x: " << x << " z: " << z << " angle: " << angle << "\n";
 
     x = std::clamp(5*x, -1.0, 1.0);
     z = std::clamp(-5*z, -1.0, 1.0);
     angle = std::clamp(-angle/30.0, -1.0, 1.0);
 
-    Logger::log(LogLevel::Info) << "After clamping   x: " << x << " z: " << z << " angle: " << angle << "\n";
+    Logger::log(LogLevel::Dev) << "After clamping   x: " << x << " z: " << z << " angle: " << angle << "\n";
 
     units::meters_per_second_t x_u{x};
     units::meters_per_second_t z_u{z};

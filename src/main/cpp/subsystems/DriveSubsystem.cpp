@@ -111,7 +111,7 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
       fieldRelative
           ? frc::ChassisSpeeds::FromFieldRelativeSpeeds(
                 xSpeedDelivered, ySpeedDelivered, rotDelivered,
-                frc::Rotation2d(units::degree_t{m_gyro.GetAngle()}))
+                frc::Rotation2d(units::degree_t{-m_gyro.GetAngle()}))
           : frc::ChassisSpeeds{xSpeedDelivered, ySpeedDelivered, rotDelivered});
 
   kDriveKinematics.DesaturateWheelSpeeds(&states, DriveConstants::kMaxSpeed);

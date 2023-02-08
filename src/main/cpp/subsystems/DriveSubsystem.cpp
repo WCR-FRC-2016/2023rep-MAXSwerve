@@ -100,9 +100,9 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
 
   // Convert the commanded speeds into the correct units for the drivetrain
   units::meters_per_second_t xSpeedDelivered =
-      xSpeedCommanded * DriveConstants::kMaxSpeed;
+      xSpeedCommanded * m_speed;
   units::meters_per_second_t ySpeedDelivered =
-      ySpeedCommanded * DriveConstants::kMaxSpeed;
+      ySpeedCommanded * m_speed;
   units::radians_per_second_t rotDelivered =
       m_currentRotation * DriveConstants::kMaxAngularSpeed;
 

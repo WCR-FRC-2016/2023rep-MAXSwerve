@@ -41,6 +41,9 @@ class RobotContainer {
   bool m_relative = true;
   bool m_rate_limit = true;
 
+  bool m_low_speed = true;
+  units::meters_per_second_t m_speed = LowSpeed;  
+
   // The chooser for the autonomous routines
   frc::SendableChooser<frc2::Command*> m_chooser;
 

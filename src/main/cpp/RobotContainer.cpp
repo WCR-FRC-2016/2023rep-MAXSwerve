@@ -70,6 +70,11 @@ void RobotContainer::ConfigureButtonBindings() {
        Logger::setGlobalLevel(LogLevel::Dev);
        Logger::log(LogLevel::Dev) << "Relative: [" << m_relative << "], RateLimit: [" << m_rate_limit << "], Heading: [" << m_drive.GetHeading().abbreviation() << "], Pose Rotation: [" << m_drive.GetPose().Rotation().Degrees().abbreviation() << "]" << LoggerCommand::Flush;
     }, {&m_drive}));
+
+    frc::JoystickButton(&m_driveConroller, 
+    frc::XboxController::Button::kLeftBumper).OnTrue(new frc2::InstantCommand([this] {
+        m_speed = m_low_speed ? FastSpeed : LowSpeed;
+    }, {&m_drive}));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {

@@ -10,6 +10,7 @@
 #include <units/current.h>
 #include <units/length.h>
 #include <units/velocity.h>
+#include <frc/XboxController.h>
 
 #include <numbers>
 
@@ -23,6 +24,19 @@
  * command-specific namespaces within this header, which can then be used where
  * they are needed.
  */
+
+namespace ControlConstants {
+    // Joystick Value [Currently Inline]
+    
+    // Fire While Held Button
+    constexpr int xModeButton = frc::XboxController::Button::kX;
+
+    // Fire Once Button
+    constexpr int RelativeButton = frc::XboxController::Button::kY;
+    constexpr int RateLimitButton = frc::XboxController::Button::kB;
+    constexpr int DebugPrintButton = frc::XboxController::Button::kA;
+    constexpr int SwapSpeedButton = frc::XboxController::Button::kLeftBumper;
+}
 
 namespace DriveConstants {
 // Driving Parameters - Note that these are not the maximum capable speeds of

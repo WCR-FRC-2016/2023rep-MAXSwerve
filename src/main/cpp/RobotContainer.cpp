@@ -50,29 +50,29 @@ RobotContainer::RobotContainer() {
 
 void RobotContainer::ConfigureButtonBindings() {
   frc2::JoystickButton(&m_driverController,
-                       frc::XboxController::Button::kX)
+                       ControlConstants::xModeButton)
       .WhileTrue(new frc2::RunCommand([this] { m_drive.SetX(); }, {&m_drive}));
 
     // Temporary Commands
 
     // Toggle Field Relative
     frc2::JoystickButton(&m_driverController, 
-    frc::XboxController::Button::kY).OnTrue(new frc2::InstantCommand([this] { m_relative ^= true; }, {&m_drive}));
+    ControlConstants::RelativeButton).OnTrue(new frc2::InstantCommand([this] { m_relative ^= true; }, {&m_drive}));
 
     // Toggle RateLimit
     frc2::JoystickButton(&m_driverController, 
-    frc::XboxController::Button::kB).OnTrue(new frc2::InstantCommand([this] { m_rate_limit ^= true; }, {&m_drive}));
+    ControlConstants::RateLimitButton).OnTrue(new frc2::InstantCommand([this] { m_rate_limit ^= true; }, {&m_drive}));
 
 
     //Log some information
     frc2::JoystickButton(&m_driverController,
-    frc::XboxController::Button::kA).OnTrue(new frc2::InstantCommand([this] {
+    ControlConstants::DebugPrintButton).OnTrue(new frc2::InstantCommand([this] {
        Logger::setGlobalLevel(LogLevel::Dev);
        Logger::log(LogLevel::Dev) << "Speed [" << m_drive.GetSpeed().value() << " mps], Relative: [" << m_relative << "], RateLimit: [" << m_rate_limit  << "], Gyro Angle: [" << m_drive.GetHeading().value() << "]" << LoggerCommand::Flush;
     }, {&m_drive}));
 
     frc2::JoystickButton(&m_driverController, 
-    frc::XboxController::Button::kLeftBumper).OnTrue(new frc2::InstantCommand([this] {
+    ControlConstants::SwapSpeedButton).OnTrue(new frc2::InstantCommand([this] {
          if (m_low_speed) m_drive.SetSpeed(DriveConstants::FastSpeed);
          else m_drive.SetSpeed(DriveConstants::LowSpeed);
         m_low_speed ^= true;

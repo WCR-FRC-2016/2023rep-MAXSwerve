@@ -23,12 +23,12 @@ DriveSubsystem::DriveSubsystem()
                    kFrontRightChassisAngularOffset},
       m_rearRight{kRearRightDrivingCanId, kRearRightTurningCanId,
                   kRearRightChassisAngularOffset},
+      m_gyro{frc::SPI::Port::kMXP},
       m_odometry{kDriveKinematics,
                  frc::Rotation2d(units::radian_t{m_gyro.GetAngle()}),
                  {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
                   m_rearLeft.GetPosition(), m_rearRight.GetPosition()},
-                 frc::Pose2d{}},
-      m_gyro{frc::SPI::Port::kMXP} {}
+                 frc::Pose2d{}} {}
 
 void DriveSubsystem::Periodic() {
   // Implementation of subsystem periodic method goes here.
@@ -101,9 +101,9 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
 
   // Convert the commanded speeds into the correct units for the drivetrain
   units::meters_per_second_t xSpeedDelivered =
-      xSpeedCommanded * m_speed;
+      xSpeedCommanded * kMaxSpeed /* * m_speed*/;
   units::meters_per_second_t ySpeedDelivered =
-      ySpeedCommanded * m_speed;
+      ySpeedCommanded * kMaxSpeed /* * m_speed*/;
   units::radians_per_second_t rotDelivered =
       m_currentRotation * DriveConstants::kMaxAngularSpeed;
 

@@ -15,15 +15,12 @@ class Limelight : public frc2::SubsystemBase {
  private:
   // It's desirable that everything possible under private except
   // for methods that implement subsystem capabilities
-  bool initialized = false;
-  
   std::shared_ptr<nt::NetworkTable> table;
 
   double zeroes[6]{0,0,0,0,0,0}; // Used as default for calls to GetNumberArray.
 
  public:
   Limelight();
-  void LimelightInit();
   void Periodic();
   double GetX();
   double GetZ();

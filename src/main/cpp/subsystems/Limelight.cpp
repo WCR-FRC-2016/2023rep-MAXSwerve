@@ -14,25 +14,19 @@ Limelight::Limelight() {
     table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
 }
 
-void Limelight::LimelightInit() {
-	//wpi::outs() << "Limelight initialized\n";
-    initialized = true;
-}
+void Limelight::Periodic() {}
 
-void Limelight::Periodic() {
-	if (!initialized) {
-		Limelight::LimelightInit();
-	}
-}
-
+// Returns x position of target in robot space.
 double Limelight::GetX() {
-    return table->GetNumberArray("campose", zeroes)[0];
+    return table->GetNumberArray("targetpose_robotspace", zeroes)[0];
 }
 
+// Returns z position of target in robot space.
 double Limelight::GetZ() {
-    return table->GetNumberArray("campose", zeroes)[2];
+    return table->GetNumberArray("targetpose_robotspace", zeroes)[2];
 }
 
+// Returns heading of robot in target space.
 double Limelight::GetHeading() {
-    return table->GetNumberArray("campose", zeroes)[4];
+    return -table->GetNumberArray("targetpose_robotspace", zeroes)[4];
 }

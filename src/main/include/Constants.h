@@ -149,7 +149,7 @@ constexpr auto kMaxAcceleration = 3_mps_sq;
 constexpr auto kMaxAngularSpeed = 3.142_rad_per_s;
 constexpr auto kMaxAngularAcceleration = 3.142_rad_per_s_sq;
 
-constexpr units::meter_t kAutoTargetX = 6.5_in;
+constexpr units::meter_t kAutoTargetX = -6.5_in;
 constexpr units::meter_t kAutoTargetZ = 1_m;
 
 constexpr double kPXController = 0.5;

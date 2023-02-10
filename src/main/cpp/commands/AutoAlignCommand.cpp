@@ -18,23 +18,24 @@ void AutoAlignCommand::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
 void AutoAlignCommand::Execute() {
-    double x = m_limelight.GetX()+AutoConstants::kAutoTargetX.value();
-    double z = m_limelight.GetZ()+AutoConstants::kAutoTargetZ.value();
+    double x = m_limelight.GetX() - AutoConstants::kAutoTargetX.value();
+    double z = m_limelight.GetZ() - AutoConstants::kAutoTargetZ.value();
     double angle = m_limelight.GetHeading();
     
-    Logger::log(LogLevel::Dev) << "AutoAlignCommand x: " << x << " z: " << z << " angle: " << angle << "\n";
+    Logger::setGlobalLevel(LogLevel::Dev);
+    Logger::log(LogLevel::Dev) << "AutoAlignCommand x: " << x << " z: " << z << " angle: " << angle << LoggerCommand::Flush;
 
-    x = std::clamp(5*x, -1.0, 1.0);
-    z = std::clamp(-5*z, -1.0, 1.0);
-    angle = std::clamp(-angle/30.0, -1.0, 1.0);
+    x = std::clamp(-x, -1.0, 1.0);
+    z = std::clamp(z, -1.0, 1.0);
+    angle = std::clamp(angle/360.0, -1.0, 1.0);
 
-    Logger::log(LogLevel::Dev) << "After clamping   x: " << x << " z: " << z << " angle: " << angle << "\n";
+    Logger::log(LogLevel::Dev) << "After clamping   x: " << x << " z: " << z << " angle: " << angle << LoggerCommand::Flush;
 
     units::meters_per_second_t x_u{x};
     units::meters_per_second_t z_u{z};
     units::radians_per_second_t angle_u{angle * std::numbers::pi};
 
-    m_drive.Drive(x_u, z_u, angle_u, false, true); // TODO: 
+    m_drive.Drive(z_u, x_u, angle_u, false, true); // TODO: 
 }
 
 // Called once the command ends or is interrupted.

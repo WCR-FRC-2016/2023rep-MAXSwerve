@@ -8,6 +8,7 @@
 #include "units/angle.h"
 #include "units/velocity.h"
 #include "units/angular_velocity.h"
+#include "frc/geometry/Transform2d.h"
 
 enum LogLevel : uint32_t
 {
@@ -39,6 +40,7 @@ public:
     Logger &operator<<(const units::meters_per_second_t &);
     Logger &operator<<(const units::radians_per_second_t &);
     Logger &operator<<(const units::degrees_per_second_t &);
+    Logger &operator<<(const frc::Translation2d &translation);
 
 private:
     uint32_t m_global_level;

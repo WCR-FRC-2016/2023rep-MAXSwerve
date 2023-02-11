@@ -37,6 +37,7 @@ namespace ControlConstants {
     constexpr int DebugPrintButton = frc::XboxController::Button::kA;
     constexpr int SwapSpeedButton = frc::XboxController::Button::kLeftBumper;
     constexpr int AlignButton = frc::XboxController::Button::kRightBumper;
+    constexpr int PosButton = frc::XboxController::Button::kBack;
 }
 
 namespace DriveConstants {

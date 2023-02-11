@@ -80,6 +80,12 @@ void RobotContainer::ConfigureButtonBindings() {
          else m_drive.SetSpeed(DriveConstants::LowSpeed);
         m_low_speed ^= true;
     }, {&m_drive}));
+
+    frc2::JoystickButton(&m_driverController, 
+    ControlConstants::PosButton).OnTrue(new frc2::InstantCommand([this] {
+       Logger::setGlobalLevel(LogLevel::Dev);
+       Logger::log(LogLevel::Dev) << "Position: " << m_drive.GetPose().Translation() << LoggerCommand::Flush;
+    }, {&m_drive}));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
@@ -124,8 +130,14 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
 
   // no auto
   return new frc2::SequentialCommandGroup(
+    frc2::InstantCommand([this]() { 
+        Logger::setGlobalLevel(LogLevel::Dev);
+       Logger::log(LogLevel::Dev) << "Position: " << m_drive.GetPose().Translation() << LoggerCommand::Flush;}, {&m_drive}),
       std::move(swerveControllerCommand),
       frc2::InstantCommand(
           [this]() { m_drive.Drive(0_mps, 0_mps, 0_rad_per_s, false, false); },
-          {}));
+          {}),
+              frc2::InstantCommand([this]() { 
+        Logger::setGlobalLevel(LogLevel::Dev);
+       Logger::log(LogLevel::Dev) << "Position: " << m_drive.GetPose().Translation() << LoggerCommand::Flush;}, {&m_drive}));
 }

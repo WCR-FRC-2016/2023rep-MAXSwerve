@@ -40,7 +40,7 @@ void AutoAlignCommand::Execute() {
   } else {
     Logger::log(LogLevel::Dev | LogLevel::Important) << "Target not found!" << LoggerCommand::Flush;
     
-    m_drive.Drive(0, 0, 0, false, true);
+    m_drive.Drive(0_mps, 0_mps, 0_rad_per_s, false, true);
   }
 }
 

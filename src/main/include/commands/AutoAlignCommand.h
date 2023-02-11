@@ -36,4 +36,6 @@ class AutoAlignCommand
 private:
   DriveSubsystem& m_drive;
   Limelight& m_limelight;
+
+  template <typename T> T Abs(T x);
 };

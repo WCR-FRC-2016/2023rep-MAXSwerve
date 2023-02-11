@@ -4,6 +4,11 @@
 #include <sstream>
 #include "wpi/raw_ostream.h"
 
+#include "units/length.h"
+#include "units/angle.h"
+#include "units/velocity.h"
+#include "units/angular_velocity.h"
+
 enum LogLevel : uint32_t
 {
     Info = 1,
@@ -27,6 +32,13 @@ public:
     Logger &operator<<(const double &);
     Logger &operator<<(const char &);
     Logger &operator<<(const LoggerCommand &);
+
+    Logger &operator<<(const units::meter_t &);
+    Logger &operator<<(const units::radian_t &);
+    Logger &operator<<(const units::degree_t &);
+    Logger &operator<<(const units::meters_per_second_t &);
+    Logger &operator<<(const units::radians_per_second_t &);
+    Logger &operator<<(const units::degrees_per_second_t &);
 
 private:
     uint32_t m_global_level;

@@ -57,10 +57,10 @@ constexpr double kRotationalSlewRate = 2.0;  // percent per second (1 = 100%)
 // Chassis configuration
 constexpr units::meter_t kTrackWidth =
     //0.6731_m;  // Distance between centers of right and left wheels on robot
-    0.5715_m;
+    0.575_m;
 constexpr units::meter_t kWheelBase =
     //0.6731_m;  // Distance between centers of front and back wheels on robot
-    0.7747_m;
+    0.665_m;
 
 // Angular offsets of the modules relative to the chassis in radians
 constexpr double kFrontLeftChassisAngularOffset = -std::numbers::pi / 2;
@@ -151,6 +151,8 @@ constexpr auto kMaxAngularAcceleration = 3.142_rad_per_s_sq;
 
 constexpr units::meter_t kAutoTargetX = -6.5_in;
 constexpr units::meter_t kAutoTargetZ = 1_m;
+constexpr units::meter_t kAutoTargetDeadzone = 1_in;
+constexpr units::radian_t kAutoTargetAngularDeadzone = 5_deg;
 
 constexpr double kPXController = 0.5;
 constexpr double kPYController = 0.5;

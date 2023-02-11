@@ -25,17 +25,17 @@ void AutoAlignCommand::Execute() {
     Logger::setGlobalLevel(LogLevel::Dev);
     Logger::log(LogLevel::Dev) << "AutoAlignCommand x: " << x << " z: " << z << " angle: " << angle << LoggerCommand::Flush;
 
-    x = std::clamp(-x, -1.0, 1.0);
-    z = std::clamp(z, -1.0, 1.0);
-    angle = std::clamp(angle/360.0, -1.0, 1.0);
+    if (abs(x) < AutoConstants::kAutoTargetDeadzone.value()) x = 0;
+    if (abs(z) < AutoConstants::kAutoTargetDeadzone.value()) z = 0;
+    if (abs(angle) < units::degree_t{AutoConstants::kAutoTargetAngularDeadzone}.value()) angle = 0;
 
-    Logger::log(LogLevel::Dev) << "After clamping   x: " << x << " z: " << z << " angle: " << angle << LoggerCommand::Flush;
+    units::meters_per_second_t x_u = units::meters_per_second_t{std::clamp(-3*x, -1.0, 1.0)};
+    units::meters_per_second_t z_u = units::meters_per_second_t{std::clamp(3*z, -1.0, 1.0)};
+    units::radians_per_second_t angle_u = units::radians_per_second_t{std::clamp(angle/360.0, -1.0, 1.0)};
 
-    units::meters_per_second_t x_u{x};
-    units::meters_per_second_t z_u{z};
-    units::radians_per_second_t angle_u{angle * std::numbers::pi};
+    Logger::log(LogLevel::Dev) << "After clamping x: " << x_u << " z: " << z_u << " angle: " << angle_u << LoggerCommand::Flush;
 
-    m_drive.Drive(z_u, x_u, angle_u, false, true); // TODO: 
+    m_drive.Drive(z_u, x_u, angle_u, false, true); // TODO: rate limiting?
 }
 
 // Called once the command ends or is interrupted.
@@ -43,3 +43,8 @@ void AutoAlignCommand::End(bool interrupted) {}
 
 // Returns true when the command should end.
 bool AutoAlignCommand::IsFinished() {return false;}
+
+template <typename T>
+T AutoAlignCommand::Abs(T x) {
+  return x.value()<0 ? -x : x;
+}

@@ -87,3 +87,47 @@ Logger &Logger::operator<<(const LoggerCommand &command)
     }
     return *this;
 }
+
+
+Logger &Logger::operator<<(const units::meter_t &number)
+{
+    if (!checkLevel())
+        return *this;
+    wpi::outs() << std::to_string(number.value()) << " " << number.abbreviation();
+    return *this;
+}
+Logger &Logger::operator<<(const units::radian_t &number)
+{
+    if (!checkLevel())
+        return *this;
+    wpi::outs() << std::to_string(number.value()) << " " << number.abbreviation();
+    return *this;
+}
+Logger &Logger::operator<<(const units::degree_t &number)
+{
+    if (!checkLevel())
+        return *this;
+    wpi::outs() << std::to_string(number.value()) << " " << number.abbreviation();
+    return *this;
+}
+Logger &Logger::operator<<(const units::meters_per_second_t &number)
+{
+    if (!checkLevel())
+        return *this;
+    wpi::outs() << std::to_string(number.value()) << " " << number.abbreviation();
+    return *this;
+}
+Logger &Logger::operator<<(const units::radians_per_second_t &number)
+{
+    if (!checkLevel())
+        return *this;
+    wpi::outs() << std::to_string(number.value()) << " " << number.abbreviation();
+    return *this;
+}
+Logger &Logger::operator<<(const units::degrees_per_second_t &number)
+{
+    if (!checkLevel())
+        return *this;
+    wpi::outs() << std::to_string(number.value()) << " " << number.abbreviation();
+    return *this;
+}

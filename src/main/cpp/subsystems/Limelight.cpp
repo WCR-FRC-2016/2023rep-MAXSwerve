@@ -16,6 +16,11 @@ Limelight::Limelight() {
 
 void Limelight::Periodic() {}
 
+// Returns true if a target is detected.
+bool Limelight::GetVisible() {
+    return table->GetBoolean("tv", false);
+}
+
 // Returns x position of target in robot space.
 double Limelight::GetX() {
     return table->GetNumberArray("targetpose_robotspace", zeroes)[0];

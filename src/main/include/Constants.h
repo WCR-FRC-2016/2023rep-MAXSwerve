@@ -152,7 +152,7 @@ constexpr auto kMaxAngularAcceleration = 3.142_rad_per_s_sq;
 constexpr units::meter_t kAutoTargetX = -6.5_in;
 constexpr units::meter_t kAutoTargetZ = 1_m;
 constexpr units::meter_t kAutoTargetDeadzone = 1_in;
-constexpr units::radian_t kAutoTargetAngularDeadzone = 5_deg;
+constexpr units::radian_t kAutoTargetAngularDeadzone = 2.5_deg;
 
 constexpr double kPXController = 0.5;
 constexpr double kPYController = 0.5;

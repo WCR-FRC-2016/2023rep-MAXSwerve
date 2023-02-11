@@ -18,6 +18,7 @@ void AutoAlignCommand::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
 void AutoAlignCommand::Execute() {
+  if (m_limelight.GetVisible()) {
     double x = m_limelight.GetX() - AutoConstants::kAutoTargetX.value();
     double z = m_limelight.GetZ() - AutoConstants::kAutoTargetZ.value();
     double angle = m_limelight.GetHeading();
@@ -36,6 +37,11 @@ void AutoAlignCommand::Execute() {
     Logger::log(LogLevel::Dev) << "After clamping x: " << x_u << " z: " << z_u << " angle: " << angle_u << LoggerCommand::Flush;
 
     m_drive.Drive(z_u, x_u, angle_u, false, true); // TODO: rate limiting?
+  } else {
+    Logger::log(LogLevel::Dev | LogLevel::Important) << "Target not found!" << LoggerCommand::Flush;
+    
+    m_drive.Drive(0, 0, 0, false, true);
+  }
 }
 
 // Called once the command ends or is interrupted.

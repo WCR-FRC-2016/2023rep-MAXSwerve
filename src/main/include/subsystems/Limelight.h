@@ -22,6 +22,7 @@ class Limelight : public frc2::SubsystemBase {
  public:
   Limelight();
   void Periodic();
+  bool GetVisible();
   double GetX();
   double GetZ();
   double GetHeading();

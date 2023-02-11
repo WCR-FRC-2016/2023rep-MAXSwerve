@@ -131,3 +131,11 @@ Logger &Logger::operator<<(const units::degrees_per_second_t &number)
     wpi::outs() << std::to_string(number.value()) << " " << number.abbreviation();
     return *this;
 }
+Logger &Logger::operator<<(const frc::Translation2d &translation) 
+{
+    if (!checkLevel())
+        return *this;
+
+    (*this) << "[Translation2D, " << translation.X() << " x, " << translation.Y() << " y]";
+    return *this;
+}

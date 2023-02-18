@@ -25,9 +25,17 @@
  * they are needed.
  */
 
+// TODO: Convert move of these to be config based rather than constexpr variables
+// Some examples include:
+//     . Button Mappings?
+//     . Speeds, such as max total speed (as well as the mode swap speeds?)
+//     . Slew rates that matter, such as kMagnitude and kRotational
+//     . PID rates specifically for rotational
+//     . Controller deadbands (which are the deadzones of the controller)
+
 namespace ControlConstants {
     // Joystick Value [Currently Inline]
-    
+
     // Fire While Held Button
     constexpr int xModeButton = frc::XboxController::Button::kX;
 
@@ -37,22 +45,24 @@ namespace ControlConstants {
     constexpr int DebugPrintButton = frc::XboxController::Button::kA;
     constexpr int SwapSpeedButton = frc::XboxController::Button::kLeftBumper;
     constexpr int AlignButton = frc::XboxController::Button::kRightBumper;
-    constexpr int PosButton = frc::XboxController::Button::kBack;
+    constexpr int ResetHeadingButon = frc::XboxController::Button::kBack;
+    constexpr int PosButton = frc::XboxController::Button::kStart;
 }
 
 namespace DriveConstants {
 // Driving Parameters - Note that these are not the maximum capable speeds of
 // the robot, rather the allowed maximum speeds
 constexpr units::meters_per_second_t kMaxSpeed = 4.8_mps;
-constexpr units::radians_per_second_t kMaxAngularSpeed{2 * std::numbers::pi};
+constexpr units::radians_per_second_t kMaxAngularSpeed{2 / 2 * std::numbers::pi};
 
 // Mode Switch Speeds
 constexpr units::meters_per_second_t FastSpeed = 3.0_mps;
 constexpr units::meters_per_second_t LowSpeed = 1.0_mps;
 
-
 constexpr double kDirectionSlewRate = 1.2;   // radians per second
+// This controls the drive slew (daming on drive)
 constexpr double kMagnitudeSlewRate = 1.8;   // percent per second (1 = 100%)
+// This controls the damping on the robots rotation
 constexpr double kRotationalSlewRate = 2.0;  // percent per second (1 = 100%)
 
 // Chassis configuration
@@ -165,5 +175,5 @@ extern const frc::TrapezoidProfile<units::radians>::Constraints
 
 namespace IOConstants {
 constexpr int kDriverControllerPort = 0;
-constexpr double kDriveDeadband = 0.05;
+constexpr double kDriveDeadband = 0.15;
 }  // namespace IOConstants

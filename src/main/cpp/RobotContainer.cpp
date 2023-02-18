@@ -86,6 +86,12 @@ void RobotContainer::ConfigureButtonBindings() {
        Logger::setGlobalLevel(LogLevel::Dev);
        Logger::log(LogLevel::Dev) << "Position: " << m_drive.GetPose().Translation() << LoggerCommand::Flush;
     }, {&m_drive}));
+
+    // Map this to potentially reset just the rotation and not the position???
+    frc2::JoystickButton(&m_driverController,
+    ControlConstants::ResetHeadingButon).OnTrue(new frc2::InstantCommand([this] {
+        m_drive.ZeroHeading();
+    }, {&m_drive}));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {

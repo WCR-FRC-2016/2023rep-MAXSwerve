@@ -46,6 +46,14 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
   double xSpeedCommanded;
   double ySpeedCommanded;
 
+  if (xSpeed==0_mps && ySpeed==0_mps && rot==0_rad_per_s) {
+    m_frontLeft.StayStill();
+    m_frontRight.StayStill();
+    m_rearLeft.StayStill();
+    m_rearRight.StayStill();
+    return;
+  }
+
   if (rateLimit) {
     // Convert XY to polar for rate limiting
     double inputTranslationDir = atan2(ySpeed.value(), xSpeed.value());

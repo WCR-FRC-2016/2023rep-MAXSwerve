@@ -122,3 +122,9 @@ void MAXSwerveModule::SetDesiredState(
 }
 
 void MAXSwerveModule::ResetEncoders() { m_drivingEncoder.SetPosition(0); }
+
+void MAXSwerveModule::StayStill() {
+    frc::SwerveModuleState state = GetState();
+    state.speed = 0_mps;
+    SetDesiredState(state);
+}

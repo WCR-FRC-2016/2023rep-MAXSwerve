@@ -49,6 +49,8 @@ class MAXSwerveModule {
    */
   void ResetEncoders();
 
+  void StayStill();
+
  private:
   rev::CANSparkMax m_drivingSparkMax;
   rev::CANSparkMax m_turningSparkMax;

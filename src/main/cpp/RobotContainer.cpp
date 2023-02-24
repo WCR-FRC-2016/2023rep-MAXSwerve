@@ -67,8 +67,8 @@ void RobotContainer::ConfigureButtonBindings() {
     //Log some information
     frc2::JoystickButton(&m_driverController,
     ControlConstants::DebugPrintButton).OnTrue(new frc2::InstantCommand([this] {
-       Logger::setGlobalLevel(LogLevel::Dev);
-       Logger::log(LogLevel::Dev) << "Speed [" << m_drive.GetSpeed().value() << " mps], Relative: [" << m_relative << "], RateLimit: [" << m_rate_limit  << "], Gyro Angle: [" << m_drive.GetHeading().value() << "]" << LoggerCommand::Flush;
+       Logger::SetGlobalLevel(LogLevel::Dev);
+       Logger::Log(LogLevel::Dev) << "Speed [" << m_drive.GetSpeed().value() << " mps], Relative: [" << m_relative << "], RateLimit: [" << m_rate_limit  << "], Gyro Angle: [" << m_drive.GetHeading().value() << "]" << LoggerCommand::Flush;
     }, {&m_drive}));
 
     frc2::JoystickButton(&m_driverController, 
@@ -83,8 +83,8 @@ void RobotContainer::ConfigureButtonBindings() {
 
     frc2::JoystickButton(&m_driverController, 
     ControlConstants::PosButton).OnTrue(new frc2::InstantCommand([this] {
-       Logger::setGlobalLevel(LogLevel::Dev);
-       Logger::log(LogLevel::Dev) << "Position: " << m_drive.GetPose().Translation() << LoggerCommand::Flush;
+       Logger::SetGlobalLevel(LogLevel::Dev);
+       Logger::Log(LogLevel::Dev) << "Position: " << m_drive.GetPose().Translation() << LoggerCommand::Flush;
     }, {&m_drive}));
 
     // Map this to potentially reset just the rotation and not the position???
@@ -141,13 +141,13 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
 
 //   return new frc2::SequentialCommandGroup(
 //     frc2::InstantCommand([this]() { 
-//         Logger::setGlobalLevel(LogLevel::Dev);
-//        Logger::log(LogLevel::Dev) << "Position: " << m_drive.GetPose().Translation() << LoggerCommand::Flush;}, {&m_drive}),
+//         Logger::SetGlobalLevel(LogLevel::Dev);
+//        Logger::Log(LogLevel::Dev) << "Position: " << m_drive.GetPose().Translation() << LoggerCommand::Flush;}, {&m_drive}),
 //       std::move(swerveControllerCommand),
 //       frc2::InstantCommand(
 //           [this]() { m_drive.Drive(0_mps, 0_mps, 0_rad_per_s, false, false); },
 //           {}),
 //               frc2::InstantCommand([this]() { 
-//         Logger::setGlobalLevel(LogLevel::Dev);
-//        Logger::log(LogLevel::Dev) << "Position: " << m_drive.GetPose().Translation() << LoggerCommand::Flush;}, {&m_drive}));
+//         Logger::SetGlobalLevel(LogLevel::Dev);
+//        Logger::Log(LogLevel::Dev) << "Position: " << m_drive.GetPose().Translation() << LoggerCommand::Flush;}, {&m_drive}));
 }

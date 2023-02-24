@@ -23,8 +23,8 @@ void AutoAlignCommand::Execute() {
     double z = m_limelight.GetZ() - AutoConstants::kAutoTargetZ.value();
     double angle = m_limelight.GetHeading();
     
-    Logger::setGlobalLevel(LogLevel::Dev);
-    Logger::log(LogLevel::Dev) << "AutoAlignCommand x: " << x << " z: " << z << " angle: " << angle << LoggerCommand::Flush;
+    Logger::SetGlobalLevel(LogLevel::Dev);
+    Logger::Log(LogLevel::Dev) << "AutoAlignCommand x: " << x << " z: " << z << " angle: " << angle << LoggerCommand::Flush;
 
     if (abs(x) < AutoConstants::kAutoTargetDeadzone.value()) x = 0;
     if (abs(z) < AutoConstants::kAutoTargetDeadzone.value()) z = 0;
@@ -34,11 +34,11 @@ void AutoAlignCommand::Execute() {
     units::meters_per_second_t z_u = units::meters_per_second_t{std::clamp(3*z, -1.0, 1.0)};
     units::radians_per_second_t angle_u = units::radians_per_second_t{std::clamp(angle/360.0, -1.0, 1.0)};
 
-    Logger::log(LogLevel::Dev) << "After clamping x: " << x_u << " z: " << z_u << " angle: " << angle_u << LoggerCommand::Flush;
+    Logger::Log(LogLevel::Dev) << "After clamping x: " << x_u << " z: " << z_u << " angle: " << angle_u << LoggerCommand::Flush;
 
     m_drive.Drive(z_u, x_u, angle_u, false, true); // TODO: rate limiting?
   } else {
-    Logger::log(LogLevel::Dev | LogLevel::Important) << "Target not found!" << LoggerCommand::Flush;
+    Logger::Log(LogLevel::Dev | LogLevel::Important) << "Target not found!" << LoggerCommand::Flush;
     
     m_drive.Drive(0_mps, 0_mps, 0_rad_per_s, false, true);
   }

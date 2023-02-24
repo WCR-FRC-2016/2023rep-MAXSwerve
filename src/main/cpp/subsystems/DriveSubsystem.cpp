@@ -187,7 +187,7 @@ void DriveSubsystem::ResetOdometry(frc::Pose2d pose) {
 }
 
 void DriveSubsystem::PrintTestEncoder() {
-  frc::SmartDashboard::PutBoolean("EncoderConntected", m_mag_encoder.isConnected());
-  frc::SmartDashboard::PutNumber("EncoderDistance", m_mag_encoder.getDistance());
-  frc::SmartDashboard::PutNumber("EncoderDistanceDegrees", m_mag_encoder.getDistanceDegrees().value());
+  frc::SmartDashboard::PutBoolean("EncoderConntected", m_mag_encoder.IsConnected());
+  frc::SmartDashboard::PutNumber("EncoderDistance", m_mag_encoder.GetDistance());
+  frc::SmartDashboard::PutNumber("EncoderDistanceDegrees", m_mag_encoder.GetDistanceDegrees().value());
 }

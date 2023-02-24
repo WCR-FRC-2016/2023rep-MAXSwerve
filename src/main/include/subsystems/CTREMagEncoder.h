@@ -7,9 +7,9 @@ class CTREMagEncoder {
 public:
     CTREMagEncoder(int dio_slot);
 
-    bool isConnected();
-    double getDistance();
-    units::degree_t getDistanceDegrees();
+    bool IsConnected();
+    double GetDistance();
+    units::degree_t GetDistanceDegrees();
 private:
     frc::DutyCycleEncoder m_encoder;
 };

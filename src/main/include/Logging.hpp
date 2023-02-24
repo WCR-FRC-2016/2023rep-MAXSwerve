@@ -83,7 +83,7 @@ private:
 
 public:
     // Logging function, sets the message output channels and returns a logger to push values into
-    static Logger &log(const uint32_t log_level)
+    static Logger &Log(const uint32_t log_level)
     {
 
         auto &logger = getLogger();
@@ -93,7 +93,7 @@ public:
         return logger;
     }
     // Logging function, sets the message output channels and returns a logger to push values into
-    static Logger &log(const LogLevel log_level)
+    static Logger &Log(const LogLevel log_level)
     {
         auto &logger = getLogger();
         logger.m_level = log_level;
@@ -102,7 +102,7 @@ public:
         return logger;
     }
     // Logging function with the ability to set whether it adds the levels names
-    static Logger &log(const LogLevel log_level, const bool construct_name)
+    static Logger &Log(const LogLevel log_level, const bool construct_name)
     {
         auto &logger = getLogger();
         logger.m_level = log_level;
@@ -112,7 +112,7 @@ public:
         return logger;
     }
     // Logging function with the ability to set whether it adds the levels names
-    static Logger &log(const uint32_t log_level, const bool construct_name)
+    static Logger &Log(const uint32_t log_level, const bool construct_name)
     {
 
         auto &logger = getLogger();
@@ -124,18 +124,18 @@ public:
     }
 
     // Sets the global logging level (and what channels it accepts, use | to add multiple)
-    static void setGlobalLevel(const int level)
+    static void SetGlobalLevel(const int level)
     {
         getLogger().m_global_level = level;
     }
     // Sets the global logging level (and what channels it accepts, use | to add multiple)
-    static void setGlobalLevel(const LogLevel log_level)
+    static void SetGlobalLevel(const LogLevel log_level)
     {
         getLogger().m_global_level = log_level;
     }
 
     // Sets whether it should include the levels being logged [If you constantly use, make this false] (enabled by default)
-    static void setConstructName(const bool value)
+    static void SetConstructName(const bool value)
     {
         getLogger().m_construct_name = value;
     }

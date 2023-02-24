@@ -135,15 +135,19 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
   m_drive.ResetOdometry(exampleTrajectory.InitialPose());
 
   // no auto
-  return new frc2::SequentialCommandGroup(
-    frc2::InstantCommand([this]() { 
-        Logger::setGlobalLevel(LogLevel::Dev);
-       Logger::log(LogLevel::Dev) << "Position: " << m_drive.GetPose().Translation() << LoggerCommand::Flush;}, {&m_drive}),
-      std::move(swerveControllerCommand),
-      frc2::InstantCommand(
-          [this]() { m_drive.Drive(0_mps, 0_mps, 0_rad_per_s, false, false); },
-          {}),
-              frc2::InstantCommand([this]() { 
-        Logger::setGlobalLevel(LogLevel::Dev);
-       Logger::log(LogLevel::Dev) << "Position: " << m_drive.GetPose().Translation() << LoggerCommand::Flush;}, {&m_drive}));
+    return new frc2::RunCommand([this]() {
+        m_drive.PrintTestEncoder();
+    });
+
+//   return new frc2::SequentialCommandGroup(
+//     frc2::InstantCommand([this]() { 
+//         Logger::setGlobalLevel(LogLevel::Dev);
+//        Logger::log(LogLevel::Dev) << "Position: " << m_drive.GetPose().Translation() << LoggerCommand::Flush;}, {&m_drive}),
+//       std::move(swerveControllerCommand),
+//       frc2::InstantCommand(
+//           [this]() { m_drive.Drive(0_mps, 0_mps, 0_rad_per_s, false, false); },
+//           {}),
+//               frc2::InstantCommand([this]() { 
+//         Logger::setGlobalLevel(LogLevel::Dev);
+//        Logger::log(LogLevel::Dev) << "Position: " << m_drive.GetPose().Translation() << LoggerCommand::Flush;}, {&m_drive}));
 }

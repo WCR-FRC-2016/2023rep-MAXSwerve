@@ -4,6 +4,7 @@
 
 #include "subsystems/DriveSubsystem.h"
 
+#include <frc/smartdashboard/SmartDashboard.h>
 #include <frc/geometry/Rotation2d.h>
 #include <units/angle.h>
 #include <units/angular_velocity.h>
@@ -25,6 +26,8 @@ DriveSubsystem::DriveSubsystem()
                    kFrontRightChassisAngularOffset},
       m_rearRight{kRearRightDrivingCanId, kRearRightTurningCanId,
                   kRearRightChassisAngularOffset},
+      
+      m_mag_encoder{0},
       m_gyro{frc::SPI::Port::kMXP},
       m_odometry{kDriveKinematics,
                  frc::Rotation2d(units::degree_t{m_gyro.GetAngle()}),
@@ -181,4 +184,10 @@ void DriveSubsystem::ResetOdometry(frc::Pose2d pose) {
       {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
        m_rearLeft.GetPosition(), m_rearRight.GetPosition()},
       pose);
+}
+
+void DriveSubsystem::PrintTestEncoder() {
+  frc::SmartDashboard::PutBoolean("EncoderConntected", m_mag_encoder.isConnected());
+  frc::SmartDashboard::PutNumber("EncoderDistance", m_mag_encoder.getDistance());
+  frc::SmartDashboard::PutNumber("EncoderDistanceDegrees", m_mag_encoder.getDistanceDegrees().value());
 }

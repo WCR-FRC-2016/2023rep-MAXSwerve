@@ -29,6 +29,7 @@ class LEDController : public frc2::SubsystemBase {
   void Cone();
   void Cube();
   void Cube2();
+  void Flash(int i);
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be
@@ -40,4 +41,5 @@ class LEDController : public frc2::SubsystemBase {
   std::array<frc::AddressableLED::LEDData, kLength> m_ledBuffer;  // Reuse the buffer
 
   int i = 0;
+  int y = 0;
 };

@@ -107,12 +107,10 @@ constexpr units::ampere_t kArmHighCurrentLimit = 30_A; // TODO!
 constexpr double kArmLowP = 0.04; // TODO!
 constexpr double kArmLowI = 0; // TODO!
 constexpr double kArmLowD = 0; // TODO!
-constexpr double kArmLowFF = 0; // TODO!
 
 constexpr double kArmHighP = 0.04; // TODO!
 constexpr double kArmHighI = 0; // TODO!
 constexpr double kArmHighD = 0; // TODO!
-constexpr double kArmHighFF = 0; // TODO!
 } // namespace ArmConstants
 
 namespace ModuleConstants {

@@ -24,7 +24,9 @@ Arm::Arm()
       m_arm_low(kArmLowId, rev::CANSparkMax::MotorType::kBrushed),
       m_arm_high(kArmHighId, rev::CANSparkMax::MotorType::kBrushed),
       m_low_encoder{0},
-      m_high_encoder{1} {
+      m_high_encoder{1},
+      m_arm_low_pid{kArmLowP, kArmLowI, kArmLowD},
+      m_arm_high_pid{kArmHighP, kArmHighI, kArmHighD} {
   // Factory reset, so we get the SPARKS MAX to a known state before configuring
   // them. This is useful in case a SPARK MAX is swapped out.
   m_hand_left.RestoreFactoryDefaults();
@@ -43,14 +45,6 @@ Arm::Arm()
   m_hand_grab.SetSmartCurrentLimit(kHandGrabCurrentLimit.value());
   m_arm_low.SetSmartCurrentLimit(kArmLowCurrentLimit.value());
   m_arm_high.SetSmartCurrentLimit(kArmHighCurrentLimit.value());
-
-  m_arm_low_pid.SetP(kArmLowP);
-  m_arm_low_pid.SetI(kArmLowI);
-  m_arm_low_pid.SetD(kArmLowD);
-
-  m_arm_high_pid.SetP(kArmHighP);
-  m_arm_high_pid.SetI(kArmHighI);
-  m_arm_high_pid.SetD(kArmHighD);
 }
 
 void Arm::Periodic() {

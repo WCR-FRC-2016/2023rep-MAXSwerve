@@ -33,10 +33,8 @@ class Arm : public frc2::SubsystemBase {
   rev::CANSparkMax m_arm_low; // Motor to control lower arm
   rev::CANSparkMax m_arm_high; // Motor to control upper arm
   
-  frc2::PIDController m_arm_low_pid =
-      m_arm_low.GetPIDController();
-  frc2::PIDController m_arm_high_pid =
-      m_arm_high.GetPIDController();
+  frc2::PIDController m_arm_low_pid;
+  frc2::PIDController m_arm_high_pid;
 
   CTREMagEncoder m_low_encoder;
   CTREMagEncoder m_high_encoder;

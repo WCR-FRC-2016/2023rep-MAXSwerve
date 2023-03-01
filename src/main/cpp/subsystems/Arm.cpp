@@ -47,14 +47,10 @@ Arm::Arm()
   m_arm_low_pid.SetP(kArmLowP);
   m_arm_low_pid.SetI(kArmLowI);
   m_arm_low_pid.SetD(kArmLowD);
-  m_arm_low_pid.SetFF(kArmLowFF);
-  m_arm_low_pid.SetOutputRange(-1.0, 1.0);
 
   m_arm_high_pid.SetP(kArmHighP);
   m_arm_high_pid.SetI(kArmHighI);
   m_arm_high_pid.SetD(kArmHighD);
-  m_arm_high_pid.SetFF(kArmHighFF);
-  m_arm_high_pid.SetOutputRange(-1.0, 1.0);
 }
 
 void Arm::Periodic() {
@@ -70,8 +66,12 @@ void Arm::PrintTestEncoder() {
   frc::SmartDashboard::PutBoolean("LowEncoderConnected", m_low_encoder.IsConnected());
   frc::SmartDashboard::PutNumber("LowEncoderDistance", m_low_encoder.GetDistance());
   frc::SmartDashboard::PutNumber("LowEncoderDistanceDegrees", m_low_encoder.GetDistanceDegrees().value());
+  frc::SmartDashboard::PutNumber("LowEncoderDistanceDegreesNormalized", m_low_encoder.GetNormalizedDistanceDegrees().value());
+  frc::SmartDashboard::PutNumber("LowEncoderRevolutions", m_low_encoder.GetRevolutions());
 
   frc::SmartDashboard::PutBoolean("HighEncoderConnected", m_high_encoder.IsConnected());
   frc::SmartDashboard::PutNumber("HighEncoderDistance", m_high_encoder.GetDistance());
   frc::SmartDashboard::PutNumber("HighEncoderDistanceDegrees", m_high_encoder.GetDistanceDegrees().value());
+  frc::SmartDashboard::PutNumber("HighEncoderDistanceDegreesNormalized", m_high_encoder.GetNormalizedDistanceDegrees().value());
+  frc::SmartDashboard::PutNumber("HighEncoderRevolutions", m_high_encoder.GetRevolutions());
 }

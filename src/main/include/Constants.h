@@ -60,7 +60,7 @@ constexpr units::meters_per_second_t FastSpeed = 3.0_mps;
 constexpr units::meters_per_second_t LowSpeed = 1.0_mps;
 
 constexpr double kDirectionSlewRate = 1.2;   // radians per second
-// This controls the drive slew (daming on drive)
+// This controls the drive slew (damping on drive)
 constexpr double kMagnitudeSlewRate = 1.8;   // percent per second (1 = 100%)
 // This controls the damping on the robots rotation
 constexpr double kRotationalSlewRate = 2.0;  // percent per second (1 = 100%)

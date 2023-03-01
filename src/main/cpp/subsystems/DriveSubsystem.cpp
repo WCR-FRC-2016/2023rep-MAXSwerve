@@ -192,7 +192,7 @@ void DriveSubsystem::PrintTestEncoder() {
   frc::SmartDashboard::PutNumber("EncoderDistanceDegrees", m_mag_encoder.GetDistanceDegrees().value());
   frc::SmartDashboard::PutNumber("EncoderDistanceDegreesNormalized", m_mag_encoder.GetNormalizedDistanceDegrees().value());
   frc::SmartDashboard::PutNumber("EncoderRevolutions", m_mag_encoder.GetRevolutions());
-  frc::SmartDashboard::PutBoolean("Above", m_mag_encoder.IsAbove(-60_deg));
-  frc::SmartDashboard::PutBoolean("Below", m_mag_encoder.IsBelow(60_deg));
-  frc::SmartDashboard::PutBoolean("Between", m_mag_encoder.IsBetween(-60_deg, 60_deg));
+  frc::SmartDashboard::PutBoolean("EncoderAbove", m_mag_encoder.IsAbove(-60_deg));
+  frc::SmartDashboard::PutBoolean("EncoderBelow", m_mag_encoder.IsBelow(60_deg));
+  frc::SmartDashboard::PutBoolean("EncoderBetween", m_mag_encoder.IsBetween(-60_deg, 60_deg));
 }

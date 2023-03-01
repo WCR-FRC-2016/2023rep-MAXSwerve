@@ -107,6 +107,8 @@ class DriveSubsystem : public frc2::SubsystemBase {
                          DriveConstants::kTrackWidth / 2},
       frc::Translation2d{-DriveConstants::kWheelBase / 2,
                          -DriveConstants::kTrackWidth / 2}};
+  
+  CTREMagEncoder m_mag_encoder;
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be
@@ -116,8 +118,6 @@ class DriveSubsystem : public frc2::SubsystemBase {
   MAXSwerveModule m_rearLeft;
   MAXSwerveModule m_frontRight;
   MAXSwerveModule m_rearRight;
-  
-  CTREMagEncoder m_mag_encoder;
 
   // The gyro sensor
   AHRS m_gyro;

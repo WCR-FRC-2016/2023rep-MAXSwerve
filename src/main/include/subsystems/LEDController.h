@@ -19,6 +19,8 @@ class LEDController : public frc2::SubsystemBase {
   void Periodic() override;
 
   // Subsystem methods go here.
+  void SetState(int state);
+  int GetState();
   int pos(int x, int y);
   void SetRGB(int index, int r, int g, int b);
   void SetRGB(int x, int y, int r, int g, int b);
@@ -26,6 +28,7 @@ class LEDController : public frc2::SubsystemBase {
   void SetHSV(int x, int y, int h, int s, int v);
   void Flush();
   void Clear();
+  void Circles();
   void Cone();
   void Cube();
   void Cube2();
@@ -42,4 +45,5 @@ class LEDController : public frc2::SubsystemBase {
 
   int i = 0;
   int y = 0;
+  int state = 0;
 };

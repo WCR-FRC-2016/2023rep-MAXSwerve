@@ -67,7 +67,6 @@ void RobotContainer::ConfigureButtonBindings() {
     //Log some information
     frc2::JoystickButton(&m_driverController,
     ControlConstants::DebugPrintButton).OnTrue(new frc2::InstantCommand([this] {
-       Logger::SetGlobalLevel(LogLevel::Dev);
        Logger::Log(LogLevel::Dev) << "Speed [" << m_drive.GetSpeed().value() << " mps], Relative: [" << m_relative << "], RateLimit: [" << m_rate_limit  << "], Gyro Angle: [" << m_drive.GetHeading().value() << "]" << LoggerCommand::Flush;
     }, {&m_drive}));
 
@@ -83,7 +82,6 @@ void RobotContainer::ConfigureButtonBindings() {
 
     frc2::JoystickButton(&m_driverController, 
     ControlConstants::PosButton).OnTrue(new frc2::InstantCommand([this] {
-       Logger::SetGlobalLevel(LogLevel::Dev);
        Logger::Log(LogLevel::Dev) << "Position: " << m_drive.GetPose().Translation() << LoggerCommand::Flush;
     }, {&m_drive}));
 

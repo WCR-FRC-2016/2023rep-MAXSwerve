@@ -11,6 +11,7 @@
 #include "wpi/raw_ostream.h"
 
 #include "Constants.h"
+#include "Logging.hpp"
 
 inline void loadConfig() {
     try {
@@ -20,6 +21,23 @@ inline void loadConfig() {
 
         nlohmann::json json = nlohmann::json::parse(config_file);
         // = json["test"].get<double>();
+
+        // Logging
+        // Ensure None is not true, if none dont set any log levels!
+        if (!json["log-levels"]["none"].get<bool>()) {
+            uint32_t log_level = 0;
+
+            auto levels = json["log-levels"];
+            if (levels["info"].get<bool>())      log_level |= LogLevel::Info;
+            if (levels["utility"].get<bool>())   log_level |= LogLevel::Utility;
+            if (levels["important"].get<bool>()) log_level |= LogLevel::Important;
+            if (levels["error"].get<bool>())     log_level |= LogLevel::Error;
+            if (levels["dev"].get<bool>())       log_level |= LogLevel::Dev;
+
+            Logger::SetGlobalLevel(log_level);
+        } else Logger::SetGlobalLevel(LogLevel::None);
+
+        // Drive Constants
         DriveConstants::kMaxSpeed = units::meters_per_second_t(json["max-speed"].get<double>());
         DriveConstants::FastSpeed = units::meters_per_second_t(json["fast-speed"].get<double>());
         DriveConstants::LowSpeed = units::meters_per_second_t(json["slow-speed"].get<double>());

@@ -23,7 +23,6 @@ void AutoAlignCommand::Execute() {
     double z = m_limelight.GetZ() - AutoConstants::kAutoTargetZ.value();
     double angle = m_limelight.GetHeading();
     
-    Logger::SetGlobalLevel(LogLevel::Dev);
     Logger::Log(LogLevel::Dev) << "AutoAlignCommand x: " << x << " z: " << z << " angle: " << angle << LoggerCommand::Flush;
 
     if (abs(x) < AutoConstants::kAutoTargetDeadzone.value()) x = 0;

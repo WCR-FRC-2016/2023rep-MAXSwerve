@@ -61,7 +61,7 @@ constexpr units::meters_per_second_t FastSpeed = 3.0_mps;
 constexpr units::meters_per_second_t LowSpeed = 1.0_mps;
 
 constexpr double kDirectionSlewRate = 1.2;   // radians per second
-// This controls the drive slew (daming on drive)
+// This controls the drive slew (damping on drive)
 constexpr double kMagnitudeSlewRate = 1.8;   // percent per second (1 = 100%)
 // This controls the damping on the robots rotation
 constexpr double kRotationalSlewRate = 2.0;  // percent per second (1 = 100%)
@@ -91,6 +91,28 @@ constexpr int kRearLeftTurningCanId = 5;
 constexpr int kFrontRightTurningCanId = 1;
 constexpr int kRearRightTurningCanId = 7;
 }  // namespace DriveConstants
+
+namespace ArmConstants {
+constexpr int kHandLeftId = 0; // TODO!
+constexpr int kHandRightId = 0; // TODO!
+constexpr int kHandGrabId = 0; // TODO!
+constexpr int kArmLowId = 0; // TODO!
+constexpr int kArmHighId = 0; // TODO!
+
+constexpr units::ampere_t kHandLeftCurrentLimit = 30_A; // TODO!
+constexpr units::ampere_t kHandRightCurrentLimit = 30_A; // TODO!
+constexpr units::ampere_t kHandGrabCurrentLimit = 30_A; // TODO!
+constexpr units::ampere_t kArmLowCurrentLimit = 30_A; // TODO!
+constexpr units::ampere_t kArmHighCurrentLimit = 30_A; // TODO!
+
+constexpr double kArmLowP = 0.04; // TODO!
+constexpr double kArmLowI = 0; // TODO!
+constexpr double kArmLowD = 0; // TODO!
+
+constexpr double kArmHighP = 0.04; // TODO!
+constexpr double kArmHighI = 0; // TODO!
+constexpr double kArmHighD = 0; // TODO!
+} // namespace ArmConstants
 
 namespace ModuleConstants {
 // Invert the turning encoder, since the output shaft rotates in the opposite

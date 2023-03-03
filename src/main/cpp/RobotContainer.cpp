@@ -142,7 +142,7 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
 
   // no auto
     return new frc2::RunCommand([this]() {
-        m_drive.PrintTestEncoder();
+        m_arm.PrintTestEncoder();
     });
 
 //   return new frc2::SequentialCommandGroup(

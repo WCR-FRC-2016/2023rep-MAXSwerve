@@ -59,7 +59,7 @@ void LEDController::Circles() {
   Clear();
   for (int x=0; x<32; x++) {
     for (int y=0; y<16; y++) {
-      float d = sqrt((x-16)*(x-16) + (y-8)*(y-8));
+      double d = sqrt((x-16)*(x-16) + (y-8)*(y-8));
       SetRGB(x,y, 10+10*sin((i/200.0+d/10.0)*2*std::numbers::pi), 0, 0);
     }
   }
@@ -83,14 +83,14 @@ void LEDController::Cone() {
     }
 
     for (int x=0; x<minx-1; x++) {
-      float d = minx-x;
-      float s = sin((i/150.0-d/10.0)*2*std::numbers::pi);
+      double d = minx-x;
+      double s = sin((i/150.0-d/10.0)*2*std::numbers::pi);
       SetRGB(x, y, 6+6*s, 1+1*s, 0);
     }
 
     for (int x=maxx+2; x<32; x++) {
-      float d = x-maxx;
-      float s = sin((i/150.0-d/10.0)*2*std::numbers::pi);
+      double d = x-maxx;
+      double s = sin((i/150.0-d/10.0)*2*std::numbers::pi);
       SetRGB(x, y, 6+6*s, 1+1*s, 0);
     }
   }
@@ -118,6 +118,19 @@ void LEDController::Cube() {
 
 void LEDController::Cube2() {
   Clear();
+  for (int x = 0; x<32; x++) {
+    if (x<8 || x>23) {
+      for (int y = 0; y<16; y++) {
+        if (x<7 || x>24 || y<2 || y>13) {
+          double a = atan2(y-8,x-16);
+          double s = sin((i/75.0-a/std::numbers::pi)*2*std::numbers::pi);
+          double s2 = sin((i/75.0-a/std::numbers::pi)*std::numbers::pi + std::numbers::pi/4);
+          SetRGB(x, y, 6*pow(s2,10), 0, 5+5*s);
+        }
+      }
+    }
+  }
+
   for (int y = 0; y<=15; y++) {
     for (int x = 8; x<=23; x++) {
       SetRGB(x, y, 11, 0, 25);
@@ -165,6 +178,9 @@ void LEDController::Cube2() {
   SetRGB(22, 14, 1, 0, 2);
 
   Flush();
+
+  i++;
+  i%=75;
 }
 
 void LEDController::Flash(int i) {

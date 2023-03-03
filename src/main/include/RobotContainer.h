@@ -16,6 +16,7 @@
 
 #include "Constants.h"
 #include "subsystems/DriveSubsystem.h"
+#include "subsystems/Arm.h"
 #include "subsystems/Limelight.h"
 #include "subsystems/LEDController.h"
 
@@ -41,6 +42,7 @@ class RobotContainer {
 
   // The robot's subsystems
   DriveSubsystem m_drive;
+  Arm m_arm;
   Limelight m_limelight;
   LEDController m_leds;
   bool m_relative = true;

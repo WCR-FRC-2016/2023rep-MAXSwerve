@@ -38,6 +38,7 @@ namespace ControlConstants {
 
     // Fire While Held Button
     constexpr int xModeButton = frc::XboxController::Button::kX;
+    constexpr int DebugLEDButton = frc::XboxController::Button::kX;
 
     // Fire Once Button
     constexpr int RelativeButton = frc::XboxController::Button::kY;
@@ -45,7 +46,7 @@ namespace ControlConstants {
     constexpr int DebugPrintButton = frc::XboxController::Button::kA;
     constexpr int SwapSpeedButton = frc::XboxController::Button::kLeftBumper;
     constexpr int AlignButton = frc::XboxController::Button::kRightBumper;
-    constexpr int ResetHeadingButon = frc::XboxController::Button::kBack;
+    constexpr int ResetHeadingButton = frc::XboxController::Button::kBack;
     constexpr int PosButton = frc::XboxController::Button::kStart;
 }
 
@@ -90,6 +91,28 @@ constexpr int kRearLeftTurningCanId = 5;
 constexpr int kFrontRightTurningCanId = 1;
 constexpr int kRearRightTurningCanId = 7;
 }  // namespace DriveConstants
+
+namespace ArmConstants {
+constexpr int kHandLeftId = 0; // TODO!
+constexpr int kHandRightId = 0; // TODO!
+constexpr int kHandGrabId = 0; // TODO!
+constexpr int kArmLowId = 0; // TODO!
+constexpr int kArmHighId = 0; // TODO!
+
+constexpr units::ampere_t kHandLeftCurrentLimit = 30_A; // TODO!
+constexpr units::ampere_t kHandRightCurrentLimit = 30_A; // TODO!
+constexpr units::ampere_t kHandGrabCurrentLimit = 30_A; // TODO!
+constexpr units::ampere_t kArmLowCurrentLimit = 30_A; // TODO!
+constexpr units::ampere_t kArmHighCurrentLimit = 30_A; // TODO!
+
+constexpr double kArmLowP = 0.04; // TODO!
+constexpr double kArmLowI = 0; // TODO!
+constexpr double kArmLowD = 0; // TODO!
+
+constexpr double kArmHighP = 0.04; // TODO!
+constexpr double kArmHighI = 0; // TODO!
+constexpr double kArmHighD = 0; // TODO!
+} // namespace ArmConstants
 
 namespace ModuleConstants {
 // Invert the turning encoder, since the output shaft rotates in the opposite

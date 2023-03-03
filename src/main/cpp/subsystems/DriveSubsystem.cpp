@@ -26,7 +26,7 @@ DriveSubsystem::DriveSubsystem()
                    kFrontRightChassisAngularOffset},
       m_rearRight{kRearRightDrivingCanId, kRearRightTurningCanId,
                   kRearRightChassisAngularOffset},
-      m_mag_encoder{0},
+      
       m_gyro{frc::SPI::Port::kMXP},
       m_odometry{kDriveKinematics,
                  frc::Rotation2d(units::degree_t{m_gyro.GetAngle()}),
@@ -184,15 +184,4 @@ void DriveSubsystem::ResetOdometry(frc::Pose2d pose) {
       {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
        m_rearLeft.GetPosition(), m_rearRight.GetPosition()},
       pose);
-}
-
-void DriveSubsystem::PrintTestEncoder() {
-  frc::SmartDashboard::PutBoolean("EncoderConntected", m_mag_encoder.IsConnected());
-  frc::SmartDashboard::PutNumber("EncoderDistance", m_mag_encoder.GetDistance());
-  frc::SmartDashboard::PutNumber("EncoderDistanceDegrees", m_mag_encoder.GetDistanceDegrees().value());
-  frc::SmartDashboard::PutNumber("EncoderDistanceDegreesNormalized", m_mag_encoder.GetNormalizedDistanceDegrees().value());
-  frc::SmartDashboard::PutNumber("EncoderRevolutions", m_mag_encoder.GetRevolutions());
-  frc::SmartDashboard::PutBoolean("EncoderAbove", m_mag_encoder.IsAbove(-60_deg));
-  frc::SmartDashboard::PutBoolean("EncoderBelow", m_mag_encoder.IsBelow(60_deg));
-  frc::SmartDashboard::PutBoolean("EncoderBetween", m_mag_encoder.IsBetween(-60_deg, 60_deg));
 }

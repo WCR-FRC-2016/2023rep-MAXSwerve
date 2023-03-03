@@ -38,6 +38,7 @@ namespace ControlConstants {
 
     // Fire While Held Button
     constexpr int xModeButton = frc::XboxController::Button::kX;
+    constexpr int DebugLEDButton = frc::XboxController::Button::kX;
 
     // Fire Once Button
     constexpr int RelativeButton = frc::XboxController::Button::kY;
@@ -45,7 +46,7 @@ namespace ControlConstants {
     constexpr int DebugPrintButton = frc::XboxController::Button::kA;
     constexpr int SwapSpeedButton = frc::XboxController::Button::kLeftBumper;
     constexpr int AlignButton = frc::XboxController::Button::kRightBumper;
-    constexpr int ResetHeadingButon = frc::XboxController::Button::kBack;
+    constexpr int ResetHeadingButton = frc::XboxController::Button::kBack;
     constexpr int PosButton = frc::XboxController::Button::kStart;
 }
 

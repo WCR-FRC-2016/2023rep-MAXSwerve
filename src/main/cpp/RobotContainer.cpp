@@ -89,9 +89,15 @@ void RobotContainer::ConfigureButtonBindings() {
 
     // Map this to potentially reset just the rotation and not the position???
     frc2::JoystickButton(&m_driverController,
-    ControlConstants::ResetHeadingButon).OnTrue(new frc2::InstantCommand([this] {
+    ControlConstants::ResetHeadingButton).OnTrue(new frc2::InstantCommand([this] {
         m_drive.ZeroHeading();
     }, {&m_drive}));
+
+    // LED State Change Command
+    frc2::JoystickButton(&m_driverController,
+    ControlConstants::DebugLEDButton).OnTrue(new frc2::InstantCommand([this] {
+        m_leds.SetState((m_leds.GetState()+1)%3);
+    }, {&m_leds}));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {

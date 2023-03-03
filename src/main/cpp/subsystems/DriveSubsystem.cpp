@@ -26,14 +26,14 @@ DriveSubsystem::DriveSubsystem()
                    kFrontRightChassisAngularOffset},
       m_rearRight{kRearRightDrivingCanId, kRearRightTurningCanId,
                   kRearRightChassisAngularOffset},
-      
       m_mag_encoder{0},
       m_gyro{frc::SPI::Port::kMXP},
       m_odometry{kDriveKinematics,
                  frc::Rotation2d(units::degree_t{m_gyro.GetAngle()}),
                  {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
                   m_rearLeft.GetPosition(), m_rearRight.GetPosition()},
-                 frc::Pose2d{}} {}
+                 frc::Pose2d{}},
+      m_actuator(9) {}
 
 void DriveSubsystem::Periodic() {
   // Implementation of subsystem periodic method goes here.

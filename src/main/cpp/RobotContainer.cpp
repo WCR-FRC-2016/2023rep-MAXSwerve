@@ -4,6 +4,8 @@
 
 #include "RobotContainer.h"
 
+#include <frc/smartdashboard/SmartDashboard.h>
+
 #include <frc/controller/PIDController.h>
 #include <frc/geometry/Translation2d.h>
 #include <frc/shuffleboard/Shuffleboard.h>
@@ -45,6 +47,10 @@ RobotContainer::RobotContainer() {
             -units::radians_per_second_t{frc::ApplyDeadband(
                 m_driverController.GetRightX(), IOConstants::kDriveDeadband)},
             m_relative, m_rate_limit);
+
+        float_t dir = static_cast<float_t>(m_manipController.GetLeftY());
+        //frc::SmartDashboard::PutNumber("ManipLeft", dir);
+        m_drive.m_actuator.Drive(-dir);
       },
       {&m_drive}));
 }

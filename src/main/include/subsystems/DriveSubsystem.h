@@ -12,6 +12,7 @@
 #include <frc/kinematics/SwerveDriveOdometry.h>
 #include <frc2/command/SubsystemBase.h>
 
+#include "ActuatorModule.h"
 #include "CTREMagEncoder.h"
 #include "Constants.h"
 #include "MAXSwerveModule.h"
@@ -107,6 +108,9 @@ class DriveSubsystem : public frc2::SubsystemBase {
                          DriveConstants::kTrackWidth / 2},
       frc::Translation2d{-DriveConstants::kWheelBase / 2,
                          -DriveConstants::kTrackWidth / 2}};
+
+    // :(
+    ActuatorModule m_actuator;
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be

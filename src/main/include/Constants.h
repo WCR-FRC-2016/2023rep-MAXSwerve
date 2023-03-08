@@ -53,12 +53,12 @@ namespace ControlConstants {
 namespace DriveConstants {
 // Driving Parameters - Note that these are not the maximum capable speeds of
 // the robot, rather the allowed maximum speeds
-constexpr units::meters_per_second_t kMaxSpeed = 4.8_mps;
+inline units::meters_per_second_t kMaxSpeed = 4.8_mps;
 constexpr units::radians_per_second_t kMaxAngularSpeed{2 / 2 * std::numbers::pi};
 
 // Mode Switch Speeds
-constexpr units::meters_per_second_t FastSpeed = 3.0_mps;
-constexpr units::meters_per_second_t LowSpeed = 1.0_mps;
+inline units::meters_per_second_t FastSpeed = 3.0_mps;
+inline units::meters_per_second_t LowSpeed = 1.0_mps;
 
 constexpr double kDirectionSlewRate = 1.2;   // radians per second
 // This controls the drive slew (damping on drive)
@@ -198,5 +198,6 @@ extern const frc::TrapezoidProfile<units::radians>::Constraints
 
 namespace IOConstants {
 constexpr int kDriverControllerPort = 0;
+constexpr int kManipControllerPort = 1;
 constexpr double kDriveDeadband = 0.15;
 }  // namespace IOConstants

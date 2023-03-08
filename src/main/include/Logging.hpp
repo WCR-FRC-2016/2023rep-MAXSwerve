@@ -12,6 +12,7 @@
 
 enum LogLevel : uint32_t
 {
+    None = 0,
     Info = 1,
     Utility = 1 << 1,
     Important = 1 << 2,

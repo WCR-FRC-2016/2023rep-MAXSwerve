@@ -1,0 +1,13 @@
+{
+    "log-levels": {
+        "none": false,
+        "info": true,
+        "utility": true,
+        "important": true,
+        "error": true,
+        "dev": true
+    },
+    "max-speed": 4.8,
+    "fast-speed": 3.0,
+    "slow-speed": 1.0
+}

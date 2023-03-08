@@ -4,6 +4,8 @@
 
 #include "RobotContainer.h"
 
+#include <frc/smartdashboard/SmartDashboard.h>
+
 #include <frc/controller/PIDController.h>
 #include <frc/geometry/Translation2d.h>
 #include <frc/shuffleboard/Shuffleboard.h>
@@ -45,6 +47,10 @@ RobotContainer::RobotContainer() {
             -units::radians_per_second_t{frc::ApplyDeadband(
                 m_driverController.GetRightX(), IOConstants::kDriveDeadband)},
             m_relative, m_rate_limit);
+
+        float_t dir = static_cast<float_t>(m_manipController.GetLeftY());
+        //frc::SmartDashboard::PutNumber("ManipLeft", dir);
+        m_drive.m_actuator.Drive(-dir);
       },
       {&m_drive}));
 }
@@ -67,7 +73,6 @@ void RobotContainer::ConfigureButtonBindings() {
     //Log some information
     frc2::JoystickButton(&m_driverController,
     ControlConstants::DebugPrintButton).OnTrue(new frc2::InstantCommand([this] {
-       Logger::SetGlobalLevel(LogLevel::Dev);
        Logger::Log(LogLevel::Dev) << "Speed [" << m_drive.GetSpeed().value() << " mps], Relative: [" << m_relative << "], RateLimit: [" << m_rate_limit  << "], Gyro Angle: [" << m_drive.GetHeading().value() << "]" << LoggerCommand::Flush;
     }, {&m_drive}));
 
@@ -83,7 +88,6 @@ void RobotContainer::ConfigureButtonBindings() {
 
     frc2::JoystickButton(&m_driverController, 
     ControlConstants::PosButton).OnTrue(new frc2::InstantCommand([this] {
-       Logger::SetGlobalLevel(LogLevel::Dev);
        Logger::Log(LogLevel::Dev) << "Position: " << m_drive.GetPose().Translation() << LoggerCommand::Flush;
     }, {&m_drive}));
 

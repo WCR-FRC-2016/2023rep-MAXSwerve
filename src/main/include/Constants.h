@@ -48,6 +48,11 @@ namespace ControlConstants {
     constexpr int AlignButton = frc::XboxController::Button::kRightBumper;
     constexpr int ResetHeadingButton = frc::XboxController::Button::kBack;
     constexpr int PosButton = frc::XboxController::Button::kStart;
+    
+    constexpr int PosCarryButton = frc::XboxController::Button::kA;
+    constexpr int PosMedButton   = frc::XboxController::Button::kB;
+    constexpr int PosHighButton  = frc::XboxController::Button::kY;
+    constexpr int PosSubButton   = frc::XboxController::Button::kX;
 }
 
 namespace DriveConstants {

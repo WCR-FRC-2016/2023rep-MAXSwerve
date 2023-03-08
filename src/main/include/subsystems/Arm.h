@@ -7,6 +7,7 @@
 #include <frc2/command/SubsystemBase.h>
 #include <frc/controller/PIDController.h>
 
+#include "ActuatorModule.h"
 #include "CTREMagEncoder.h"
 #include "Constants.h"
 
@@ -20,7 +21,9 @@ class Arm : public frc2::SubsystemBase {
   void Periodic() override;
 
   // Subsystem methods go here.
+  void SetState(double new_state);
   void TurnToAngles(double low, double high);
+  void Drive(double low, double high);
   void PrintTestEncoder();
 
  private:
@@ -30,12 +33,17 @@ class Arm : public frc2::SubsystemBase {
   rev::CANSparkMax m_hand_left; // Motor to control left hand wheels
   rev::CANSparkMax m_hand_right; // Motor to control right hand wheels
   rev::CANSparkMax m_hand_grab; // Motor to control hand opening/closing
-  rev::CANSparkMax m_arm_low; // Motor to control lower arm
-  rev::CANSparkMax m_arm_high; // Motor to control upper arm
+  
+  ActuatorModule m_low_actuator;
+  ActuatorModule m_high_actuator;
   
   frc2::PIDController m_arm_low_pid;
   frc2::PIDController m_arm_high_pid;
 
   CTREMagEncoder m_low_encoder;
   CTREMagEncoder m_high_encoder;
+
+  int m_state = 1;
+  int m_goal_state = 1;
+  int m_next_goal_state = -1;
 };

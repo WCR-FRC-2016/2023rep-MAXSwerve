@@ -47,10 +47,6 @@ RobotContainer::RobotContainer() {
             -units::radians_per_second_t{frc::ApplyDeadband(
                 m_driverController.GetRightX(), IOConstants::kDriveDeadband)},
             m_relative, m_rate_limit);
-
-        float_t dir = static_cast<float_t>(m_manipController.GetLeftY());
-        //frc::SmartDashboard::PutNumber("ManipLeft", dir);
-        m_drive.m_actuator.Drive(-dir);
       },
       {&m_drive}));
 }
@@ -102,6 +98,26 @@ void RobotContainer::ConfigureButtonBindings() {
     ControlConstants::DebugLEDButton).OnTrue(new frc2::InstantCommand([this] {
         m_leds.SetState((m_leds.GetState()+1)%3);
     }, {&m_leds}));
+
+    frc2::JoystickButton(&m_manipController,
+    ControlConstants::PosCarryButton).OnTrue(new frc2::InstantCommand([this] {
+        m_arm.SetState(1);
+    }, {&m_arm}));
+
+    frc2::JoystickButton(&m_manipController,
+    ControlConstants::PosMedButton).OnTrue(new frc2::InstantCommand([this] {
+        m_arm.SetState(2);
+    }, {&m_arm}));
+
+    frc2::JoystickButton(&m_manipController,
+    ControlConstants::PosHighButton).OnTrue(new frc2::InstantCommand([this] {
+        m_arm.SetState(3);
+    }, {&m_arm}));
+
+    frc2::JoystickButton(&m_manipController,
+    ControlConstants::PosSubButton).OnTrue(new frc2::InstantCommand([this] {
+        m_arm.SetState(4);
+    }, {&m_arm}));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {

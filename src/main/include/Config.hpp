@@ -4,6 +4,9 @@
 #include <filesystem>
 
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <frc/trajectory/Trajectory.h>
+#include <frc/trajectory/TrajectoryGenerator.h>
+
 #include <units/velocity.h>
 
 #include "vendor/json.hpp"
@@ -41,6 +44,41 @@ inline void loadConfig() {
         DriveConstants::kMaxSpeed = units::meters_per_second_t(json["max-speed"].get<double>());
         DriveConstants::kFastSpeed = units::meters_per_second_t(json["fast-speed"].get<double>());
         DriveConstants::kLowSpeed = units::meters_per_second_t(json["slow-speed"].get<double>());
+
+        // Auto Constants
+        AutoConstants::kPXController = json["auto-pcontroller-x"].get<double>();
+        AutoConstants::kPYController = json["auto-pcontroller-y"].get<double>();
+        AutoConstants::kPThetaController = json["auto-pcontroller-theta"].get<double>();
+        
+        frc::TrajectoryConfig config(AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
+
+        switch (json["auto-command"].get<int>()) {                
+            case 1:
+                AutoConstants::kAutoTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(
+                    {
+                        frc::Pose2d{0_m, 0_m, 0_deg},
+                        frc::Pose2d(1.0_m, 0.0_m, 0_deg)
+                    },
+                    config);
+                break;
+            case 2:
+                AutoConstants::kAutoTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(
+                    {
+                        frc::Pose2d{0_m, 0_m, 0_deg},
+                        frc::Pose2d(1.0_m, 0.0_m, 90_deg)
+                    },
+                    config);
+                break;
+            case 0:
+            default:
+                    AutoConstants::kAutoTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(
+                    {
+                        frc::Pose2d{0_m, 0_m, 0_deg},
+                        frc::Pose2d(0.0_m, 0.0_m, 90_deg)
+                    },
+                    config);
+                break;
+        }
 
         frc::SmartDashboard::PutNumber("Config/Max Speed", DriveConstants::kMaxSpeed.value());
         frc::SmartDashboard::PutNumber("Config/Fast Speed", DriveConstants::kFastSpeed.value());

@@ -11,6 +11,7 @@
 #include <units/length.h>
 #include <units/velocity.h>
 #include <frc/XboxController.h>
+#include <frc/trajectory/Trajectory.h>
 
 #include <numbers>
 
@@ -188,6 +189,8 @@ constexpr units::ampere_t kTurningMotorCurrentLimit = 20_A;
 }  // namespace ModuleConstants
 
 namespace AutoConstants {
+inline frc::Trajectory kAutoTrajectory;
+
 constexpr auto kMaxSpeed = 3_mps;
 constexpr auto kMaxAcceleration = 3_mps_sq;
 constexpr auto kMaxAngularSpeed = 3.142_rad_per_s;
@@ -198,9 +201,10 @@ constexpr units::meter_t kAutoTargetZ = 1_m;
 constexpr units::meter_t kAutoTargetDeadzone = 1_in;
 constexpr units::radian_t kAutoTargetAngularDeadzone = 2.5_deg;
 
-constexpr double kPXController = 0.5;
-constexpr double kPYController = 0.5;
-constexpr double kPThetaController = 0.5;
+// TEMPORARY INLINE
+inline double kPXController = 0.5;
+inline double kPYController = 0.5;
+inline double kPThetaController = 0.5;
 
 extern const frc::TrapezoidProfile<units::radians>::Constraints
     kThetaControllerConstraints;

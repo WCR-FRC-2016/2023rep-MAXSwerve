@@ -141,17 +141,6 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
   // Add kinematics to ensure max speed is actually obeyed
   config.SetKinematics(m_drive.kDriveKinematics);
 
-  // An example trajectory to follow.  All units in meters.
-  auto exampleTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(
-      // Start at the origin facing the +X direction
-      frc::Pose2d{0_m, 0_m, 0_deg},
-      // Pass through these two interior waypoints, making an 's' curve path
-      {frc::Translation2d(1.0_m, 0.0_m)},
-      // End 3 meters straight ahead of where we started, facing forward
-      frc::Pose2d{3_m, 0_m, 0_deg},
-      // Pass the config
-      config);
-
   frc::ProfiledPIDController<units::radians> thetaController{
       AutoConstants::kPThetaController, 0, 0,
       AutoConstants::kThetaControllerConstraints};
@@ -160,7 +149,7 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
                                         units::radian_t{std::numbers::pi});
 
   frc2::SwerveControllerCommand<4> swerveControllerCommand(
-      exampleTrajectory, [this]() { return m_drive.GetPose(); },
+      AutoConstants::kAutoTrajectory, [this]() { return m_drive.GetPose(); },
 
       m_drive.kDriveKinematics,
 
@@ -172,10 +161,15 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
       {&m_drive});
 
   // Reset odometry to the starting pose of the trajectory.
-  m_drive.ResetOdometry(exampleTrajectory.InitialPose());
+  m_drive.ResetOdometry(AutoConstants::kAutoTrajectory.InitialPose());
+
+    return new frc2::SequentialCommandGroup(
+        std::move(swerveControllerCommand),
+        frc2::InstantCommand([this]() { m_drive.Drive(0_mps, 0_mps, 0_rad_per_s, false, false); })
+        );
 
   // no auto
-  return new frc2::RunCommand([this]() { m_arm.PrintTestEncoder(); });
+  //return new frc2::RunCommand([this]() { m_arm.PrintTestEncoder(); });
 
   //   return new frc2::SequentialCommandGroup(
   //     frc2::InstantCommand([this]() {

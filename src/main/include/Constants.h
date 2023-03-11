@@ -45,8 +45,9 @@ namespace ControlConstants {
     constexpr int RelativeButton     = frc::XboxController::Button::kY;
     constexpr int RateLimitButton    = frc::XboxController::Button::kB;
     constexpr int DebugPrintButton   = frc::XboxController::Button::kA;
-    constexpr int SwapSpeedButton    = frc::XboxController::Button::kLeftBumper;
-    constexpr int AlignButton        = frc::XboxController::Button::kRightBumper;
+    constexpr int SwapSpeedButton    = frc::XboxController::Button::kBack;
+    constexpr int AlignRTButton      = frc::XboxController::Button::kLeftBumper;
+    constexpr int AlignATButton      = frc::XboxController::Button::kRightBumper;
     constexpr int ResetHeadingButton = frc::XboxController::Button::kBack;
     constexpr int PosButton          = frc::XboxController::Button::kStart;
     
@@ -67,8 +68,6 @@ constexpr units::radians_per_second_t kMaxAngularSpeed{2 / 2 * std::numbers::pi}
 // Mode Switch Speeds
 inline units::meters_per_second_t kFastSpeed = 3.0_mps;
 inline units::meters_per_second_t kLowSpeed = 1.0_mps;
-
-inline double kAlignSpeed = 1;
 
 constexpr double kDirectionSlewRate = 1.2;   // radians per second
 // This controls the drive slew (damping on drive)
@@ -197,6 +196,9 @@ constexpr units::ampere_t kTurningMotorCurrentLimit = 20_A;
 
 namespace AutoConstants {
 inline int32_t kSelectedAuto = 0;
+
+inline double kAlignSpeed = 1;
+inline double kAlignRotationSpeed = 2.0;
 
 constexpr auto kMaxSpeed = 3_mps;
 constexpr auto kMaxAcceleration = 3_mps_sq;

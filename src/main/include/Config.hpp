@@ -44,12 +44,13 @@ inline void loadConfig() {
         DriveConstants::kMaxSpeed = units::meters_per_second_t(json["max-speed"].get<double>());
         DriveConstants::kFastSpeed = units::meters_per_second_t(json["fast-speed"].get<double>());
         DriveConstants::kLowSpeed = units::meters_per_second_t(json["slow-speed"].get<double>());
-        DriveConstants::kAlignSpeed = json["align-speed"].get<double>();
 
         // Auto Constants
         AutoConstants::kPXController = json["auto-pcontroller-x"].get<double>();
         AutoConstants::kPYController = json["auto-pcontroller-y"].get<double>();
         AutoConstants::kPThetaController = json["auto-pcontroller-theta"].get<double>();
+        AutoConstants::kAlignSpeed = json["align-speed"].get<double>();
+        AutoConstants::kAlignRotationSpeed = json["align-rotation-speed"].get<double>();
 
         // Arm Constants
         ArmConstants::kArmLowOffset  = json["arm-low-offset"].get<double>();

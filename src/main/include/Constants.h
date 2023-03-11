@@ -196,7 +196,7 @@ constexpr units::ampere_t kTurningMotorCurrentLimit = 20_A;
 }  // namespace ModuleConstants
 
 namespace AutoConstants {
-inline frc::Trajectory kAutoTrajectory;
+inline int32_t kSelectedAuto = 0;
 
 constexpr auto kMaxSpeed = 3_mps;
 constexpr auto kMaxAcceleration = 3_mps_sq;

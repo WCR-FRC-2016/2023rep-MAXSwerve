@@ -61,10 +61,12 @@ inline void loadConfig() {
         ArmConstants::kArmHighI = json["arm-high-i"].get<double>();
         ArmConstants::kArmHighD = json["arm-high-d"].get<double>();
         
+        AutoConstants::kSelectedAuto = json["auto-command"].get<int32_t>();
+
         /*
         frc::TrajectoryConfig config(AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
 
-        switch (json["auto-command"].get<int>()) {                
+        switch () {                
             case 1:
                 AutoConstants::kAutoTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(
                     {

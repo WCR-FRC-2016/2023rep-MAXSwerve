@@ -21,12 +21,12 @@ Arm::Arm()
     : m_hand_left(kHandLeftId, rev::CANSparkMax::MotorType::kBrushed),
       m_hand_right(kHandRightId, rev::CANSparkMax::MotorType::kBrushed),
       m_hand_grab(kHandGrabId, rev::CANSparkMax::MotorType::kBrushed),
-      m_low_actuator(1), // TODO: ids
-      m_high_actuator(2), // TODO: ids
+      m_low_actuator(kArmLowId),
+      m_high_actuator(kArmHighId),
       m_arm_low_pid{kArmLowP, kArmLowI, kArmLowD},
       m_arm_high_pid{kArmHighP, kArmHighI, kArmHighD},
-      m_low_encoder{0},
-      m_high_encoder{1} {
+      m_high_encoder{kArmHighEncoderId},
+      m_low_encoder{kArmLowEncoderId} {
   // Factory reset, so we get the SPARKS MAX to a known state before configuring
   // them. This is useful in case a SPARK MAX is swapped out.
   m_hand_left.RestoreFactoryDefaults();
@@ -39,6 +39,10 @@ Arm::Arm()
   m_hand_left.SetSmartCurrentLimit(kHandLeftCurrentLimit.value());
   m_hand_right.SetSmartCurrentLimit(kHandRightCurrentLimit.value());
   m_hand_grab.SetSmartCurrentLimit(kHandGrabCurrentLimit.value());
+
+  m_hand_left.BurnFlash();
+  m_hand_right.BurnFlash();
+  m_hand_grab.BurnFlash();
 }
 
 void Arm::Periodic() {
@@ -93,6 +97,9 @@ void Arm::Drive(double low, double high) {
   m_low_actuator.Drive(low);
   m_high_actuator.Drive(high);
 }
+
+units::degree_t Arm::GetUpperAngle() { return m_high_encoder.GetNormalizedDistanceDegrees(); }
+units::degree_t Arm::GetLowerAngle() { return m_low_encoder.GetNormalizedDistanceDegrees(); }
 
 void Arm::PrintTestEncoder() {
   frc::SmartDashboard::PutBoolean("LowEncoderConnected", m_low_encoder.IsConnected());

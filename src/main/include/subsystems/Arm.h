@@ -7,9 +7,12 @@
 #include <frc2/command/SubsystemBase.h>
 #include <frc/controller/PIDController.h>
 
+#include <units/angle.h>
+
 #include "ActuatorModule.h"
 #include "CTREMagEncoder.h"
 #include "Constants.h"
+
 
 class Arm : public frc2::SubsystemBase {
  public:
@@ -25,6 +28,9 @@ class Arm : public frc2::SubsystemBase {
   void TurnToAngles(double low, double high);
   void Drive(double low, double high);
   void PrintTestEncoder();
+
+  units::degree_t GetUpperAngle();
+  units::degree_t GetLowerAngle();
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be

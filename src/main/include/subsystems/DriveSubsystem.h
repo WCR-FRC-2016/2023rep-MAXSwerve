@@ -43,7 +43,6 @@ class DriveSubsystem : public frc2::SubsystemBase {
   void Drive(units::meters_per_second_t xSpeed,
              units::meters_per_second_t ySpeed, units::radians_per_second_t rot,
              bool fieldRelative, bool rateLimit);
-
   /**
    * Sets the wheels into an X formation to prevent movement.
    */
@@ -119,7 +118,7 @@ class DriveSubsystem : public frc2::SubsystemBase {
   AHRS m_gyro;
 
   // Current Speed
-  units::meters_per_second_t m_speed = DriveConstants::LowSpeed;  
+  units::meters_per_second_t m_speed = DriveConstants::kLowSpeed;  
 
   // Slew rate filter variables for controlling lateral acceleration
   double m_currentRotation = 0.0;

@@ -39,12 +39,12 @@ inline void loadConfig() {
 
         // Drive Constants
         DriveConstants::kMaxSpeed = units::meters_per_second_t(json["max-speed"].get<double>());
-        DriveConstants::FastSpeed = units::meters_per_second_t(json["fast-speed"].get<double>());
-        DriveConstants::LowSpeed = units::meters_per_second_t(json["slow-speed"].get<double>());
+        DriveConstants::kFastSpeed = units::meters_per_second_t(json["fast-speed"].get<double>());
+        DriveConstants::kLowSpeed = units::meters_per_second_t(json["slow-speed"].get<double>());
 
         frc::SmartDashboard::PutNumber("Config/Max Speed", DriveConstants::kMaxSpeed.value());
-        frc::SmartDashboard::PutNumber("Config/Fast Speed", DriveConstants::FastSpeed.value());
-        frc::SmartDashboard::PutNumber("Config/Slow Speed", DriveConstants::LowSpeed.value());
+        frc::SmartDashboard::PutNumber("Config/Fast Speed", DriveConstants::kFastSpeed.value());
+        frc::SmartDashboard::PutNumber("Config/Slow Speed", DriveConstants::kLowSpeed.value());
 
         config_file.close();
     } catch(...) {

@@ -166,30 +166,35 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
                                         units::radian_t{std::numbers::pi});
 
     frc::Trajectory trajectory;
-    switch(AutoConstants::kSelectedAuto) {
-        case 1:
-            trajectory = frc::TrajectoryGenerator::GenerateTrajectory({
-                        frc::Pose2d{1_m, 0_m, 0_deg},
-                        frc::Pose2d(0.0_m, 0.0_m, 90_deg)
-                    },
-                    config);
-            break;
-        case 2:
-            trajectory = frc::TrajectoryGenerator::GenerateTrajectory({
-                        frc::Pose2d{1_m, 0_m, 0_deg},
-                        frc::Pose2d(0.0_m, 0.0_m, 0_deg)
-                    },
-                    config);
-            break;
-        case 0:
-        default:
-            trajectory = frc::TrajectoryGenerator::GenerateTrajectory({
+    trajectory = frc::TrajectoryGenerator::GenerateTrajectory({
                         frc::Pose2d{0_m, 0_m, 0_deg},
-                        frc::Pose2d(0.0_m, 0.0_m, 90_deg)
+                        frc::Pose2d(1.0_m, 0.0_m, 90_deg)
                     },
                     config);
-            break;
-    }
+    // switch(AutoConstants::kSelectedAuto) {
+    //     case 1:
+    //         trajectory = frc::TrajectoryGenerator::GenerateTrajectory({
+    //                     frc::Pose2d{1_m, 0_m, 0_deg},
+    //                     frc::Pose2d(0.0_m, 0.0_m, 90_deg)
+    //                 },
+    //                 config);
+    //         break;
+    //     case 2:
+    //         trajectory = frc::TrajectoryGenerator::GenerateTrajectory({
+    //                     frc::Pose2d{1_m, 0_m, 0_deg},
+    //                     frc::Pose2d(0.0_m, 0.0_m, 0_deg)
+    //                 },
+    //                 config);
+    //         break;
+    //     case 0:
+    //     default:
+    //         trajectory = frc::TrajectoryGenerator::GenerateTrajectory({
+    //                     frc::Pose2d{0_m, 0_m, 0_deg},
+    //                     frc::Pose2d(0.0_m, 0.0_m, 90_deg)
+    //                 },
+    //                 config);
+    //         break;
+    // }
 
   frc2::SwerveControllerCommand<4> swerveControllerCommand(
       trajectory, [this]() { return m_drive.GetPose(); },

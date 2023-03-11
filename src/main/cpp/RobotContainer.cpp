@@ -4,11 +4,10 @@
 
 #include "RobotContainer.h"
 
-#include <frc/smartdashboard/SmartDashboard.h>
-
 #include <frc/controller/PIDController.h>
 #include <frc/geometry/Translation2d.h>
 #include <frc/shuffleboard/Shuffleboard.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 #include <frc/trajectory/Trajectory.h>
 #include <frc/trajectory/TrajectoryGenerator.h>
 #include <frc2/command/InstantCommand.h>
@@ -21,10 +20,9 @@
 #include <utility>
 
 #include "Constants.h"
-#include "subsystems/DriveSubsystem.h"
-#include "commands/AutoAlignCommand.h"
-
 #include "Logging.hpp"
+#include "commands/AutoAlignCommand.h"
+#include "subsystems/DriveSubsystem.h"
 
 using namespace DriveConstants;
 
@@ -49,75 +47,91 @@ RobotContainer::RobotContainer() {
             m_relative, m_rate_limit);
       },
       {&m_drive}));
+
+  m_arm.SetDefaultCommand(frc2::RunCommand(
+      [this] {
+        m_arm.Drive(0.0, m_manipController.GetLeftY());
+      },
+      {&m_arm}));
 }
 
 void RobotContainer::ConfigureButtonBindings() {
-  frc2::JoystickButton(&m_driverController,
-                       ControlConstants::xModeButton)
+  frc2::JoystickButton(&m_driverController, ControlConstants::xModeButton)
       .WhileTrue(new frc2::RunCommand([this] { m_drive.SetX(); }, {&m_drive}));
 
-    // Temporary Commands
+  // Temporary Commands
 
-    // Toggle Field Relative
-    frc2::JoystickButton(&m_driverController, 
-    ControlConstants::RelativeButton).OnTrue(new frc2::InstantCommand([this] { m_relative ^= true; }, {&m_drive}));
+  // Toggle Field Relative
+  frc2::JoystickButton(&m_driverController, ControlConstants::RelativeButton)
+      .OnTrue(
+          new frc2::InstantCommand([this] { m_relative ^= true; }, {&m_drive}));
 
-    // Toggle RateLimit
-    frc2::JoystickButton(&m_driverController, 
-    ControlConstants::RateLimitButton).OnTrue(new frc2::InstantCommand([this] { m_rate_limit ^= true; }, {&m_drive}));
+  // Toggle RateLimit
+  frc2::JoystickButton(&m_driverController, ControlConstants::RateLimitButton)
+      .OnTrue(new frc2::InstantCommand([this] { m_rate_limit ^= true; },
+                                       {&m_drive}));
 
-    //Log some information
-    frc2::JoystickButton(&m_driverController,
-    ControlConstants::DebugPrintButton).OnTrue(new frc2::InstantCommand([this] {
-       Logger::Log(LogLevel::Dev) << "Speed [" << m_drive.GetSpeed().value() << " mps], Relative: [" << m_relative << "], RateLimit: [" << m_rate_limit  << "], Gyro Angle: [" << m_drive.GetHeading().value() << "]" << LoggerCommand::Flush;
-    }, {&m_drive}));
+  // Log some information
+  frc2::JoystickButton(&m_driverController, ControlConstants::DebugPrintButton)
+      .OnTrue(new frc2::InstantCommand(
+          [this] {
+            Logger::Log(LogLevel::Dev)
+                << "Speed [" << m_drive.GetSpeed().value()
+                << " mps], Relative: [" << m_relative << "], RateLimit: ["
+                << m_rate_limit << "], Gyro Angle: ["
+                << m_drive.GetHeading().value() << "]" << LoggerCommand::Flush;
+          },
+          {&m_drive}));
 
-    frc2::JoystickButton(&m_driverController, 
-    ControlConstants::AlignButton).WhileTrue(new AutoAlignCommand(m_drive, m_limelight));
+  frc2::JoystickButton(&m_driverController, ControlConstants::AlignButton)
+      .WhileTrue(new AutoAlignCommand(m_drive, m_limelight));
 
-    frc2::JoystickButton(&m_driverController, 
-    ControlConstants::SwapSpeedButton).OnTrue(new frc2::InstantCommand([this] {
-         if (m_low_speed) m_drive.SetSpeed(DriveConstants::kFastSpeed);
-         else m_drive.SetSpeed(DriveConstants::kLowSpeed);
-        m_low_speed ^= true;
-    }, {&m_drive}));
+  frc2::JoystickButton(&m_driverController, ControlConstants::SwapSpeedButton)
+      .OnTrue(new frc2::InstantCommand(
+          [this] {
+            if (m_low_speed)
+              m_drive.SetSpeed(DriveConstants::kFastSpeed);
+            else
+              m_drive.SetSpeed(DriveConstants::kLowSpeed);
+            m_low_speed ^= true;
+          },
+          {&m_drive}));
 
-    frc2::JoystickButton(&m_driverController, 
-    ControlConstants::PosButton).OnTrue(new frc2::InstantCommand([this] {
-       Logger::Log(LogLevel::Dev) << "Position: " << m_drive.GetPose().Translation() << LoggerCommand::Flush;
-    }, {&m_drive}));
+  frc2::JoystickButton(&m_driverController, ControlConstants::PosButton)
+      .OnTrue(new frc2::InstantCommand(
+          [this] {
+            Logger::Log(LogLevel::Dev)
+                << "Position: " << m_drive.GetPose().Translation()
+                << LoggerCommand::Flush;
+          },
+          {&m_drive}));
 
-    // Map this to potentially reset just the rotation and not the position???
-    frc2::JoystickButton(&m_driverController,
-    ControlConstants::ResetHeadingButton).OnTrue(new frc2::InstantCommand([this] {
-        m_drive.ZeroHeading();
-    }, {&m_drive}));
+  // Map this to potentially reset just the rotation and not the position???
+  frc2::JoystickButton(&m_driverController,
+                       ControlConstants::ResetHeadingButton)
+      .OnTrue(new frc2::InstantCommand([this] { m_drive.ZeroHeading(); },
+                                       {&m_drive}));
 
-    // LED State Change Command
-    frc2::JoystickButton(&m_driverController,
-    ControlConstants::DebugLEDButton).OnTrue(new frc2::InstantCommand([this] {
-        m_leds.SetState((m_leds.GetState()+1)%3);
-    }, {&m_leds}));
+  // LED State Change Command
+  frc2::JoystickButton(&m_driverController, ControlConstants::DebugLEDButton)
+      .OnTrue(new frc2::InstantCommand(
+          [this] { m_leds.SetState((m_leds.GetState() + 1) % 3); }, {&m_leds}));
 
-    frc2::JoystickButton(&m_manipController,
-    ControlConstants::PosCarryButton).OnTrue(new frc2::InstantCommand([this] {
-        m_arm.SetState(1);
-    }, {&m_arm}));
+  frc2::JoystickButton(&m_manipController, ControlConstants::PosCarryButton)
+      .OnTrue(
+          new frc2::InstantCommand([this] { m_arm.SetState(1); }, {&m_arm}));
 
-    frc2::JoystickButton(&m_manipController,
-    ControlConstants::PosMedButton).OnTrue(new frc2::InstantCommand([this] {
-        m_arm.SetState(2);
-    }, {&m_arm}));
+  frc2::JoystickButton(&m_manipController, ControlConstants::PosMedButton)
+      .OnTrue(
+          new frc2::InstantCommand([this] { m_arm.SetState(2); }, {&m_arm}));
 
-    frc2::JoystickButton(&m_manipController,
-    ControlConstants::PosHighButton).OnTrue(new frc2::InstantCommand([this] {
-        m_arm.SetState(3);
-    }, {&m_arm}));
+  frc2::JoystickButton(&m_manipController, ControlConstants::PosHighButton)
+      .OnTrue(
+          new frc2::InstantCommand([this] { m_arm.SetState(3); }, {&m_arm}));
 
-    frc2::JoystickButton(&m_manipController,
-    ControlConstants::PosSubButton).OnTrue(new frc2::InstantCommand([this] {
-        m_arm.SetState(4);
-    }, {&m_arm}));
+  frc2::JoystickButton(&m_manipController, ControlConstants::PosSubButton)
+      .OnTrue(
+          new frc2::InstantCommand([this] { m_arm.SetState(4); }, {&m_arm}));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
@@ -161,19 +175,22 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
   m_drive.ResetOdometry(exampleTrajectory.InitialPose());
 
   // no auto
-    return new frc2::RunCommand([this]() {
-        m_arm.PrintTestEncoder();
-    });
+  return new frc2::RunCommand([this]() { m_arm.PrintTestEncoder(); });
 
-//   return new frc2::SequentialCommandGroup(
-//     frc2::InstantCommand([this]() { 
-//         Logger::SetGlobalLevel(LogLevel::Dev);
-//        Logger::Log(LogLevel::Dev) << "Position: " << m_drive.GetPose().Translation() << LoggerCommand::Flush;}, {&m_drive}),
-//       std::move(swerveControllerCommand),
-//       frc2::InstantCommand(
-//           [this]() { m_drive.Drive(0_mps, 0_mps, 0_rad_per_s, false, false); },
-//           {}),
-//               frc2::InstantCommand([this]() { 
-//         Logger::SetGlobalLevel(LogLevel::Dev);
-//        Logger::Log(LogLevel::Dev) << "Position: " << m_drive.GetPose().Translation() << LoggerCommand::Flush;}, {&m_drive}));
+  //   return new frc2::SequentialCommandGroup(
+  //     frc2::InstantCommand([this]() {
+  //         Logger::SetGlobalLevel(LogLevel::Dev);
+  //        Logger::Log(LogLevel::Dev) << "Position: " <<
+  //        m_drive.GetPose().Translation() << LoggerCommand::Flush;},
+  //        {&m_drive}),
+  //       std::move(swerveControllerCommand),
+  //       frc2::InstantCommand(
+  //           [this]() { m_drive.Drive(0_mps, 0_mps, 0_rad_per_s, false,
+  //           false); },
+  //           {}),
+  //               frc2::InstantCommand([this]() {
+  //         Logger::SetGlobalLevel(LogLevel::Dev);
+  //        Logger::Log(LogLevel::Dev) << "Position: " <<
+  //        m_drive.GetPose().Translation() << LoggerCommand::Flush;},
+  //        {&m_drive}));
 }

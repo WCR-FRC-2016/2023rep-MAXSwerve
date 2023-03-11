@@ -44,11 +44,22 @@ inline void loadConfig() {
         DriveConstants::kMaxSpeed = units::meters_per_second_t(json["max-speed"].get<double>());
         DriveConstants::kFastSpeed = units::meters_per_second_t(json["fast-speed"].get<double>());
         DriveConstants::kLowSpeed = units::meters_per_second_t(json["slow-speed"].get<double>());
+        DriveConstants::kAlignSpeed = json["align-speed"].get<double>();
 
         // Auto Constants
         AutoConstants::kPXController = json["auto-pcontroller-x"].get<double>();
         AutoConstants::kPYController = json["auto-pcontroller-y"].get<double>();
         AutoConstants::kPThetaController = json["auto-pcontroller-theta"].get<double>();
+
+        // Arm Constants
+        ArmConstants::kArmLowOffset  = json["arm-low-offset"].get<double>();
+        ArmConstants::kArmHighOffset = json["arm-high-offset"].get<double>();
+        ArmConstants::kArmLowP  = json["arm-low-p"].get<double>();
+        ArmConstants::kArmLowI  = json["arm-low-i"].get<double>();
+        ArmConstants::kArmLowD  = json["arm-low-d"].get<double>();
+        ArmConstants::kArmHighP = json["arm-high-p"].get<double>();
+        ArmConstants::kArmHighI = json["arm-high-i"].get<double>();
+        ArmConstants::kArmHighD = json["arm-high-d"].get<double>();
         
         AutoConstants::kSelectedAuto = json["auto-command"].get<int32_t>();
 

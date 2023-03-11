@@ -10,9 +10,18 @@
     "max-speed": 4.8,
     "fast-speed": 3.0,
     "slow-speed": 1.0,
+    "align-speed": 1.0,
     "auto-command": 0,
     "auto-pcontroller-x": 0.5,
     "auto-pcontroller-y": 0.5,
-    "auto-pcontroller-theta": 0.5
+    "auto-pcontroller-theta": 0.5,
+    "arm-low-offset": 72.2,
+    "arm-high-offset": -52.5,
+    "arm-low-p":  0.2,
+    "arm-low-i":  0,
+    "arm-low-d":  0,
+    "arm-high-p": 0.01,
+    "arm-high-i": 0,
+    "arm-high-d": 0
 
 }

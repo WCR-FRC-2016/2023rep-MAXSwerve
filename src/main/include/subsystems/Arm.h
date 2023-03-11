@@ -25,12 +25,14 @@ class Arm : public frc2::SubsystemBase {
 
   // Subsystem methods go here.
   void SetState(double new_state);
+  double GetGoalState();
   void TurnToAngles(units::degree_t low, units::degree_t high);
   void Drive(double low, double high);
   void PrintTestEncoder();
 
   units::degree_t GetUpperAngle();
   units::degree_t GetLowerAngle();
+  double GetRawUpperAngle();
   double GetRawLowerAngle();
 
  private:

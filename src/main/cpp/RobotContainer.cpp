@@ -91,8 +91,11 @@ void RobotContainer::ConfigureButtonBindings() {
           },
           {&m_drive}));
 
-  frc2::JoystickButton(&m_driverController, ControlConstants::AlignButton)
-      .WhileTrue(new AutoAlignCommand(m_drive, m_limelight));
+  frc2::JoystickButton(&m_driverController, ControlConstants::AlignATButton)
+      .WhileTrue(new AutoAlignCommand(m_drive, m_limelight, 0));
+
+  frc2::JoystickButton(&m_driverController, ControlConstants::AlignRTButton)
+      .WhileTrue(new AutoAlignCommand(m_drive, m_limelight, 1));
 
   frc2::JoystickButton(&m_driverController, ControlConstants::SwapSpeedButton)
       .OnTrue(new frc2::InstantCommand(

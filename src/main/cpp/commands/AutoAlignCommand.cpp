@@ -8,13 +8,15 @@
 #include "commands/AutoAlignCommand.h"
 #include "Constants.h"
 
-AutoAlignCommand::AutoAlignCommand(DriveSubsystem& drive, Limelight& limelight) : m_drive(drive), m_limelight(limelight) {
+AutoAlignCommand::AutoAlignCommand(DriveSubsystem& drive, Limelight& limelight, int pipeline) : m_drive(drive), m_limelight(limelight), m_pipeline(pipeline) {
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements({&drive, &limelight});
 }
 
 // Called when the command is initially scheduled.
-void AutoAlignCommand::Initialize() {}
+void AutoAlignCommand::Initialize() {
+  m_limelight.SetPipeline(m_pipeline);
+}
 
 // Called repeatedly when this Command is scheduled to run
 void AutoAlignCommand::Execute() {
@@ -29,9 +31,9 @@ void AutoAlignCommand::Execute() {
     if (abs(z) < AutoConstants::kAutoTargetDeadzone.value()) z = 0;
     if (abs(angle) < units::degree_t{AutoConstants::kAutoTargetAngularDeadzone}.value()) angle = 0;
 
-    units::meters_per_second_t x_u = units::meters_per_second_t{std::clamp(-DriveConstants::kAlignSpeed*x, -1.0, 1.0)};
-    units::meters_per_second_t z_u = units::meters_per_second_t{std::clamp(DriveConstants::kAlignSpeed*z, -1.0, 1.0)};
-    units::radians_per_second_t angle_u = units::radians_per_second_t{std::clamp(angle/360.0, -1.0, 1.0)};
+    units::meters_per_second_t x_u = units::meters_per_second_t{std::clamp(-AutoConstants::kAlignSpeed*x, -1.0, 1.0)};
+    units::meters_per_second_t z_u = units::meters_per_second_t{std::clamp(AutoConstants::kAlignSpeed*z, -1.0, 1.0)};
+    units::radians_per_second_t angle_u = units::radians_per_second_t{std::clamp(AutoConstants::kAlignRotationSpeed*angle/360.0, -1.0, 1.0)};
 
     Logger::Log(LogLevel::Dev) << "After clamping x: " << x_u << " z: " << z_u << " angle: " << angle_u << LoggerCommand::Flush;
 

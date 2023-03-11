@@ -191,7 +191,7 @@ void LEDController::Flash(int i) {
     int x = h % 32;
     int y = h / 32;
     
-    int blink = (i%2)*255;
+    // int blink = (i%2)*255;
     // SetRGB(0, 0, blink, blink, blink);  
     
     

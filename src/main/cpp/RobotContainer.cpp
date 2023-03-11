@@ -50,7 +50,11 @@ RobotContainer::RobotContainer() {
 
   m_arm.SetDefaultCommand(frc2::RunCommand(
       [this] {
-        m_arm.Drive(0.0, m_manipController.GetLeftY());
+        m_arm.Drive(
+            frc::ApplyDeadband(m_manipController.GetRightX(), IOConstants::kDriveDeadband),
+            frc::ApplyDeadband(m_manipController.GetLeftY(), IOConstants::kDriveDeadband)
+        );
+        Logger::Log(LogLevel::Dev) << "Arm lower angle: " << m_arm.GetLowerAngle() << "\nArm upper angle: " << m_arm.GetUpperAngle() << "\n" << LoggerCommand::Flush;
       },
       {&m_arm}));
 }

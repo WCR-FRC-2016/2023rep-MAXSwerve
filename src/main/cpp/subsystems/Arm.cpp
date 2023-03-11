@@ -17,6 +17,17 @@
 
 using namespace ArmConstants;
 
+// Top Arm at 90 degrees: 26.6 degrees
+// Bottom arm at 0: 49.2 degrees
+
+// ABSOLUTE 0: (both limit switches in actuators are hit)
+// Bottom: 72.2
+// Upper: -52.5
+
+// Grabbing Low:
+// Bottom: 50
+// Upper: -44.1
+
 Arm::Arm()
     : m_hand_left(kHandLeftId, rev::CANSparkMax::MotorType::kBrushed),
       m_hand_right(kHandRightId, rev::CANSparkMax::MotorType::kBrushed),

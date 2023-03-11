@@ -99,11 +99,11 @@ constexpr int kFrontRightTurningCanId = 8;
 }  // namespace DriveConstants
 
 namespace ArmConstants {
-constexpr int kHandLeftId  = 0; // TODO!
-constexpr int kHandRightId = 0; // TODO!
-constexpr int kHandGrabId  = 0; // TODO!
-constexpr int kArmLowId    = 0; // TODO!
-constexpr int kArmHighId   = 0; // TODO!
+constexpr int kHandLeftId  = 30; // TODO!
+constexpr int kHandRightId = 40; // TODO!
+constexpr int kHandGrabId  = 50; // TODO!
+constexpr int kArmLowId    = 6;
+constexpr int kArmHighId   = 7;
 
 constexpr int kArmLowEncoderId  = 0; // DIO slot 0 on RoboRio 2.0
 constexpr int kArmHighEncoderId = 1; // DIO slot 1 on RoboRio 2.0

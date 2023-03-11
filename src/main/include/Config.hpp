@@ -50,6 +50,7 @@ inline void loadConfig() {
         AutoConstants::kPYController = json["auto-pcontroller-y"].get<double>();
         AutoConstants::kPThetaController = json["auto-pcontroller-theta"].get<double>();
         
+        /*
         frc::TrajectoryConfig config(AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
 
         switch (json["auto-command"].get<int>()) {                
@@ -78,15 +79,16 @@ inline void loadConfig() {
                     },
                     config);
                 break;
-        }
+        }*/
 
         frc::SmartDashboard::PutNumber("Config/Max Speed", DriveConstants::kMaxSpeed.value());
         frc::SmartDashboard::PutNumber("Config/Fast Speed", DriveConstants::kFastSpeed.value());
         frc::SmartDashboard::PutNumber("Config/Slow Speed", DriveConstants::kLowSpeed.value());
 
         config_file.close();
-    } catch(...) {
+    } catch(std::exception& ec) {
         wpi::outs() << "Failed to load robot config!!!\n";
+        wpi::outs() << ec.what() << "\n";
         wpi::outs().flush();
         throw; // I was told to make this crash the robot, to not fail gracefully.
     }

@@ -31,6 +31,7 @@ class Arm : public frc2::SubsystemBase {
 
   units::degree_t GetUpperAngle();
   units::degree_t GetLowerAngle();
+  double GetRawLowerAngle();
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be

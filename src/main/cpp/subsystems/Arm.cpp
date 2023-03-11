@@ -106,6 +106,7 @@ void Arm::Drive(double low, double high) {
 
 units::degree_t Arm::GetUpperAngle() { return m_high_encoder.GetNormalizedDistanceDegrees(); }
 units::degree_t Arm::GetLowerAngle() { return m_low_encoder.GetNormalizedDistanceDegrees(); }
+double Arm::GetRawLowerAngle() { return m_low_encoder.GetDistance(); }
 
 void Arm::PrintTestEncoder() {
   frc::SmartDashboard::PutBoolean("LowEncoderConnected", m_low_encoder.IsConnected());

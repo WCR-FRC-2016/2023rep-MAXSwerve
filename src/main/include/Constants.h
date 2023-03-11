@@ -50,10 +50,12 @@ namespace ControlConstants {
     constexpr int ResetHeadingButton = frc::XboxController::Button::kBack;
     constexpr int PosButton          = frc::XboxController::Button::kStart;
     
-    constexpr int PosCarryButton = frc::XboxController::Button::kA;
-    constexpr int PosMedButton   = frc::XboxController::Button::kB;
-    constexpr int PosHighButton  = frc::XboxController::Button::kY;
-    constexpr int PosSubButton   = frc::XboxController::Button::kX;
+    constexpr int PosCarryButton  = frc::XboxController::Button::kA;
+    constexpr int PosMedButton    = frc::XboxController::Button::kB;
+    constexpr int PosHighButton   = frc::XboxController::Button::kY;
+    constexpr int PosSubButton    = frc::XboxController::Button::kX;
+    constexpr int PosManualButton = frc::XboxController::Button::kBack;
+    constexpr int PosZeroButton   = frc::XboxController::Button::kStart;
 }
 
 namespace DriveConstants {
@@ -65,6 +67,8 @@ constexpr units::radians_per_second_t kMaxAngularSpeed{2 / 2 * std::numbers::pi}
 // Mode Switch Speeds
 inline units::meters_per_second_t kFastSpeed = 3.0_mps;
 inline units::meters_per_second_t kLowSpeed = 1.0_mps;
+
+inline double kAlignSpeed = 1;
 
 constexpr double kDirectionSlewRate = 1.2;   // radians per second
 // This controls the drive slew (damping on drive)
@@ -114,13 +118,16 @@ constexpr units::ampere_t kHandGrabCurrentLimit  = 26_A; // Works between 2 and 
 constexpr units::ampere_t kArmLowCurrentLimit    = 3_A;  // Very hard to find, max found on amazon listing [ECO-WORTHY 14mm/s 1000N -> https://www.amazon.com/ECO-LLC-Actuator-Mounting-Brackets/dp/B07L7XCSDW/ref=sr_1_2?c=ts&keywords=Linear+Motion+Actuators&qid=1678491620&refinements=p_89%3AECO-WORTHY&s=industrial&sr=1-2-catcorr&ts_id=350654011]
 constexpr units::ampere_t kArmHighCurrentLimit   = 12_A; // Works between 4 and 12 amps [PA-04 -> https://www.progressiveautomations.com/products/linear-actuator-ip66]
 
-constexpr double kArmLowP = 0.04; // TODO!
-constexpr double kArmLowI = 0; // TODO!
-constexpr double kArmLowD = 0; // TODO!
+inline double kArmLowP  = 0.4;
+inline double kArmLowI  = 0;
+inline double kArmLowD  = 0;
 
-constexpr double kArmHighP = 0.04; // TODO!
-constexpr double kArmHighI = 0; // TODO!
-constexpr double kArmHighD = 0; // TODO!
+inline double kArmHighP = 0.4;
+inline double kArmHighI = 0;
+inline double kArmHighD = 0;
+
+inline double kArmLowOffset = 0.0;
+inline double kArmHighOffset = 0.0;
 } // namespace ArmConstants
 
 namespace ModuleConstants {
@@ -196,7 +203,7 @@ constexpr auto kMaxAcceleration = 3_mps_sq;
 constexpr auto kMaxAngularSpeed = 3.142_rad_per_s;
 constexpr auto kMaxAngularAcceleration = 3.142_rad_per_s_sq;
 
-constexpr units::meter_t kAutoTargetX = -6.5_in;
+constexpr units::meter_t kAutoTargetX = -6.75_in;
 constexpr units::meter_t kAutoTargetZ = 1_m;
 constexpr units::meter_t kAutoTargetDeadzone = 1_in;
 constexpr units::radian_t kAutoTargetAngularDeadzone = 2.5_deg;

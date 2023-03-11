@@ -33,6 +33,8 @@ class RobotContainer {
 
   frc2::Command* GetAutonomousCommand();
 
+  void ResetArmState();
+
  private:
   // The driver's controller
   frc::XboxController m_driverController{IOConstants::kDriverControllerPort};

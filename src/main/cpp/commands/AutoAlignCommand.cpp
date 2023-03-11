@@ -29,13 +29,13 @@ void AutoAlignCommand::Execute() {
     if (abs(z) < AutoConstants::kAutoTargetDeadzone.value()) z = 0;
     if (abs(angle) < units::degree_t{AutoConstants::kAutoTargetAngularDeadzone}.value()) angle = 0;
 
-    units::meters_per_second_t x_u = units::meters_per_second_t{std::clamp(-3*x, -1.0, 1.0)};
-    units::meters_per_second_t z_u = units::meters_per_second_t{std::clamp(3*z, -1.0, 1.0)};
+    units::meters_per_second_t x_u = units::meters_per_second_t{std::clamp(-DriveConstants::kAlignSpeed*x, -1.0, 1.0)};
+    units::meters_per_second_t z_u = units::meters_per_second_t{std::clamp(DriveConstants::kAlignSpeed*z, -1.0, 1.0)};
     units::radians_per_second_t angle_u = units::radians_per_second_t{std::clamp(angle/360.0, -1.0, 1.0)};
 
     Logger::Log(LogLevel::Dev) << "After clamping x: " << x_u << " z: " << z_u << " angle: " << angle_u << LoggerCommand::Flush;
 
-    m_drive.Drive(z_u, x_u, angle_u, false, true); // TODO: rate limiting?
+    m_drive.Drive(z_u, x_u, angle_u, false, true);
   } else {
     Logger::Log(LogLevel::Dev | LogLevel::Important) << "Target not found!" << LoggerCommand::Flush;
     

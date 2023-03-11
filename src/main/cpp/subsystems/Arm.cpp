@@ -58,23 +58,34 @@ Arm::Arm()
   m_arm_low_pid.EnableContinuousInput(0.0, 360.0);
   m_arm_high_pid.EnableContinuousInput(0.0, 360.0);
 
-  m_arm_low_pid.SetTolerance(2.5, 1);
-  m_arm_high_pid.SetTolerance(2.5, 1);
+  m_arm_low_pid.SetTolerance(0.5, 0.2);
+  m_arm_high_pid.SetTolerance(0.5, 0.2);
 }
 
 void Arm::Periodic() {
-  if (m_state==-1) return;
-
   units::degree_t low, high;
   switch (m_goal_state) {
-    case 1: // Carry
-      low = 0_deg; high = 0_deg;
+    case 1: // Floor
+      low = -22.2_deg; high = 8.4_deg;
       break;
     case 2: // Medium Tier
+      low = -23_deg; high = 64.4_deg;
+      break;
     case 3: // High Tier
+      low = -43.5_deg; high = 108.0_deg;
+      break;
     case 4: // Substation
-    case 5: // Intermediate
+      low = -23_deg; high = 71.4_deg;
+      break;
+    case 5: // Carry / Intermediate
+    case 6: // Absolute Zero
+      low = 0_deg; high = 0_deg;
+      break;
+    case 7: // Right Angle
+      low = -23.0_deg; high = 79.1_deg;
+      break;
     case -1:
+    case -2:
     default:
       return;
   }
@@ -89,18 +100,31 @@ void Arm::Periodic() {
 }
 
 void Arm::SetState(double new_state) {
-  if ((m_state==1 && new_state!=1) || (m_state!=1 && new_state==1)) {
+  /*if ((m_state==1 && new_state!=1) || (m_state!=1 && new_state==1)) {
     m_goal_state = 5;
     m_next_goal_state = new_state;
   } else {
     m_goal_state = new_state;
     m_next_goal_state = -1;
-  }
+  }*/
+  m_goal_state = new_state;
+  m_next_goal_state = -1;
+}
+
+double Arm::GetGoalState() {
+  return m_goal_state;
 }
 
 void Arm::TurnToAngles(units::degree_t low, units::degree_t high) {
   double low_move = m_arm_low_pid.Calculate(GetLowerAngle().value(), low.value());
   double high_move = m_arm_high_pid.Calculate(GetUpperAngle().value(), high.value());
+
+  Logger::Log(LogLevel::Dev) << "low:  " << low  << "\n";
+  Logger::Log(LogLevel::Dev) << "high: " << high << "\n";
+  Logger::Log(LogLevel::Dev) << "lowcurrent:  " << GetLowerAngle() << "\n";
+  Logger::Log(LogLevel::Dev) << "highcurrent: " << GetUpperAngle() << "\n";
+  Logger::Log(LogLevel::Dev) << "low_move:  " << low_move  << "\n";
+  Logger::Log(LogLevel::Dev) << "high_move: " << high_move << LoggerCommand::Flush;
 
   low_move = std::clamp(low_move, -1.0, 1.0);
   high_move = std::clamp(high_move, -1.0, 1.0);
@@ -110,13 +134,14 @@ void Arm::TurnToAngles(units::degree_t low, units::degree_t high) {
 }
 
 void Arm::Drive(double low, double high) {
-  m_state = -1;
+  m_goal_state = -2;
   m_low_actuator.Drive(low);
   m_high_actuator.Drive(high);
 }
 
-units::degree_t Arm::GetUpperAngle() { return m_high_encoder.GetNormalizedDistanceDegrees(); }
-units::degree_t Arm::GetLowerAngle() { return m_low_encoder.GetNormalizedDistanceDegrees(); }
+units::degree_t Arm::GetUpperAngle() { return m_high_encoder.GetNormalizedDistanceDegrees()-units::degree_t{ArmConstants::kArmHighOffset}; }
+units::degree_t Arm::GetLowerAngle() { return m_low_encoder.GetNormalizedDistanceDegrees()-units::degree_t{ArmConstants::kArmLowOffset}; }
+double Arm::GetRawUpperAngle() { return m_high_encoder.GetDistance(); }
 double Arm::GetRawLowerAngle() { return m_low_encoder.GetDistance(); }
 
 void Arm::PrintTestEncoder() {

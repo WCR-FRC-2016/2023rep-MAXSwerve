@@ -50,12 +50,15 @@ RobotContainer::RobotContainer() {
 
   m_arm.SetDefaultCommand(frc2::RunCommand(
       [this] {
-        m_arm.Drive(
-            frc::ApplyDeadband(m_manipController.GetRightY(), IOConstants::kDriveDeadband),
-            frc::ApplyDeadband(-m_manipController.GetLeftY(), IOConstants::kDriveDeadband)
-        );
-        Logger::Log(LogLevel::Dev) << "Arm raw lower angle: " << m_arm.GetRawLowerAngle() << LoggerCommand::Flush;
-        Logger::Log(LogLevel::Dev) << "Arm lower angle: " << m_arm.GetLowerAngle() << "\nArm upper angle: " << m_arm.GetUpperAngle() << "\n" << LoggerCommand::Flush;
+        if (m_arm.GetGoalState()==-2) {
+            m_arm.Drive(
+                frc::ApplyDeadband(m_manipController.GetRightY(), IOConstants::kDriveDeadband),
+                frc::ApplyDeadband(-m_manipController.GetLeftY(), IOConstants::kDriveDeadband)
+            );
+            //Logger::Log(LogLevel::Dev) << "Arm raw lower angle: " << m_arm.GetRawLowerAngle() << LoggerCommand::Flush;
+            Logger::Log(LogLevel::Dev) << "Arm lower angle: " << m_arm.GetLowerAngle() << "\n";
+            Logger::Log(LogLevel::Dev) << "Arm upper angle: " << m_arm.GetUpperAngle() << "\n" << LoggerCommand::Flush;
+        }
       },
       {&m_arm}));
 }
@@ -122,6 +125,7 @@ void RobotContainer::ConfigureButtonBindings() {
       .OnTrue(new frc2::InstantCommand(
           [this] { m_leds.SetState((m_leds.GetState() + 1) % 3); }, {&m_leds}));
 
+  // Arm State Change Command
   frc2::JoystickButton(&m_manipController, ControlConstants::PosCarryButton)
       .OnTrue(
           new frc2::InstantCommand([this] { m_arm.SetState(1); }, {&m_arm}));
@@ -137,6 +141,14 @@ void RobotContainer::ConfigureButtonBindings() {
   frc2::JoystickButton(&m_manipController, ControlConstants::PosSubButton)
       .OnTrue(
           new frc2::InstantCommand([this] { m_arm.SetState(4); }, {&m_arm}));
+
+  frc2::JoystickButton(&m_manipController, ControlConstants::PosManualButton)
+      .OnTrue(
+          new frc2::InstantCommand([this] { m_arm.SetState(-2); }, {&m_arm}));
+
+  frc2::JoystickButton(&m_manipController, ControlConstants::PosZeroButton)
+      .OnTrue(
+          new frc2::InstantCommand([this] { m_arm.SetState(6); }, {&m_arm}));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
@@ -192,4 +204,8 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
   //        Logger::Log(LogLevel::Dev) << "Position: " <<
   //        m_drive.GetPose().Translation() << LoggerCommand::Flush;},
   //        {&m_drive}));
+}
+
+void RobotContainer::ResetArmState() {
+    m_arm.SetState(-1);
 }

@@ -50,10 +50,12 @@ inline void loadConfig() {
         AutoConstants::kPYController = json["auto-pcontroller-y"].get<double>();
         AutoConstants::kPThetaController = json["auto-pcontroller-theta"].get<double>();
         
+        AutoConstants::kSelectedAuto = json["auto-command"].get<int32_t>();
+
         /*
         frc::TrajectoryConfig config(AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
 
-        switch (json["auto-command"].get<int>()) {                
+        switch () {                
             case 1:
                 AutoConstants::kAutoTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(
                     {

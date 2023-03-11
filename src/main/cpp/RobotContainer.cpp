@@ -153,8 +153,15 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
   thetaController.EnableContinuousInput(units::radian_t{-std::numbers::pi},
                                         units::radian_t{std::numbers::pi});
 
+    auto testTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(
+        {
+            frc::Pose2d{0_m, 0_m, 0_deg},
+            frc::Pose2d(0.0_m, 0.0_m, 90_deg)
+        },
+        config);
+
   frc2::SwerveControllerCommand<4> swerveControllerCommand(
-      AutoConstants::kAutoTrajectory, [this]() { return m_drive.GetPose(); },
+      testTrajectory, [this]() { return m_drive.GetPose(); },
 
       m_drive.kDriveKinematics,
 

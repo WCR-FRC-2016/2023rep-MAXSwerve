@@ -153,15 +153,34 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
   thetaController.EnableContinuousInput(units::radian_t{-std::numbers::pi},
                                         units::radian_t{std::numbers::pi});
 
-    auto testTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(
-        {
-            frc::Pose2d{0_m, 0_m, 0_deg},
-            frc::Pose2d(0.0_m, 0.0_m, 90_deg)
-        },
-        config);
+    frc::Trajectory trajectory;
+    switch(AutoConstants::kSelectedAuto) {
+        case 1:
+            trajectory = frc::TrajectoryGenerator::GenerateTrajectory({
+                        frc::Pose2d{1_m, 0_m, 0_deg},
+                        frc::Pose2d(0.0_m, 0.0_m, 90_deg)
+                    },
+                    config);
+            break;
+        case 2:
+            trajectory = frc::TrajectoryGenerator::GenerateTrajectory({
+                        frc::Pose2d{1_m, 0_m, 0_deg},
+                        frc::Pose2d(0.0_m, 0.0_m, 0_deg)
+                    },
+                    config);
+            break;
+        case 0:
+        default:
+            trajectory = frc::TrajectoryGenerator::GenerateTrajectory({
+                        frc::Pose2d{0_m, 0_m, 0_deg},
+                        frc::Pose2d(0.0_m, 0.0_m, 90_deg)
+                    },
+                    config);
+            break;
+    }
 
   frc2::SwerveControllerCommand<4> swerveControllerCommand(
-      testTrajectory, [this]() { return m_drive.GetPose(); },
+      trajectory, [this]() { return m_drive.GetPose(); },
 
       m_drive.kDriveKinematics,
 
@@ -173,7 +192,7 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
       {&m_drive});
 
   // Reset odometry to the starting pose of the trajectory.
-  m_drive.ResetOdometry(AutoConstants::kAutoTrajectory.InitialPose());
+  m_drive.ResetOdometry(trajectory.InitialPose());
 
     return new frc2::SequentialCommandGroup(
         std::move(swerveControllerCommand),

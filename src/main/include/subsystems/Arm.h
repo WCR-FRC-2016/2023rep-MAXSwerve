@@ -50,6 +50,6 @@ class Arm : public frc2::SubsystemBase {
   CTREMagEncoder m_high_encoder;
 
   int m_state = 1;
-  int m_goal_state = 1;
+  int m_goal_state = -1;
   int m_next_goal_state = -1;
 };

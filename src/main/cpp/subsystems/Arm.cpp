@@ -43,6 +43,12 @@ Arm::Arm()
   m_hand_left.BurnFlash();
   m_hand_right.BurnFlash();
   m_hand_grab.BurnFlash();
+
+  m_arm_low_pid.EnableContinuousInput(0.0, 360.0);
+  m_arm_high_pid.EnableContinuousInput(0.0, 360.0);
+
+  m_arm_low_pid.SetTolerance(2.5, 1);
+  m_arm_high_pid.SetTolerance(2.5, 1);
 }
 
 void Arm::Periodic() {
@@ -81,15 +87,15 @@ void Arm::SetState(double new_state) {
   }
 }
 
-void Arm::TurnToAngles(double low, double high) {
-  double low_move = m_arm_low_pid.Calculate(m_low_encoder.GetDistance(), low);
-  double high_move = m_arm_high_pid.Calculate(m_high_encoder.GetDistance(), high);
+void Arm::TurnToAngles(units::degree_t low, units::degree_t high) {
+  double low_move = m_arm_low_pid.Calculate(GetLowerAngle(), low.value());
+  double high_move = m_arm_high_pid.Calculate(GetUpperAngle(), high.value());
 
   low_move = std::clamp(low_move, -1.0, 1.0);
   high_move = std::clamp(high_move, -1.0, 1.0);
 
-  m_low_actuator.Drive(low_move);
-  m_high_actuator.Drive(high_move);
+  if (!m_arm_low_pid.AtSetpoint())   m_low_actuator.Drive(low_move);
+  if (!m_arm_high_pid.AtSetpoint()) m_high_actuator.Drive(high_move);
 }
 
 void Arm::Drive(double low, double high) {

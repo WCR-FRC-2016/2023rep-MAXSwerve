@@ -23,12 +23,13 @@
 #include "Constants.h"
 #include "Logging.hpp"
 #include "commands/AutoAlignCommand.h"
+#include "commands/ReflectiveAlignCommand.h"
 #include "commands/MoveOverCommand.h"
 #include "subsystems/DriveSubsystem.h"
 
 using namespace DriveConstants;
 
-RobotContainer::RobotContainer() {
+RobotContainer::RobotContainer() : m_wrapper(m_drive, m_arm, m_limelight, m_leds) {
   // Initialize all of your commands and subsystems here
 
   // Configure the button bindings
@@ -95,6 +96,9 @@ void RobotContainer::ConfigureButtonBindings() {
 
   frc2::JoystickButton(&m_driverController, ControlConstants::AlignATButton)
       .WhileTrue(new AutoAlignCommand(m_drive, m_limelight));
+      
+  frc2::JoystickButton(&m_driverController, ControlConstants::AlignRTButton)
+      .WhileTrue(new ReflectiveAlignCommand(m_drive, m_limelight));
 
   frc2::Trigger([this] {return m_driverController.GetLeftTriggerAxis()>0.5;})
       .OnTrue(new MoveOverCommand(m_drive, -22*DriveConstants::kTimeInchesScale));
@@ -160,25 +164,25 @@ void RobotContainer::ConfigureButtonBindings() {
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
-  // Set up config for trajectory
-  frc::TrajectoryConfig config(AutoConstants::kMaxSpeed,
+    // Set up config for trajectory
+    frc::TrajectoryConfig config(AutoConstants::kMaxSpeed,
                                AutoConstants::kMaxAcceleration);
-  // Add kinematics to ensure max speed is actually obeyed
-  config.SetKinematics(m_drive.kDriveKinematics);
+    // Add kinematics to ensure max speed is actually obeyed
+    config.SetKinematics(m_drive.kDriveKinematics);
 
-  frc::ProfiledPIDController<units::radians> thetaController{
+    frc::ProfiledPIDController<units::radians> thetaController{
       AutoConstants::kPThetaController, 0, 0,
       AutoConstants::kThetaControllerConstraints};
 
-  thetaController.EnableContinuousInput(units::radian_t{-std::numbers::pi},
+    thetaController.EnableContinuousInput(units::radian_t{-std::numbers::pi},
                                         units::radian_t{std::numbers::pi});
 
-    frc::Trajectory trajectory;
-    trajectory = frc::TrajectoryGenerator::GenerateTrajectory({
-                        frc::Pose2d{0_m, 0_m, 0_deg},
-                        frc::Pose2d(1.0_m, 0.0_m, 90_deg)
-                    },
-                    config);
+    // frc::Trajectory trajectory;
+    // trajectory = frc::TrajectoryGenerator::GenerateTrajectory({
+    //                     frc::Pose2d{0_m, 0_m, 0_deg},
+    //                     frc::Pose2d(1.0_m, 0.0_m, 90_deg)
+    //                 },
+    //                 config);
     // switch(AutoConstants::kSelectedAuto) {
     //     case 1:
     //         trajectory = frc::TrajectoryGenerator::GenerateTrajectory({
@@ -204,28 +208,27 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
     //         break;
     // }
 
-  frc2::SwerveControllerCommand<4> swerveControllerCommand(
-      trajectory, [this]() { return m_drive.GetPose(); },
+    // frc2::SwerveControllerCommand<4> swerveControllerCommand(
+    //     trajectory, [this]() { return m_drive.GetPose(); },
 
-      m_drive.kDriveKinematics,
+    //     m_drive.kDriveKinematics,
 
-      frc2::PIDController{AutoConstants::kPXController, 0, 0},
-      frc2::PIDController{AutoConstants::kPYController, 0, 0}, thetaController,
+    //     frc2::PIDController{AutoConstants::kPXController, 0, 0},
+    //     frc2::PIDController{AutoConstants::kPYController, 0, 0}, thetaController,
 
-      [this](auto moduleStates) { m_drive.SetModuleStates(moduleStates); },
+    //     [this](auto moduleStates) { m_drive.SetModuleStates(moduleStates); },
 
-      {&m_drive});
+    //     {&m_drive});
 
-  // Reset odometry to the starting pose of the trajectory.
-  m_drive.ResetOdometry(trajectory.InitialPose());
+    // Reset odometry to the starting pose of the trajectory.
+    //m_drive.ResetOdometry(frc2::Pose());
 
-    return new frc2::SequentialCommandGroup(
-        std::move(swerveControllerCommand),
-        frc2::InstantCommand([this]() { m_drive.Drive(0_mps, 0_mps, 0_rad_per_s, false, false); })
-        );
+    
+
+    //return createAutonomousCommandGroup(m_wrapper, AutoConstants::kAutoSequences[AutoConstants::kSelectedAuto]);
 
   // no auto
-  //return new frc2::RunCommand([this]() { m_arm.PrintTestEncoder(); });
+  return new frc2::RunCommand([this]() { m_arm.PrintTestEncoder(); });
 
   //   return new frc2::SequentialCommandGroup(
   //     frc2::InstantCommand([this]() {

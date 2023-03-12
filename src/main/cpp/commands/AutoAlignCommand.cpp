@@ -20,8 +20,8 @@ void AutoAlignCommand::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void AutoAlignCommand::Execute() {
   if (m_limelight.GetVisible()) {
-    double x = m_limelight.GetX() - AutoConstants::kAutoTargetX.value();
-    double z = m_limelight.GetZ() - AutoConstants::kAutoTargetZ.value();
+    double x = m_limelight.GetTargetPoseX() - AutoConstants::kAutoTargetX.value();
+    double z = m_limelight.GetTargetPoseZ() - AutoConstants::kAutoTargetZ.value();
     double angle = m_limelight.GetHeading();
     
     Logger::Log(LogLevel::Dev) << "AutoAlignCommand x: " << x << " z: " << z << " angle: " << angle << LoggerCommand::Flush;

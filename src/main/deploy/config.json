@@ -7,6 +7,23 @@
         "error": true,
         "dev": true
     },
+
+    "autonomous-routines": [
+        {
+            "name": "Test Routine",
+            "commands": [
+                {
+                    "type": 0,
+                    "data": {
+                        "x-distance": 1,
+                        "y-distance": 0,
+                        "speed": 1.0
+                    }
+                }
+            ]
+        }
+    ],
+
     "max-speed": 4.8,
     "fast-speed": 3.0,
     "slow-speed": 1.0,

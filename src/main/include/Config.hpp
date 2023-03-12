@@ -13,6 +13,7 @@
 #include "frc/Filesystem.h"
 #include "wpi/raw_ostream.h"
 
+#include "autonomous/AutoInterpreter.hpp"
 #include "Constants.h"
 #include "Logging.hpp"
 
@@ -52,6 +53,9 @@ inline void loadConfig() {
         AutoConstants::kPThetaController = json["auto-pcontroller-theta"].get<double>();
         AutoConstants::kAlignSpeed = json["align-speed"].get<double>();
         AutoConstants::kAlignRotationSpeed = json["align-rotation-speed"].get<double>();
+
+        // Autonomous Routines
+        AutoConstants::kAutoSequences = interpretJsonSequences(json["autonomous-sequences"]);
 
         // Arm Constants
         ArmConstants::kArmLowOffset  = json["arm-low-offset"].get<double>();

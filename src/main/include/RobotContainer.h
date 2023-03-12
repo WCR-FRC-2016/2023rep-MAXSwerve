@@ -15,6 +15,7 @@
 #include <frc2/command/RunCommand.h>
 
 #include "Constants.h"
+#include "autonomous/AutoInterpreter.hpp"
 #include "subsystems/DriveSubsystem.h"
 #include "subsystems/Arm.h"
 #include "subsystems/Limelight.h"
@@ -47,6 +48,7 @@ class RobotContainer {
   Arm m_arm;
   Limelight m_limelight;
   LEDController m_leds;
+  AutoSubsystemWrapper m_wrapper; // uhh, I can explain...
   bool m_relative = true;
   bool m_rate_limit = true;
 

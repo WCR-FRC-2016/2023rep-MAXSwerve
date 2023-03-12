@@ -26,13 +26,18 @@ bool Limelight::GetVisible() {
 }
 
 // Returns x position of target in robot space.
-double Limelight::GetX() {
+double Limelight::GetTargetPoseX() {
     return table->GetNumberArray("targetpose_robotspace", zeroes)[0];
 }
 
 // Returns z position of target in robot space.
-double Limelight::GetZ() {
+double Limelight::GetTargetPoseZ() {
     return table->GetNumberArray("targetpose_robotspace", zeroes)[2];
+}
+
+// returns x rotation of reflective tape in robot space
+double Limelight::GetReflectiveX() {
+    return table->GetNumber("tx", 0.0);
 }
 
 // Returns heading of robot in target space.

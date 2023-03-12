@@ -15,6 +15,8 @@
 
 #include <numbers>
 
+#include "autonomous/AutoSequence.hpp"
+
 #pragma once
 
 /**
@@ -196,6 +198,7 @@ constexpr units::ampere_t kTurningMotorCurrentLimit = 20_A;
 
 namespace AutoConstants {
 inline int32_t kSelectedAuto = 0;
+inline std::vector<AutoSequence> kAutoSequences;
 
 inline double kAlignSpeed = 1;
 inline double kAlignRotationSpeed = 2.0;
@@ -209,6 +212,8 @@ constexpr units::meter_t kAutoTargetX = -6.75_in;
 constexpr units::meter_t kAutoTargetZ = 1_m;
 constexpr units::meter_t kAutoTargetDeadzone = 1_in;
 constexpr units::radian_t kAutoTargetAngularDeadzone = 2.5_deg;
+
+constexpr units::degree_t kAutoReflectiveTargetX = -12_deg;
 
 // TEMPORARY INLINE
 inline double kPXController = 0.5;

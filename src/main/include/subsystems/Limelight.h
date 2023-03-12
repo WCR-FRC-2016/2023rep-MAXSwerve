@@ -24,7 +24,8 @@ class Limelight : public frc2::SubsystemBase {
   void Periodic();
   void SetPipeline(int pipeline);
   bool GetVisible();
-  double GetX();
-  double GetZ();
+  double GetTargetPoseX();
+  double GetReflectiveX();
+  double GetTargetPoseZ();
   double GetHeading();
 };

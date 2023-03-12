@@ -8,14 +8,13 @@
 #include "commands/AutoAlignCommand.h"
 #include "Constants.h"
 
-AutoAlignCommand::AutoAlignCommand(DriveSubsystem& drive, Limelight& limelight, int pipeline) : m_drive(drive), m_limelight(limelight), m_pipeline(pipeline) {
+AutoAlignCommand::AutoAlignCommand(DriveSubsystem& drive, Limelight& limelight) : m_drive(drive), m_limelight(limelight) {
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements({&drive, &limelight});
 }
 
 // Called when the command is initially scheduled.
 void AutoAlignCommand::Initialize() {
-  m_limelight.SetPipeline(m_pipeline);
 }
 
 // Called repeatedly when this Command is scheduled to run

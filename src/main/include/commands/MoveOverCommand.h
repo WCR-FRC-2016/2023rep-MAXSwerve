@@ -10,7 +10,6 @@
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
 #include "subsystems/DriveSubsystem.h"
-#include "subsystems/Limelight.h"
 
 #include "Logging.hpp"
 
@@ -21,10 +20,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class AutoAlignCommand
-    : public frc2::CommandHelper<frc2::CommandBase, AutoAlignCommand> {
+class MoveOverCommand
+    : public frc2::CommandHelper<frc2::CommandBase, MoveOverCommand> {
  public:
-  AutoAlignCommand(DriveSubsystem& DriveSubsystem, Limelight& limelight);
+  MoveOverCommand(DriveSubsystem& DriveSubsystem, double time);
 
   void Initialize() override;
 
@@ -35,7 +34,7 @@ class AutoAlignCommand
   bool IsFinished() override;
 private:
   DriveSubsystem& m_drive;
-  Limelight& m_limelight;
-
-  template <typename T> T Abs(T x);
+  
+  double m_time;
+  double m_elapsed;
 };

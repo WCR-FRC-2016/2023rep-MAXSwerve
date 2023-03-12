@@ -58,15 +58,15 @@ Arm::Arm()
   m_arm_low_pid.EnableContinuousInput(0.0, 360.0);
   m_arm_high_pid.EnableContinuousInput(0.0, 360.0);
 
-  m_arm_low_pid.SetTolerance(0.5, 0.2);
-  m_arm_high_pid.SetTolerance(0.5, 0.2);
+  m_arm_low_pid.SetTolerance(0.5);
+  m_arm_high_pid.SetTolerance(0.5);
 }
 
 void Arm::Periodic() {
   units::degree_t low, high;
   switch (m_goal_state) {
     case 1: // Floor
-      low = -22.2_deg; high = 8.4_deg;
+      low = -22.2_deg; high = 0_deg;
       break;
     case 2: // Medium Tier
       low = -23_deg; high = 64.4_deg;
@@ -97,6 +97,8 @@ void Arm::Periodic() {
     m_goal_state = m_next_goal_state;
     m_next_goal_state = -1;
   }
+
+  // TODO: m_hand_grab.GetOutputCurrent()
 }
 
 void Arm::SetState(double new_state) {
@@ -119,12 +121,10 @@ void Arm::TurnToAngles(units::degree_t low, units::degree_t high) {
   double low_move = m_arm_low_pid.Calculate(GetLowerAngle().value(), low.value());
   double high_move = m_arm_high_pid.Calculate(GetUpperAngle().value(), high.value());
 
-  Logger::Log(LogLevel::Dev) << "low:  " << low  << "\n";
-  Logger::Log(LogLevel::Dev) << "high: " << high << "\n";
-  Logger::Log(LogLevel::Dev) << "lowcurrent:  " << GetLowerAngle() << "\n";
-  Logger::Log(LogLevel::Dev) << "highcurrent: " << GetUpperAngle() << "\n";
-  Logger::Log(LogLevel::Dev) << "low_move:  " << low_move  << "\n";
-  Logger::Log(LogLevel::Dev) << "high_move: " << high_move << LoggerCommand::Flush;
+  Logger::Log(LogLevel::Dev) << "low: " << low                              << " " << "high: " << high << "\n";
+  Logger::Log(LogLevel::Dev) << "lowcurrent: " << GetLowerAngle()           << " " << "highcurrent: " << GetUpperAngle() << "\n";
+  Logger::Log(LogLevel::Dev) << "low_move: " << low_move                    << " " << "high_move: " << high_move << "\n";
+  Logger::Log(LogLevel::Dev) << "low good?: " << m_arm_low_pid.AtSetpoint() << " " << "high good?: " << m_arm_high_pid.AtSetpoint() << LoggerCommand::Flush;
 
   low_move = std::clamp(low_move, -1.0, 1.0);
   high_move = std::clamp(high_move, -1.0, 1.0);

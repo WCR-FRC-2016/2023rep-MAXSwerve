@@ -48,6 +48,7 @@ namespace ControlConstants {
     constexpr int RateLimitButton    = frc::XboxController::Button::kB;
     constexpr int DebugPrintButton   = frc::XboxController::Button::kA;
     constexpr int SwapSpeedButton    = frc::XboxController::Button::kBack;
+    constexpr int AlignRTButton      = frc::XboxController::Button::kLeftBumper;
     constexpr int AlignATButton      = frc::XboxController::Button::kRightBumper;
     constexpr int ResetHeadingButton = frc::XboxController::Button::kBack;
     constexpr int PosButton          = frc::XboxController::Button::kStart;

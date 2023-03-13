@@ -64,6 +64,8 @@ RobotContainer::RobotContainer() : m_wrapper(m_drive, m_arm, m_limelight, m_leds
         }
       },
       {&m_arm}));
+
+  m_limelight.Deactivate();
 }
 
 void RobotContainer::ConfigureButtonBindings() {

@@ -8,14 +8,15 @@
 #include "commands/ReflectiveAlignCommand.h"
 #include "Constants.h"
 
-ReflectiveAlignCommand::ReflectiveAlignCommand(DriveSubsystem& drive, Limelight& limelight, int pipeline) : m_drive(drive), m_limelight(limelight), m_pipeline(pipeline) {
+ReflectiveAlignCommand::ReflectiveAlignCommand(DriveSubsystem& drive, Limelight& limelight) : m_drive(drive), m_limelight(limelight) {
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements({&drive, &limelight});
 }
 
 // Called when the command is initially scheduled.
 void ReflectiveAlignCommand::Initialize() {
-  m_limelight.SetPipeline(m_pipeline);
+  m_limelight.Activate();
+  m_limelight.SetPipeline(1);
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -42,7 +43,9 @@ void ReflectiveAlignCommand::Execute() {
 }
 
 // Called once the command ends or is interrupted.
-void ReflectiveAlignCommand::End(bool interrupted) {}
+void ReflectiveAlignCommand::End(bool interrupted) {
+  m_limelight.Deactivate();
+}
 
 // Returns true when the command should end.
 bool ReflectiveAlignCommand::IsFinished() {return false;}

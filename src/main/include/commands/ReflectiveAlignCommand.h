@@ -24,7 +24,7 @@
 class ReflectiveAlignCommand
     : public frc2::CommandHelper<frc2::CommandBase, ReflectiveAlignCommand> {
  public:
-  ReflectiveAlignCommand(DriveSubsystem& DriveSubsystem, Limelight& limelight, int pipeline);
+  ReflectiveAlignCommand(DriveSubsystem& DriveSubsystem, Limelight& limelight);
 
   void Initialize() override;
   void Execute() override;
@@ -33,7 +33,6 @@ class ReflectiveAlignCommand
 private:
   DriveSubsystem& m_drive;
   Limelight& m_limelight;
-  int m_pipeline;
 
   template <typename T> T Abs(T x);
 };

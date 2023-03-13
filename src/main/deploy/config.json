@@ -29,7 +29,7 @@
     "slow-speed": 1.0,
     "align-speed": 1.0,
     "align-rotation-speed": 2.0,
-    "time-inches-scale": 30,
+    "time-inches-scale": 35,
     "auto-command": 0,
     "auto-pcontroller-x": 0.5,
     "auto-pcontroller-y": 0.5,

@@ -15,6 +15,8 @@ AutoAlignCommand::AutoAlignCommand(DriveSubsystem& drive, Limelight& limelight) 
 
 // Called when the command is initially scheduled.
 void AutoAlignCommand::Initialize() {
+  m_limelight.Activate();
+  m_limelight.SetPipeline(0);
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -45,7 +47,9 @@ void AutoAlignCommand::Execute() {
 }
 
 // Called once the command ends or is interrupted.
-void AutoAlignCommand::End(bool interrupted) {}
+void AutoAlignCommand::End(bool interrupted) {
+  m_limelight.Deactivate();
+}
 
 // Returns true when the command should end.
 bool AutoAlignCommand::IsFinished() {return false;}

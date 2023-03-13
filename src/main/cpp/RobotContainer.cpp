@@ -14,6 +14,7 @@
 #include <frc2/command/SequentialCommandGroup.h>
 #include <frc2/command/SwerveControllerCommand.h>
 #include <frc2/command/button/JoystickButton.h>
+#include <frc2/command/button/Trigger.h>
 #include <units/angle.h>
 #include <units/velocity.h>
 
@@ -23,6 +24,7 @@
 #include "Logging.hpp"
 #include "commands/AutoAlignCommand.h"
 #include "commands/ReflectiveAlignCommand.h"
+#include "commands/MoveOverCommand.h"
 #include "subsystems/DriveSubsystem.h"
 #include "autonomous/commands/AutoTimedMoveCommand.hpp"
 #include "autonomous/commands/AutoArmMoveCommand.hpp"
@@ -64,6 +66,8 @@ RobotContainer::RobotContainer() : m_wrapper(m_drive, m_arm, m_limelight, m_leds
         }
       },
       {&m_arm}));
+
+  m_limelight.Deactivate();
 }
 
 void RobotContainer::ConfigureButtonBindings() {
@@ -95,10 +99,16 @@ void RobotContainer::ConfigureButtonBindings() {
           {&m_drive}));
 
   frc2::JoystickButton(&m_driverController, ControlConstants::AlignATButton)
-      .WhileTrue(new AutoAlignCommand(m_drive, m_limelight, 0));
-
+      .WhileTrue(new AutoAlignCommand(m_drive, m_limelight));
+      
   frc2::JoystickButton(&m_driverController, ControlConstants::AlignRTButton)
-      .WhileTrue(new ReflectiveAlignCommand(m_drive, m_limelight, 1));
+      .WhileTrue(new ReflectiveAlignCommand(m_drive, m_limelight));
+
+  frc2::Trigger([this] {return m_driverController.GetLeftTriggerAxis()>0.5;})
+      .OnTrue(new MoveOverCommand(m_drive, -22*DriveConstants::kTimeInchesScale));
+
+  frc2::Trigger([this] {return m_driverController.GetRightTriggerAxis()>0.5;})
+      .OnTrue(new MoveOverCommand(m_drive, 22*DriveConstants::kTimeInchesScale));
 
   frc2::JoystickButton(&m_driverController, ControlConstants::SwapSpeedButton)
       .OnTrue(new frc2::InstantCommand(

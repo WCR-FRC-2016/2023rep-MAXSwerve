@@ -42,6 +42,7 @@
     "slow-speed": 1.0,
     "align-speed": 1.0,
     "align-rotation-speed": 2.0,
+    "time-inches-scale": 35,
     "auto-command": 1,
     "auto-pcontroller-x": 0.5,
     "auto-pcontroller-y": 0.5,
@@ -51,7 +52,7 @@
     "arm-low-p":  0.2,
     "arm-low-i":  0,
     "arm-low-d":  0,
-    "arm-high-p": 0.01,
+    "arm-high-p": 0.005,
     "arm-high-i": 0,
     "arm-high-d": 0
 

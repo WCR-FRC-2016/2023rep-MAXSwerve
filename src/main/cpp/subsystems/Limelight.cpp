@@ -16,6 +16,16 @@ Limelight::Limelight() {
 
 void Limelight::Periodic() {}
 
+void Limelight::Activate() {
+    table->PutNumber("camMode", 0);
+    table->PutNumber("ledMode", 0);
+}
+
+void Limelight::Deactivate() {
+    table->PutNumber("camMode", 1);
+    table->PutNumber("ledMode", 1);
+}
+
 void Limelight::SetPipeline(int pipeline) {
     table->PutNumber("pipeline", pipeline);
 }
@@ -35,7 +45,7 @@ double Limelight::GetTargetPoseZ() {
     return table->GetNumberArray("targetpose_robotspace", zeroes)[2];
 }
 
-// returns x rotation of reflective tape in robot space
+// Returns x rotation of reflective tape in robot space
 double Limelight::GetReflectiveX() {
     return table->GetNumber("tx", 0.0);
 }

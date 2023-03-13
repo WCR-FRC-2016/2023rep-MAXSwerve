@@ -71,6 +71,8 @@ constexpr units::radians_per_second_t kMaxAngularSpeed{2 / 2 * std::numbers::pi}
 inline units::meters_per_second_t kFastSpeed = 3.0_mps;
 inline units::meters_per_second_t kLowSpeed = 1.0_mps;
 
+inline double kTimeInchesScale = 25;
+
 constexpr double kDirectionSlewRate = 1.2;   // radians per second
 // This controls the drive slew (damping on drive)
 constexpr double kMagnitudeSlewRate = 1.8;   // percent per second (1 = 100%)

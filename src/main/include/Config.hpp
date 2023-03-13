@@ -45,6 +45,7 @@ inline void loadConfig() {
         DriveConstants::kMaxSpeed = units::meters_per_second_t(json["max-speed"].get<double>());
         DriveConstants::kFastSpeed = units::meters_per_second_t(json["fast-speed"].get<double>());
         DriveConstants::kLowSpeed = units::meters_per_second_t(json["slow-speed"].get<double>());
+        DriveConstants::kTimeInchesScale = json["time-inches-scale"].get<double>();
 
         // Auto Constants
         AutoConstants::kPXController = json["auto-pcontroller-x"].get<double>();

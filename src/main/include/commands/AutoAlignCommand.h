@@ -24,7 +24,7 @@
 class AutoAlignCommand
     : public frc2::CommandHelper<frc2::CommandBase, AutoAlignCommand> {
  public:
-  AutoAlignCommand(DriveSubsystem& DriveSubsystem, Limelight& limelight, int pipeline);
+  AutoAlignCommand(DriveSubsystem& DriveSubsystem, Limelight& limelight);
 
   void Initialize() override;
 
@@ -36,7 +36,6 @@ class AutoAlignCommand
 private:
   DriveSubsystem& m_drive;
   Limelight& m_limelight;
-  int m_pipeline;
 
   template <typename T> T Abs(T x);
 };

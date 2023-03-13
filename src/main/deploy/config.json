@@ -15,11 +15,24 @@
                 {
                     "type": 0,
                     "data": {
-                        "x-distance": 1,
-                        "y-distance": 0,
-                        "speed": 1.0
+                        "time-x": 0.0,
+                        "dir-x": 0.0,
+                        "time-y": 1.0,
+                        "dir-y": -1.0
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": {
+                        "arm-state": 2
                     }
                 }
+            ]
+        },
+        {
+            "name": "Arm Test Routine",
+            "commands": [
+                
             ]
         }
     ],
@@ -29,7 +42,7 @@
     "slow-speed": 1.0,
     "align-speed": 1.0,
     "align-rotation-speed": 2.0,
-    "auto-command": 0,
+    "auto-command": 1,
     "auto-pcontroller-x": 0.5,
     "auto-pcontroller-y": 0.5,
     "auto-pcontroller-theta": 0.5,

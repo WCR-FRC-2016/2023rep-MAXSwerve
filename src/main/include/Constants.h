@@ -203,7 +203,7 @@ inline std::vector<AutoSequence> kAutoSequences;
 inline double kAlignSpeed = 1;
 inline double kAlignRotationSpeed = 2.0;
 
-constexpr auto kMaxSpeed = 3_mps;
+constexpr auto kMaxSpeed = 1_mps;
 constexpr auto kMaxAcceleration = 3_mps_sq;
 constexpr auto kMaxAngularSpeed = 3.142_rad_per_s;
 constexpr auto kMaxAngularAcceleration = 3.142_rad_per_s_sq;

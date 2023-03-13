@@ -4,9 +4,9 @@
 
 #include <frc2/command/SequentialCommandGroup.h>
 
+#include "Logging.hpp"
 #include "vendor/json.hpp"
 #include "AutoSequence.hpp"
-#include "autonomous/commands/AutoMoveCommand.hpp"
 
 #include "subsystems/DriveSubsystem.h"
 #include "subsystems/Arm.h"

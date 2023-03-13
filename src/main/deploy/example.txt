@@ -2,3 +2,14 @@ Files placed in this directory will be deployed to the RoboRIO into the
   'deploy' directory in the home folder. Use the 'frc::filesystem::GetDeployDirectory'
   function from the 'frc/Filesystem.h' header to get a proper path relative to the deploy
   directory.
+
+  ,
+                {
+                    "type": 0,
+                    "data": {
+                        "time-x": 0.0,
+                        "dir-x": 0.0,
+                        "time-y": 1.0,
+                        "dir-y": -1.0
+                    }
+                }

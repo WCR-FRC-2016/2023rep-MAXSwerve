@@ -24,6 +24,8 @@
 #include "commands/AutoAlignCommand.h"
 #include "commands/ReflectiveAlignCommand.h"
 #include "subsystems/DriveSubsystem.h"
+#include "autonomous/commands/AutoTimedMoveCommand.hpp"
+#include "autonomous/commands/AutoArmMoveCommand.hpp"
 
 using namespace DriveConstants;
 
@@ -37,7 +39,7 @@ RobotContainer::RobotContainer() : m_wrapper(m_drive, m_arm, m_limelight, m_leds
   // The left stick controls translation of the robot.
   // Turning is controlled by the X axis of the right stick.
   m_drive.SetDefaultCommand(frc2::RunCommand(
-      [this] {
+        [this] {
         m_drive.Drive(
             -units::meters_per_second_t{frc::ApplyDeadband(
                 m_driverController.GetLeftY(), IOConstants::kDriveDeadband)},
@@ -46,8 +48,8 @@ RobotContainer::RobotContainer() : m_wrapper(m_drive, m_arm, m_limelight, m_leds
             -units::radians_per_second_t{frc::ApplyDeadband(
                 m_driverController.GetRightX(), IOConstants::kDriveDeadband)},
             m_relative, m_rate_limit);
-      },
-      {&m_drive}));
+        },
+        {&m_drive}));
 
   m_arm.SetDefaultCommand(frc2::RunCommand(
       [this] {
@@ -169,36 +171,21 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
     thetaController.EnableContinuousInput(units::radian_t{-std::numbers::pi},
                                         units::radian_t{std::numbers::pi});
 
-    // frc::Trajectory trajectory;
-    // trajectory = frc::TrajectoryGenerator::GenerateTrajectory({
-    //                     frc::Pose2d{0_m, 0_m, 0_deg},
-    //                     frc::Pose2d(1.0_m, 0.0_m, 90_deg)
-    //                 },
-    //                 config);
-    // switch(AutoConstants::kSelectedAuto) {
-    //     case 1:
-    //         trajectory = frc::TrajectoryGenerator::GenerateTrajectory({
-    //                     frc::Pose2d{1_m, 0_m, 0_deg},
-    //                     frc::Pose2d(0.0_m, 0.0_m, 90_deg)
-    //                 },
-    //                 config);
-    //         break;
-    //     case 2:
-    //         trajectory = frc::TrajectoryGenerator::GenerateTrajectory({
-    //                     frc::Pose2d{1_m, 0_m, 0_deg},
-    //                     frc::Pose2d(0.0_m, 0.0_m, 0_deg)
-    //                 },
-    //                 config);
-    //         break;
-    //     case 0:
-    //     default:
-    //         trajectory = frc::TrajectoryGenerator::GenerateTrajectory({
-    //                     frc::Pose2d{0_m, 0_m, 0_deg},
-    //                     frc::Pose2d(0.0_m, 0.0_m, 90_deg)
-    //                 },
-    //                 config);
-    //         break;
-    // }
+
+    auto selected_command = AutoConstants::kAutoSequences[m_selected_auto].Commands[m_auto_command_index];
+    m_auto_command_index++;
+
+    switch(selected_command.CommandType) {
+        case 0:
+            return new AutoTimedMoveCommand(m_wrapper, selected_command);
+        case 1:
+            return new AutoArmMoveCommand(m_wrapper, selected_command);
+        case 2:
+            return new frc2::RunCommand([this]() { m_drive.Drive(0_mps, 0_mps, 0.5_rad_per_s, false, true); }, { &m_drive });
+        default:
+            return new frc2::RunCommand([this]() { m_arm.PrintTestEncoder(); });
+    }
+
 
     // frc2::SwerveControllerCommand<4> swerveControllerCommand(
     //     trajectory, [this]() { return m_drive.GetPose(); },
@@ -215,12 +202,11 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
     // Reset odometry to the starting pose of the trajectory.
     //m_drive.ResetOdometry(frc2::Pose());
 
-    
+
 
     //return createAutonomousCommandGroup(m_wrapper, AutoConstants::kAutoSequences[AutoConstants::kSelectedAuto]);
 
   // no auto
-  return new frc2::RunCommand([this]() { m_arm.PrintTestEncoder(); });
 
   //   return new frc2::SequentialCommandGroup(
   //     frc2::InstantCommand([this]() {
@@ -242,4 +228,8 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
 
 void RobotContainer::ResetArmState() {
     m_arm.SetState(-1);
+}
+
+void RobotContainer::ResetAutoCommandCount() {
+    m_auto_command_index = 0;
 }

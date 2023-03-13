@@ -67,6 +67,7 @@ inline void loadConfig() {
         ArmConstants::kArmHighD = json["arm-high-d"].get<double>();
         
         AutoConstants::kSelectedAuto = json["auto-command"].get<int32_t>();
+        AutoConstants::kAutoSequences = interpretJsonSequences(json["autonomous-routines"]);
 
         /*
         frc::TrajectoryConfig config(AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
@@ -98,6 +99,8 @@ inline void loadConfig() {
                     config);
                 break;
         }*/
+
+        
 
         frc::SmartDashboard::PutNumber("Config/Max Speed", DriveConstants::kMaxSpeed.value());
         frc::SmartDashboard::PutNumber("Config/Fast Speed", DriveConstants::kFastSpeed.value());

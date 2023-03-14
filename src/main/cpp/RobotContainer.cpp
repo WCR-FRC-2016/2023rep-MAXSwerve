@@ -17,6 +17,7 @@
 #include <frc2/command/button/Trigger.h>
 #include <units/angle.h>
 #include <units/velocity.h>
+#include <units/time.h>
 
 #include <utility>
 
@@ -28,6 +29,8 @@
 #include "subsystems/DriveSubsystem.h"
 #include "autonomous/commands/AutoTimedMoveCommand.hpp"
 #include "autonomous/commands/AutoArmMoveCommand.hpp"
+#include "autonomous/commands/AutoMoveDistanceCommand.hpp"
+#include "utils/JsonUtils.hpp"
 
 using namespace DriveConstants;
 
@@ -165,23 +168,27 @@ void RobotContainer::ConfigureButtonBindings() {
   frc2::JoystickButton(&m_manipController, ControlConstants::PosZeroButton)
       .OnTrue(
           new frc2::InstantCommand([this] { m_arm.SetState(6); }, {&m_arm}));
+
+
+    frc2::JoystickButton(&m_manipController, ControlConstants::CloseClawButton)
+        .OnTrue(new frc2::InstantCommand([this] { m_arm.DriveClawClosed(); }, {&m_arm}))
+        .OnFalse(new frc2::InstantCommand([this] { m_arm.StopDriveClaw(); }, {&m_arm}));
+    
+    frc2::JoystickButton(&m_manipController, ControlConstants::OpenClawButton)
+        .OnTrue(new frc2::InstantCommand([this] { m_arm.DriveClawOpen();}, {&m_arm}))
+        .OnFalse(new frc2::InstantCommand([this] { m_arm.StopDriveClaw(); }, {&m_arm}));
+
+    frc2::Trigger([this] { return m_manipController.GetLeftTriggerAxis() > 0.5;})
+    .OnTrue(new frc2::InstantCommand([this] { m_arm.Spit(); }, {&m_arm}));
+
+    frc2::Trigger([this] { return m_manipController.GetRightTriggerAxis() > 0.5;})
+    .OnTrue(new frc2::InstantCommand([this] { m_arm.Collect(); }, {&m_arm}));
+
+    frc2::Trigger([this] { return m_manipController.GetLeftTriggerAxis() + m_manipController.GetRightTriggerAxis() < 0.25;})
+    .OnTrue(new frc2::InstantCommand([this] { m_arm.StopWheels(); }, {&m_arm}));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
-    // Set up config for trajectory
-    frc::TrajectoryConfig config(AutoConstants::kMaxSpeed,
-                               AutoConstants::kMaxAcceleration);
-    // Add kinematics to ensure max speed is actually obeyed
-    config.SetKinematics(m_drive.kDriveKinematics);
-
-    frc::ProfiledPIDController<units::radians> thetaController{
-      AutoConstants::kPThetaController, 0, 0,
-      AutoConstants::kThetaControllerConstraints};
-
-    thetaController.EnableContinuousInput(units::radian_t{-std::numbers::pi},
-                                        units::radian_t{std::numbers::pi});
-
-
     auto selected_command = AutoConstants::kAutoSequences[m_selected_auto].Commands[m_auto_command_index];
     m_auto_command_index++;
 
@@ -191,49 +198,12 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
         case 1:
             return new AutoArmMoveCommand(m_wrapper, selected_command);
         case 2:
-            return new frc2::RunCommand([this]() { m_drive.Drive(0_mps, 0_mps, 0.5_rad_per_s, false, true); }, { &m_drive });
+            return new frc2::InstantCommand([this, selected_command] { frc::Wait(units::second_t{getValueOrDefault<double>(selected_command.CommandData, "time", 0.0)}); }, {});
+        case 3:
+            return new AutoMoveDistanceCommand(m_wrapper, selected_command);
         default:
-            return new frc2::RunCommand([this]() { m_arm.PrintTestEncoder(); });
+            return new frc2::InstantCommand([this, selected_command]() { Logger::Log(LogLevel::Dev) << "Command: [" << std::to_string(selected_command.CommandType) << "] not implemented!!!" << LoggerCommand::Flush; }, {});
     }
-
-
-    // frc2::SwerveControllerCommand<4> swerveControllerCommand(
-    //     trajectory, [this]() { return m_drive.GetPose(); },
-
-    //     m_drive.kDriveKinematics,
-
-    //     frc2::PIDController{AutoConstants::kPXController, 0, 0},
-    //     frc2::PIDController{AutoConstants::kPYController, 0, 0}, thetaController,
-
-    //     [this](auto moduleStates) { m_drive.SetModuleStates(moduleStates); },
-
-    //     {&m_drive});
-
-    // Reset odometry to the starting pose of the trajectory.
-    //m_drive.ResetOdometry(frc2::Pose());
-
-
-
-    //return createAutonomousCommandGroup(m_wrapper, AutoConstants::kAutoSequences[AutoConstants::kSelectedAuto]);
-
-  // no auto
-
-  //   return new frc2::SequentialCommandGroup(
-  //     frc2::InstantCommand([this]() {
-  //         Logger::SetGlobalLevel(LogLevel::Dev);
-  //        Logger::Log(LogLevel::Dev) << "Position: " <<
-  //        m_drive.GetPose().Translation() << LoggerCommand::Flush;},
-  //        {&m_drive}),
-  //       std::move(swerveControllerCommand),
-  //       frc2::InstantCommand(
-  //           [this]() { m_drive.Drive(0_mps, 0_mps, 0_rad_per_s, false,
-  //           false); },
-  //           {}),
-  //               frc2::InstantCommand([this]() {
-  //         Logger::SetGlobalLevel(LogLevel::Dev);
-  //        Logger::Log(LogLevel::Dev) << "Position: " <<
-  //        m_drive.GetPose().Translation() << LoggerCommand::Flush;},
-  //        {&m_drive}));
 }
 
 void RobotContainer::ResetArmState() {

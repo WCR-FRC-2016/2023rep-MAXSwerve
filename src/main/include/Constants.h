@@ -53,18 +53,27 @@ namespace ControlConstants {
     constexpr int ResetHeadingButton = frc::XboxController::Button::kBack;
     constexpr int PosButton          = frc::XboxController::Button::kStart;
     
+    // Manipulator Controller
     constexpr int PosCarryButton  = frc::XboxController::Button::kA;
     constexpr int PosMedButton    = frc::XboxController::Button::kB;
     constexpr int PosHighButton   = frc::XboxController::Button::kY;
     constexpr int PosSubButton    = frc::XboxController::Button::kX;
     constexpr int PosManualButton = frc::XboxController::Button::kBack;
     constexpr int PosZeroButton   = frc::XboxController::Button::kStart;
+    constexpr int CloseClawButton = frc::XboxController::Button::kRightBumper;
+    constexpr int OpenClawButton = frc::XboxController::Button::kLeftBumper;
+
+    // Debug Controller
+    //constexpr int RightClaw = frc::XboxController::Button::kA;
+    //constexpr int LeftClaw = frc::XboxController::Button::kB;
+    //constexpr int GrabClaw = frc::XboxController::Button::kY;
 }
 
 namespace DriveConstants {
 // Driving Parameters - Note that these are not the maximum capable speeds of
 // the robot, rather the allowed maximum speeds
-inline units::meters_per_second_t kMaxSpeed = 4.8_mps;
+inline units::meters_per_second_t     kMaxSpeed      = 4.8_mps;
+inline units::meters_per_second_t     kDriveMaxSpeed = 4.8_mps;
 constexpr units::radians_per_second_t kMaxAngularSpeed{2 / 2 * std::numbers::pi};
 
 // Mode Switch Speeds
@@ -106,9 +115,9 @@ constexpr int kFrontRightTurningCanId = 8;
 }  // namespace DriveConstants
 
 namespace ArmConstants {
-constexpr int kHandLeftId  = 30; // TODO!
-constexpr int kHandRightId = 40; // TODO!
-constexpr int kHandGrabId  = 50; // TODO!
+constexpr int kHandRightId = 2; // TODO!
+constexpr int kHandGrabId  = 3; // TODO!
+constexpr int kHandLeftId  = 4; // TODO!
 constexpr int kArmLowId    = 6;
 constexpr int kArmHighId   = 7;
 
@@ -117,7 +126,7 @@ constexpr int kArmHighEncoderId = 1; // DIO slot 1 on RoboRio 2.0
 
 constexpr units::ampere_t kHandLeftCurrentLimit  = 26_A; // Works between 2 and 26 amps [Johnson Electric PLG Motor -> https://www.andymark.com/products/johnson-electric-gearmotor-and-output-shaft]
 constexpr units::ampere_t kHandRightCurrentLimit = 26_A; // Works between 2 and 26 amps [Johnson Electric PLG Motor -> https://www.andymark.com/products/johnson-electric-gearmotor-and-output-shaft]
-constexpr units::ampere_t kHandGrabCurrentLimit  = 26_A; // Works between 2 and 26 amps [Johnson Electric PLG Motor -> https://www.andymark.com/products/johnson-electric-gearmotor-and-output-shaft]
+constexpr units::ampere_t kHandGrabCurrentLimit  = 50_A; // Update this
 constexpr units::ampere_t kArmLowCurrentLimit    = 3_A;  // Very hard to find, max found on amazon listing [ECO-WORTHY 14mm/s 1000N -> https://www.amazon.com/ECO-LLC-Actuator-Mounting-Brackets/dp/B07L7XCSDW/ref=sr_1_2?c=ts&keywords=Linear+Motion+Actuators&qid=1678491620&refinements=p_89%3AECO-WORTHY&s=industrial&sr=1-2-catcorr&ts_id=350654011]
 constexpr units::ampere_t kArmHighCurrentLimit   = 12_A; // Works between 4 and 12 amps [PA-04 -> https://www.progressiveautomations.com/products/linear-actuator-ip66]
 
@@ -205,7 +214,7 @@ inline std::vector<AutoSequence> kAutoSequences;
 inline double kAlignSpeed = 1;
 inline double kAlignRotationSpeed = 2.0;
 
-constexpr auto kMaxSpeed = 1_mps;
+inline auto    kAutoMaxSpeed = 1_mps;
 constexpr auto kMaxAcceleration = 3_mps_sq;
 constexpr auto kMaxAngularSpeed = 3.142_rad_per_s;
 constexpr auto kMaxAngularAcceleration = 3.142_rad_per_s_sq;
@@ -229,5 +238,6 @@ extern const frc::TrapezoidProfile<units::radians>::Constraints
 namespace IOConstants {
 constexpr int kDriverControllerPort = 0;
 constexpr int kManipControllerPort = 1;
+constexpr int kDebugControllerPort = 2;
 constexpr double kDriveDeadband = 0.15;
 }  // namespace IOConstants

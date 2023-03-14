@@ -7,6 +7,7 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandScheduler.h>
 
+#include "Constants.h"
 #include "Config.hpp"
 
 void Robot::RobotInit() {
@@ -39,6 +40,8 @@ void Robot::DisabledPeriodic() {}
  * RobotContainer} class.
  */
 void Robot::AutonomousInit() {
+  DriveConstants::kMaxSpeed = AutoConstants::kAutoMaxSpeed;
+
   m_container.ResetAutoCommandCount();
   m_autonomousCommand = m_container.GetAutonomousCommand();
 
@@ -66,6 +69,8 @@ void Robot::TeleopInit() {
     m_autonomousCommand->Cancel();
     m_autonomousCommand = nullptr;
   }
+
+  DriveConstants::kMaxSpeed = DriveConstants::kDriveMaxSpeed;
 }
 
 /**

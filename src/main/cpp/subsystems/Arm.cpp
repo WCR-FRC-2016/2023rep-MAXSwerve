@@ -133,6 +133,29 @@ void Arm::TurnToAngles(units::degree_t low, units::degree_t high) {
   if (!m_arm_high_pid.AtSetpoint()) m_high_actuator.Drive(high_move);
 }
 
+void Arm::Collect() {
+  m_hand_right.Set(-1.0);
+  m_hand_left.Set(1.0);
+}
+void Arm::Spit() {
+  m_hand_right.Set(1.0);
+  m_hand_left.Set(-1.0);
+}
+void Arm::StopWheels() {
+  m_hand_right.Set(0.0);
+  m_hand_left.Set(0.0);
+}
+
+void Arm::DriveClawClosed() {
+  m_hand_grab.Set(-1);
+}
+void Arm::DriveClawOpen() {
+  m_hand_grab.Set(1);
+}
+void Arm::StopDriveClaw() {
+  m_hand_grab.Set(0.0);
+}
+
 void Arm::Drive(double low, double high) {
   m_goal_state = -2;
   m_low_actuator.Drive(low);

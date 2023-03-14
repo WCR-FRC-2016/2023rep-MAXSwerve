@@ -35,6 +35,14 @@ class Arm : public frc2::SubsystemBase {
   double GetRawUpperAngle();
   double GetRawLowerAngle();
 
+  void Collect();
+  void Spit();
+  void StopWheels();
+  
+  void DriveClawClosed();
+  void DriveClawOpen();
+  void StopDriveClaw();
+
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.

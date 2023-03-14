@@ -153,7 +153,7 @@ units::meters_per_second_t DriveSubsystem::GetSpeed() { return m_speed; }
 
 void DriveSubsystem::SetModuleStates(
     wpi::array<frc::SwerveModuleState, 4> desiredStates) {
-  kDriveKinematics.DesaturateWheelSpeeds(&desiredStates, AutoConstants::kMaxSpeed);
+  kDriveKinematics.DesaturateWheelSpeeds(&desiredStates, AutoConstants::kAutoMaxSpeed);
   m_frontLeft.SetDesiredState(desiredStates[0]);
   m_frontRight.SetDesiredState(desiredStates[1]);
   m_rearLeft.SetDesiredState(desiredStates[2]);

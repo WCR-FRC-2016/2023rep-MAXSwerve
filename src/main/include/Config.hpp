@@ -42,12 +42,13 @@ inline void loadConfig() {
         } else Logger::SetGlobalLevel(LogLevel::None);
 
         // Drive Constants
-        DriveConstants::kMaxSpeed = units::meters_per_second_t(json["max-speed"].get<double>());
+        DriveConstants::kDriveMaxSpeed = units::meters_per_second_t(json["drive-max-speed"].get<double>());
         DriveConstants::kFastSpeed = units::meters_per_second_t(json["fast-speed"].get<double>());
         DriveConstants::kLowSpeed = units::meters_per_second_t(json["slow-speed"].get<double>());
         DriveConstants::kTimeInchesScale = json["time-inches-scale"].get<double>();
 
         // Auto Constants
+        AutoConstants::kAutoMaxSpeed = units::meters_per_second_t{json["auto-max-speed"].get<double>()};
         AutoConstants::kPXController = json["auto-pcontroller-x"].get<double>();
         AutoConstants::kPYController = json["auto-pcontroller-y"].get<double>();
         AutoConstants::kPThetaController = json["auto-pcontroller-theta"].get<double>();
@@ -69,39 +70,6 @@ inline void loadConfig() {
         
         AutoConstants::kSelectedAuto = json["auto-command"].get<int32_t>();
         AutoConstants::kAutoSequences = interpretJsonSequences(json["autonomous-routines"]);
-
-        /*
-        frc::TrajectoryConfig config(AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
-
-        switch () {                
-            case 1:
-                AutoConstants::kAutoTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(
-                    {
-                        frc::Pose2d{0_m, 0_m, 0_deg},
-                        frc::Pose2d(1.0_m, 0.0_m, 0_deg)
-                    },
-                    config);
-                break;
-            case 2:
-                AutoConstants::kAutoTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(
-                    {
-                        frc::Pose2d{0_m, 0_m, 0_deg},
-                        frc::Pose2d(1.0_m, 0.0_m, 90_deg)
-                    },
-                    config);
-                break;
-            case 0:
-            default:
-                    AutoConstants::kAutoTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(
-                    {
-                        frc::Pose2d{0_m, 0_m, 0_deg},
-                        frc::Pose2d(0.0_m, 0.0_m, 90_deg)
-                    },
-                    config);
-                break;
-        }*/
-
-        
 
         frc::SmartDashboard::PutNumber("Config/Max Speed", DriveConstants::kMaxSpeed.value());
         frc::SmartDashboard::PutNumber("Config/Fast Speed", DriveConstants::kFastSpeed.value());

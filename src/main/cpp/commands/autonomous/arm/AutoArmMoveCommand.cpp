@@ -1,4 +1,4 @@
-#include "autonomous/commands/AutoArmMoveCommand.hpp"
+#include "autonomous/commands/arm/AutoArmMoveCommand.hpp"
 
 #include <units/length.h>
 #include <units/velocity.h>
@@ -12,10 +12,9 @@ AutoArmMoveCommand::AutoArmMoveCommand(AutoSubsystemWrapper& wrapper, AutoComman
 void AutoArmMoveCommand::Initialize() {
     try {
         m_state = getValueOrDefault<int32_t>(m_info.CommandData, "arm-state", -1);
-
-        Logger::Log(LogLevel::Dev) << "Move Arm Command: " << m_state << LoggerCommand::Flush;
+        m_wait  = getValueOrDefault<bool>(m_info.CommandData, "wait", false);
     } catch (...) {
-        Logger::Log(0b11111) << "Failed to run AutoArmMoveCommand" << LoggerCommand::Flush;
+        Logger::Log(LogLevel::Autonomous) << "Failed to initialize AutoArmMoveCommand" << LoggerCommand::Flush;
     }
 }
 void AutoArmMoveCommand::Execute() {
@@ -24,9 +23,6 @@ void AutoArmMoveCommand::Execute() {
     m_wrapper.m_arm.SetState(m_state);
     m_state = -1;
 }
-void AutoArmMoveCommand::End(bool interrupted) {
-
-}
 bool AutoArmMoveCommand::IsFinished() {
-    return m_state <= -1; // Should always be -1 if ran
+    return m_wait ? (m_state <= -1) : (m_wrapper.m_arm.GetGoalState() == -1);
 }

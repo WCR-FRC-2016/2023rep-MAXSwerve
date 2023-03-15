@@ -3,7 +3,105 @@ Files placed in this directory will be deployed to the RoboRIO into the
   function from the 'frc/Filesystem.h' header to get a proper path relative to the deploy
   directory.
 
-  ,
+// Old Autonomous Stuff
+{
+            "name": "Spit Test",
+            "commands": [
+                {
+                    "type": 3,
+                    "data": {
+                        "distance-x": -1.0,
+                        "distance-y": 0.0,
+                        "speed-x": 1.0,
+                        "speed-y": 0.0,
+                        "field-relative": false
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": {
+                        "arm-state": 2
+                    }
+                },
+                {
+                    "type": 5,
+                    "data": { }
+                },
+                {
+                    "type": 4,
+                    "data": {
+                        "spin-direction": -1.0
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Move Distance Test",
+            "commands": [
+                {
+                    "type": 3,
+                    "data": {
+                        "distance-x": 1.0,
+                        "distance-y": 0.0,
+                        "speed-x": 1.0,
+                        "speed-y": 0.0,
+                        "field-relative": false
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Score Cone Middle -> Doesn't work",
+            "commands": [
+                {
+                    "type": 1,
+                    "data": {
+                        "arm-state": 2
+                    }
+                },
+                {
+                    "type": 0,
+                    "data": {
+                        "time-x": 0.25,
+                        "dir-x": -1.0,
+                        "time-y": 0.0,
+                        "dir-y": 0.0
+                    }
+                },
+                {
+                    "type": 2,
+                    "data": {
+                        "time": 1.0
+                    }
+                },
+                {
+                    "type": 0,
+                    "data": {
+                        "time-x": 0.25,
+                        "dir-x": 1.0,
+                        "time-y": 0.0,
+                        "dir-y": 0.0
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Move Forward",
+            "commands": [
+                {
+                    "type": 0,
+                    "data": {
+                        "time-x": 1.0,
+                        "dir-x": 1.0,
+                        "time-y": 0.0,
+                        "dir-y": 0.0
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Test Routine",
+            "commands": [
                 {
                     "type": 0,
                     "data": {
@@ -12,4 +110,12 @@ Files placed in this directory will be deployed to the RoboRIO into the
                         "time-y": 1.0,
                         "dir-y": -1.0
                     }
+                },
+                {
+                    "type": 1,
+                    "data": {
+                        "arm-state": 2
+                    }
                 }
+            ]
+        }

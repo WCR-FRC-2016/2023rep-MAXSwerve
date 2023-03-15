@@ -70,6 +70,7 @@ void Robot::TeleopInit() {
     m_autonomousCommand = nullptr;
   }
 
+  m_container.InitArmTeleop();
   DriveConstants::kMaxSpeed = DriveConstants::kDriveMaxSpeed;
 }
 

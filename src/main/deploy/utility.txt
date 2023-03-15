@@ -1,0 +1,15 @@
+Unused Json File
+Primary purpose is to be a place for getting information
+
+// Blank Autonomous Command
+{
+    "name": "RoutineName",
+    "commands": [
+        {
+            "type": 0,
+            "data": {
+                
+            }
+        }
+    ]
+}

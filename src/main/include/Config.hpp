@@ -59,6 +59,7 @@ inline void loadConfig() {
         // Autonomous Routines
         AutoConstants::kSelectedAuto = json["auto-command"].get<int32_t>();
         AutoConstants::kAutoSequences = interpretJsonSequences(json["autonomous-routines"]);
+        mapAutoSequences();
 
         // Arm Constants
         ArmConstants::kArmLowOffset  = json["arm-low-offset"].get<double>();

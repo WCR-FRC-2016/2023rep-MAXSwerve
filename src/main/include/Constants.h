@@ -14,6 +14,7 @@
 #include <frc/trajectory/Trajectory.h>
 
 #include <numbers>
+#include <map>
 
 #include "autonomous/AutoSequence.hpp"
 
@@ -235,6 +236,7 @@ constexpr units::ampere_t kTurningMotorCurrentLimit = 20_A;
 namespace AutoConstants {
 inline int32_t kSelectedAuto = 0;
 inline std::vector<AutoSequence> kAutoSequences;
+inline std::map<std::string, int32_t> kAutoSequencesMapped;
 
 inline double kAlignSpeed = 1;
 inline double kAlignRotationSpeed = 2.0;

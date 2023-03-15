@@ -43,3 +43,8 @@ inline std::vector<AutoSequence> interpretJsonSequences(nlohmann::json& json) {
 
     return sequences;
 }
+
+inline void mapAutoSequences() {
+    for (auto i = 0u; i < AutoConstants::kAutoSequences.size(); i++)
+        AutoConstants::kAutoSequencesMapped.emplace(AutoConstants::kAutoSequences[i].SequenceName, i);
+}

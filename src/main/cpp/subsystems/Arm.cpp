@@ -100,6 +100,7 @@ void Arm::Periodic() {
     m_next_goal_state = -1;
   }
 
+  // Only on Claw Design 2
   // TODO: m_hand_grab.GetOutputCurrent()
 }
 
@@ -133,14 +134,40 @@ void Arm::TurnToAngles(units::degree_t low, units::degree_t high) {
 
   if (!m_arm_low_pid.AtSetpoint())   m_low_actuator.Drive(low_move);
   if (!m_arm_high_pid.AtSetpoint()) m_high_actuator.Drive(high_move);
+
+  if (m_use_collect_state) DriveCollectWheels(m_collect_state);
+  if (m_use_claw_state) DriveClaw(m_claw_state);
 }
+
+bool Arm::GetOuterLimitSwitchState() { return m_outer_switch.Get(); }
+bool Arm::GetInnerLimitSwitchState() { return m_inner_switch.Get(); }
+
+void Arm::SetClawState(int32_t state)    { m_claw_state = state; }
+void Arm::SetClawUseState(bool state)    { m_use_claw_state = state; }
+void Arm::SetCollectUseState(bool state) { m_use_collect_state = state; }
+void Arm::SetCollectState(int32_t state) { m_collect_state = state; }
 
 // -1 drives closed
 //  1 drives open
 void Arm::DriveClaw(double dir) {
-  // TODO: Limit Switches
-  if (dir ==  1 && m_outer_switch.Get()) dir = 0.0;
-  if (dir == -1 && m_inner_switch.Get()) dir = 0.0;
+  // TODO: Fix Limit Switches
+  if (m_outer_switch.Get()) {
+    if (dir == 1) dir = 0.0;
+
+    m_claw_state = 0;
+    m_use_claw_state = false;
+  }
+
+  if (m_inner_switch.Get()) {
+    if (dir == -1) dir = 0.0;
+
+    m_claw_state = 0;
+    m_use_claw_state = false;
+  }
+
+  // Verify we aren't using claw state when its 0
+  if (m_use_claw_state && m_claw_state == 0) 
+    m_use_claw_state = false; 
 
   m_hand_grab.Set(dir);
 }

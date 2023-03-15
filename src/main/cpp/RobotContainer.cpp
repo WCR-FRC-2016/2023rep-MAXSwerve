@@ -27,12 +27,11 @@
 #include "commands/ReflectiveAlignCommand.h"
 #include "commands/MoveOverCommand.h"
 #include "subsystems/DriveSubsystem.h"
-#include "autonomous/commands/AutoTimedMoveCommand.hpp"
-#include "autonomous/commands/AutoArmMoveCommand.hpp"
-#include "autonomous/commands/AutoMoveDistanceCommand.hpp"
-#include "autonomous/commands/AutoClawWheelCommand.hpp"
-#include "autonomous/commands/AutoWaitArmStateCommand.hpp"
 #include "utils/JsonUtils.hpp"
+
+#include "autonomous/commands/arm/AutoWaitLimitSwitchCommand.hpp"
+#include "autonomous/commands/utility/AutoResetOdometryCommand.hpp"
+#include "autonomous/commands/utility/AutoTimedWaitCommand.hpp"
 
 using namespace DriveConstants;
 
@@ -167,26 +166,20 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
     auto selected_command = AutoConstants::kAutoSequences[AutoConstants::kSelectedAuto].Commands[m_auto_command_index];
     m_auto_command_index++;
 
+    // TODO: Update these
     switch(selected_command.CommandType) {
-        case 0:
-            return new AutoTimedMoveCommand(m_wrapper, selected_command);
-        case 1:
-            return new AutoArmMoveCommand(m_wrapper, selected_command);
-        case 2:
-            return new frc2::InstantCommand([this, selected_command] { frc::Wait(units::second_t{getValueOrDefault<double>(selected_command.CommandData, "time", 0.0)}); }, {});
-        case 3:
-            return new AutoMoveDistanceCommand(m_wrapper, selected_command);
-        case 4:
-            return new AutoClawWheelCommand(m_wrapper, selected_command);
-        case 5:
-            return new AutoWaitArmStateCommand(m_wrapper, selected_command);
         default:
-            return new frc2::InstantCommand([this, selected_command]() { Logger::Log(LogLevel::Dev) << "Command: [" << std::to_string(selected_command.CommandType) << "] not implemented!!!" << LoggerCommand::Flush; }, {});
+            return new frc2::InstantCommand([this, selected_command]() { Logger::Log(LogLevel::Autonomous) << "Command: [" << std::to_string(selected_command.CommandType) << "] not implemented!!!" << LoggerCommand::Flush; }, {});
     }
+}
+
+void RobotContainer::InitArmTeleop() {
+    m_arm.SetCollectUseState(false);
 }
 
 void RobotContainer::ResetArmState() {
     m_arm.SetState(-1);
+    m_arm.SetCollectUseState(false);
 }
 
 void RobotContainer::ResetAutoCommandCount() {

@@ -17,7 +17,9 @@ enum LogLevel : uint32_t
     Utility = 1 << 1,
     Important = 1 << 2,
     Error = 1 << 3,
-    Dev = 1 << 4
+    Dev = 1 << 4,
+    Autonomous = 1 << 5,
+    All = UINT_MAX
 };
 
 enum class LoggerCommand
@@ -75,6 +77,8 @@ private:
             return "Error";
         case 1 << 4:
             return "Dev";
+        case 1 << 5:
+            return "Autonomous";
         default:
             return "Invalid";
         }

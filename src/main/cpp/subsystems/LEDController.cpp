@@ -26,12 +26,16 @@ void LEDController::Periodic() {
   
   i%=512;
   */
+
+  /*
   j++;
   if (j>=150) {
     j=0;
     state++;
     state%=3;
   }
+  */
+
   switch (state) {
     case 0:
       Circles();
@@ -63,9 +67,9 @@ void LEDController::Clear() {
 
 void LEDController::Circles() {
   Clear();
-  for (int x=0; x<32; x++) {
+  for (int x=0; x<16; x++) {
     for (int y=0; y<16; y++) {
-      double d = sqrt((x-16)*(x-16) + (y-8)*(y-8));
+      double d = sqrt((x-8)*(x-8) + (y-8)*(y-8));
       SetRGB(x,y, 10+10*sin((i/200.0+d/10.0)*2*std::numbers::pi), 0, 0);
     }
   }
@@ -76,43 +80,38 @@ void LEDController::Circles() {
 
 void LEDController::Cone() {
   Clear();
-  for (int y=0; y<=15; y++) {
-    int minx = 15-y/3;
-    int maxx = 16+y/3;
-    if (y >= 14) {
-      minx = 9;
-      maxx = 22;
+  for (int x=0; x<16; x++) {
+    int maxy = 12-3*abs(x-8);
+
+    if (maxy>0) {
+      for (int y=0; y<=maxy; y++) {
+        SetRGB(x, y, 25, 7, 0);
+      }
     }
 
-    for (int x=minx; x<=maxx; x++) {
+    for (int y=std::max(0,maxy+1); y<16; y++) {
+      double d = y-maxy;
+      double s = sin((i/100.0-d/10.0)*2*std::numbers::pi);
+      SetRGB(x, y, 6+6*s, 1+1*s, 0);
+    }
+
+    for (int y=0; y<2; y++) {
       SetRGB(x, y, 25, 7, 0);
-    }
-
-    for (int x=0; x<minx-1; x++) {
-      double d = minx-x;
-      double s = sin((i/150.0-d/10.0)*2*std::numbers::pi);
-      SetRGB(x, y, 6+6*s, 1+1*s, 0);
-    }
-
-    for (int x=maxx+2; x<32; x++) {
-      double d = x-maxx;
-      double s = sin((i/150.0-d/10.0)*2*std::numbers::pi);
-      SetRGB(x, y, 6+6*s, 1+1*s, 0);
     }
   }
   Flush();
   i++;
-  i%=150;
+  i%=100;
 }
 
 void LEDController::Cube() {
   Clear();
   for (int y = 0; y<16; y++) {
-    int minx = 7;
-    int maxx = 22;
+    int minx = 4;
+    int maxx = 11;
     if (y == 0||y == 15) {
-      minx = 8;
-      maxx = 21;
+      minx = 5;
+      maxx = 10;
     }
 
     for (int x=minx; x<=maxx; x++) {
@@ -124,49 +123,25 @@ void LEDController::Cube() {
 
 void LEDController::Cube2() {
   Clear();
-  for (int x = 0; x<32; x++) {
-    if (x<8 || x>23) {
-      for (int y = 0; y<16; y++) {
-        if (x<7 || x>24 || y<2 || y>13) {
-          double a = atan2(y-8,x-16);
-          double s = sin((i/75.0-a/std::numbers::pi)*2*std::numbers::pi);
-          double s2 = sin((i/75.0-a/std::numbers::pi)*std::numbers::pi + std::numbers::pi/4);
-          SetRGB(x, y, 6*pow(s2,10), 0, 5+5*s);
-        }
+  for (int x = 0; x<16; x++) {
+    for (int y = 0; y<16; y++) {
+      if (x<2 || x>13 || y<2 || y>13) {
+        double a = atan2(y-8,x-8);
+        double s = sin((i/75.0-a/std::numbers::pi)*2*std::numbers::pi);
+        double s2 = sin((i/75.0-a/std::numbers::pi)*std::numbers::pi + std::numbers::pi/4);
+        SetRGB(x, y, 6*pow(s2,10), 0, 5+5*s);
       }
     }
   }
 
-  for (int y = 0; y<=15; y++) {
-    for (int x = 8; x<=23; x++) {
-      SetRGB(x, y, 11, 0, 25);
+  for (int y = 4; y<12; y++) {
+    for (int x = 4; x<12; x++) {
+      if (((x-8)*(x-8)+(y-8)*(y-8))<100)
+        SetRGB(x, y, 11, 0, 25);
     }
   }
 
-  SetRGB(8, 0, 0, 0, 0);
-  SetRGB(8, 1, 0, 0, 0);
-  SetRGB(8, 2, 0, 0, 0);
-  SetRGB(9, 0, 0, 0, 0);
-  SetRGB(10, 0, 0, 0, 0);
-
-  SetRGB(23, 0, 0, 0, 0);
-  SetRGB(23, 1, 0, 0, 0);
-  SetRGB(23, 2, 0, 0, 0);
-  SetRGB(22, 0, 0, 0, 0);
-  SetRGB(21, 0, 0, 0, 0);
-
-  SetRGB(8, 15, 0, 0, 0);
-  SetRGB(8, 14, 0, 0, 0);
-  SetRGB(8, 13, 0, 0, 0);
-  SetRGB(9, 15, 0, 0, 0);
-  SetRGB(10, 15, 0, 0, 0);
-
-  SetRGB(23, 15, 0, 0, 0);
-  SetRGB(23, 14, 0, 0, 0);
-  SetRGB(23, 13, 0, 0, 0);
-  SetRGB(22, 15, 0, 0, 0);
-  SetRGB(21, 15, 0, 0, 0);
-
+  /*
   SetRGB(9, 1, 1, 0, 2);
   SetRGB(9, 14, 1, 0, 2);
   for (int x=10;x<22;x++) {
@@ -182,6 +157,7 @@ void LEDController::Cube2() {
   }
   SetRGB(22, 1, 1, 0, 2);
   SetRGB(22, 14, 1, 0, 2);
+  */
 
   Flush();
 
@@ -209,7 +185,6 @@ void LEDController::Flash(int i) {
 }
 
 int LEDController::pos(int x, int y) {
-  x/=2;
   int output = floor(x/2)*32;
   if (x%2==0) {
     output+=y;

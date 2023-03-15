@@ -54,3 +54,13 @@ double Limelight::GetReflectiveX() {
 double Limelight::GetHeading() {
     return -table->GetNumberArray("targetpose_robotspace", zeroes)[4];
 }
+
+// Returns ID of target.
+int Limelight::GetTargetID() {
+    return table->GetNumber("tid", -1);
+}
+
+// Returns true if id detected is 4 or 5, false otherwise.
+bool Limelight::IsSubstation() {
+    return GetTargetID()==4 || GetTargetID()==5;
+}

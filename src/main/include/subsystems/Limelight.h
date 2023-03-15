@@ -30,4 +30,6 @@ class Limelight : public frc2::SubsystemBase {
   double GetReflectiveX();
   double GetTargetPoseZ();
   double GetHeading();
+  int GetTargetID();
+  bool IsSubstation();
 };

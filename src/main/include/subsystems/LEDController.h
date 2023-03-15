@@ -44,7 +44,7 @@ class LEDController : public frc2::SubsystemBase {
   std::array<frc::AddressableLED::LEDData, kLength> m_ledBuffer;  // Reuse the buffer
 
   int i = 0;
-  int j = 0;
+  //int j = 0;
   int y = 0;
-  int state = 0;
+  int state = 1;
 };

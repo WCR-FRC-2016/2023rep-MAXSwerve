@@ -118,11 +118,17 @@ void RobotContainer::ConfigureButtonBindings() {
   frc2::JoystickButton(&m_driverController, ControlConstants::AlignRTButton)
       .WhileTrue(new ReflectiveAlignCommand(m_drive, m_limelight));
 
-  frc2::Trigger([this] {return m_driverController.GetLeftTriggerAxis()>0.5;})
-      .OnTrue(new MoveOverCommand(m_drive, -22*DriveConstants::kTimeInchesScale));
+  /*frc2::Trigger([this] {return m_driverController.GetLeftTriggerAxis()>0.5;})
+      .OnTrue(frc2::ConditionalCommand(
+        new MoveOverCommand(m_drive, -DriveConstants::kMoveOverSubTime),
+        new MoveOverCommand(m_drive, -DriveConstants::kMoveOverTime),
+        m_limelight.IsSubstation);
 
   frc2::Trigger([this] {return m_driverController.GetRightTriggerAxis()>0.5;})
-      .OnTrue(new MoveOverCommand(m_drive, 22*DriveConstants::kTimeInchesScale));
+      .OnTrue(frc2::ConditionalCommand(
+        new MoveOverCommand(m_drive, DriveConstants::kMoveOverSubTime),
+        new MoveOverCommand(m_drive, DriveConstants::kMoveOverTime),
+        m_limelight.IsSubstation);*/
 
   frc2::JoystickButton(&m_driverController, ControlConstants::SwapSpeedButton)
       .OnTrue(new frc2::InstantCommand(

@@ -45,7 +45,8 @@ inline void loadConfig() {
         DriveConstants::kDriveMaxSpeed = units::meters_per_second_t(json["drive-max-speed"].get<double>());
         DriveConstants::kFastSpeed = units::meters_per_second_t(json["fast-speed"].get<double>());
         DriveConstants::kLowSpeed = units::meters_per_second_t(json["slow-speed"].get<double>());
-        DriveConstants::kTimeInchesScale = json["time-inches-scale"].get<double>();
+        DriveConstants::kMoveOverTime = json["move-over-time"].get<double>();
+        DriveConstants::kMoveOverSubTime = json["move-over-sub-time"].get<double>();
 
         // Auto Constants
         AutoConstants::kAutoMaxSpeed = units::meters_per_second_t{json["auto-max-speed"].get<double>()};

@@ -28,6 +28,37 @@
  * they are needed.
  */
 
+// Drive Controller:
+//  : Drive:          Left Stick [Rotate]  [x]
+//  : Rotate:         Right Stick [Rotate] [x]
+//  : X Mode:         X      [x]
+//  : Field Relative: Y      [x]
+//  : Reset Odometry: Select [x]
+//  : Swap Speed:     Start  [x]
+//  : Align Reflect:  Left Bumper   [x]
+//  : Align AprilTag: Right Bumper  [x]
+//  : Slide Left:     Left Trigger  [x]
+//  : Slide Right:    Right Trigger [x]
+
+// Manipulator Controller:
+//  : Arm High:       Left Stick  [Manual Mode Only] [x]
+//  : Arm Low:        Right Stick [Manual Mode Only] [x]
+//  : Manual Mode:    Back [x]
+//  : Mid Goal:       X    [x]
+//  : High Goal:      Y    [x]
+//  : Carry Position: A    [x]
+//  : Piece Station:  B    [x]
+//  : Close Claw:     Left Bumper   [x]
+//  : Open Claw:      Right Bumper  [x]
+//  : Spit:           Left Trigger  [x]
+//  : Collect:        Right Trigger [x]
+//  : LED Hypno:      DPAD up       [ ]
+//  : LED Cone        DPAD right    [ ]
+//  : LED Cube        DPAD left     [ ]
+
+// Debug Controller:
+//  : Absolute Zero:  Start
+
 // TODO: Convert move of these to be config based rather than constexpr variables
 // Some examples include:
 //     . Button Mappings?
@@ -37,36 +68,29 @@
 //     . Controller deadbands (which are the deadzones of the controller)
 
 namespace ControlConstants {
-    // Joystick Value [Currently Inline]
-
-    // Fire While Held Button
-    constexpr int xModeButton    = frc::XboxController::Button::kX;
-    constexpr int DebugLEDButton = frc::XboxController::Button::kX;
-
-    // Fire Once Button
+    // Driver Controller
+    constexpr int xModeButton        = frc::XboxController::Button::kX;
     constexpr int RelativeButton     = frc::XboxController::Button::kY;
-    constexpr int RateLimitButton    = frc::XboxController::Button::kB;
-    constexpr int DebugPrintButton   = frc::XboxController::Button::kA;
-    constexpr int SwapSpeedButton    = frc::XboxController::Button::kBack;
+    constexpr int ResetHeadingButton = frc::XboxController::Button::kBack;
+    constexpr int SwapSpeedButton    = frc::XboxController::Button::kStart;
     constexpr int AlignRTButton      = frc::XboxController::Button::kLeftBumper;
     constexpr int AlignATButton      = frc::XboxController::Button::kRightBumper;
-    constexpr int ResetHeadingButton = frc::XboxController::Button::kBack;
-    constexpr int PosButton          = frc::XboxController::Button::kStart;
     
     // Manipulator Controller
     constexpr int PosCarryButton  = frc::XboxController::Button::kA;
-    constexpr int PosMedButton    = frc::XboxController::Button::kB;
+    constexpr int PosMedButton    = frc::XboxController::Button::kX;
     constexpr int PosHighButton   = frc::XboxController::Button::kY;
-    constexpr int PosSubButton    = frc::XboxController::Button::kX;
+    constexpr int PosSubButton    = frc::XboxController::Button::kB;
     constexpr int PosManualButton = frc::XboxController::Button::kBack;
-    constexpr int PosZeroButton   = frc::XboxController::Button::kStart;
     constexpr int CloseClawButton = frc::XboxController::Button::kRightBumper;
     constexpr int OpenClawButton  = frc::XboxController::Button::kLeftBumper;
+    //constexpr int LEDConeButton   = frc::XboxController::
+
+    // TODO
+    constexpr int DebugLEDButton = frc::XboxController::Button::kX; // TODO
 
     // Debug Controller
-    //constexpr int RightClaw = frc::XboxController::Button::kA;
-    //constexpr int LeftClaw = frc::XboxController::Button::kB;
-    //constexpr int GrabClaw = frc::XboxController::Button::kY;
+    constexpr int PosZeroButton   = frc::XboxController::Button::kStart;
 }
 
 namespace DriveConstants {
@@ -116,9 +140,9 @@ constexpr int kFrontRightTurningCanId = 8;
 }  // namespace DriveConstants
 
 namespace ArmConstants {
-constexpr int kHandRightId = 2; // TODO!
-constexpr int kHandGrabId  = 3; // TODO!
-constexpr int kHandLeftId  = 4; // TODO!
+constexpr int kHandRightId = 2;
+constexpr int kHandGrabId  = 3;
+constexpr int kHandLeftId  = 4;
 constexpr int kArmLowId    = 6;
 constexpr int kArmHighId   = 7;
 

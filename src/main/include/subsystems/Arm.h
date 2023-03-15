@@ -56,7 +56,8 @@ class Arm : public frc2::SubsystemBase {
   CTREMagEncoder m_low_encoder;
   CTREMagEncoder m_high_encoder;
 
-  frc::DigitalInput m_test;
+  frc::DigitalInput m_outer_switch;
+  frc::DigitalInput m_inner_switch;
 
   int m_state = 1;
   int m_goal_state = -1;

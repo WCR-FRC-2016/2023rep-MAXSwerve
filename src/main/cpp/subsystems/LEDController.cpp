@@ -83,20 +83,25 @@ void LEDController::Cone() {
   for (int x=0; x<16; x++) {
     int maxy = 12-3*abs(x-8);
 
+    // Triangle of cone
     if (maxy>0) {
       for (int y=0; y<=maxy; y++) {
         SetRGB(x, y, 25, 7, 0);
       }
     }
 
+    // Cool stripes
     for (int y=std::max(0,maxy+1); y<16; y++) {
       double d = y-maxy;
       double s = sin((i/100.0-d/10.0)*2*std::numbers::pi);
       SetRGB(x, y, 6+6*s, 1+1*s, 0);
     }
 
-    for (int y=0; y<2; y++) {
-      SetRGB(x, y, 25, 7, 0);
+    // Base of cone
+    if (x>=2 && x<14) {
+      for (int y=0; y<2; y++) {
+        SetRGB(x, y, 25, 7, 0);
+      }
     }
   }
   Flush();

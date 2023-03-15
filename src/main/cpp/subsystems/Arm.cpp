@@ -37,7 +37,8 @@ Arm::Arm()
       m_arm_low_pid{kArmLowP, kArmLowI, kArmLowD},
       m_arm_high_pid{kArmHighP, kArmHighI, kArmHighD},
       m_low_encoder{kArmLowEncoderId},
-      m_high_encoder{kArmHighEncoderId} {
+      m_high_encoder{kArmHighEncoderId},
+      m_test{3} {
   // Factory reset, so we get the SPARKS MAX to a known state before configuring
   // them. This is useful in case a SPARK MAX is swapped out.
   m_hand_left.RestoreFactoryDefaults();
@@ -133,27 +134,21 @@ void Arm::TurnToAngles(units::degree_t low, units::degree_t high) {
   if (!m_arm_high_pid.AtSetpoint()) m_high_actuator.Drive(high_move);
 }
 
-void Arm::Collect() {
-  m_hand_right.Set(-1.0);
-  m_hand_left.Set(1.0);
-}
-void Arm::Spit() {
-  m_hand_right.Set(1.0);
-  m_hand_left.Set(-1.0);
-}
-void Arm::StopWheels() {
-  m_hand_right.Set(0.0);
-  m_hand_left.Set(0.0);
+// -1 drives closed
+//  1 drives open
+void Arm::DriveClaw(double dir) {
+  // TODO: Limit Switches
+  if (m_test.Get()) dir = 0.0;
+
+  Logger::Log(0b11111) << m_test.Get() << LoggerCommand::Flush;
+
+  m_hand_grab.Set(dir);
+  //m_hand_grab.Set(std::clamp(dir, -1.0, 1.0));
 }
 
-void Arm::DriveClawClosed() {
-  m_hand_grab.Set(-1);
-}
-void Arm::DriveClawOpen() {
-  m_hand_grab.Set(1);
-}
-void Arm::StopDriveClaw() {
-  m_hand_grab.Set(0.0);
+void Arm::DriveCollectWheels(double dir) {
+  m_hand_right.Set(-dir);
+  m_hand_left.Set(dir);
 }
 
 void Arm::Drive(double low, double high) {

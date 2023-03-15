@@ -6,6 +6,7 @@
 
 #include <frc2/command/SubsystemBase.h>
 #include <frc/controller/PIDController.h>
+#include <frc/DigitalInput.h>
 
 #include <units/angle.h>
 
@@ -35,13 +36,8 @@ class Arm : public frc2::SubsystemBase {
   double GetRawUpperAngle();
   double GetRawLowerAngle();
 
-  void Collect();
-  void Spit();
-  void StopWheels();
-  
-  void DriveClawClosed();
-  void DriveClawOpen();
-  void StopDriveClaw();
+  void DriveClaw(double dir);
+  void DriveCollectWheels(double dir);
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be
@@ -59,6 +55,8 @@ class Arm : public frc2::SubsystemBase {
 
   CTREMagEncoder m_low_encoder;
   CTREMagEncoder m_high_encoder;
+
+  frc::DigitalInput m_test;
 
   int m_state = 1;
   int m_goal_state = -1;

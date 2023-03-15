@@ -38,12 +38,13 @@ class LEDController : public frc2::SubsystemBase {
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
   
-  static constexpr int kLength = 512;
+  static constexpr int kLength = 256;
 
-  frc::AddressableLED m_led{5};
+  frc::AddressableLED m_led{0};
   std::array<frc::AddressableLED::LEDData, kLength> m_ledBuffer;  // Reuse the buffer
 
   int i = 0;
+  int j = 0;
   int y = 0;
   int state = 0;
 };

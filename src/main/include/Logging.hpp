@@ -29,6 +29,7 @@ class Logger
 {
 public:
     Logger &operator<<(const std::string &);
+    Logger &operator<<(const bool &);
     Logger &operator<<(const int &);
     Logger &operator<<(const float &);
     Logger &operator<<(const double &);

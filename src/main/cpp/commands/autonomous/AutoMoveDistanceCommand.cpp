@@ -19,11 +19,13 @@ void AutoMoveDistanceCommand::Initialize() {
 
         m_field_relative = getValueOrDefault<bool>(m_info.CommandData, "field-relative", false);
 
-        if (x_speed > DriveConstants::kMaxSpeed.value()) x_speed = DriveConstants::kMaxSpeed.value();
-        if (y_speed > DriveConstants::kMaxSpeed.value()) y_speed = DriveConstants::kMaxSpeed.value();
+        double max_speed = DriveConstants::kMaxSpeed.value();
 
-        m_speed_x = x_speed / DriveConstants::kMaxSpeed;
-        m_speed_y = y_speed / DriveConstants::kMaxSpeed;
+        if (x_speed > DriveConstants::kMaxSpeed.value()) x_speed = max_speed;
+        if (y_speed > DriveConstants::kMaxSpeed.value()) y_speed = max_speed;
+
+        m_speed_x = units::meters_per_second_t{x_speed / max_speed};
+        m_speed_y = units::meters_per_second_t{y_speed / max_speed};
 
         m_move_time_x = x_dist / x_speed;
         m_move_time_y = y_dist / y_speed;

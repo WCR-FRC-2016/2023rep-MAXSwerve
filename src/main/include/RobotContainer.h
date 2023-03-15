@@ -56,7 +56,6 @@ class RobotContainer {
 
   bool m_low_speed = true;
 
-  uint32_t m_selected_auto = 0;
   uint32_t m_auto_command_index = 0;
 
   // The chooser for the autonomous routines

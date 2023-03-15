@@ -58,6 +58,7 @@ RobotContainer::RobotContainer() : m_wrapper(m_drive, m_arm, m_limelight, m_leds
 
   m_arm.SetDefaultCommand(frc2::RunCommand(
       [this] {
+        // Arm
         if (m_arm.GetGoalState()==-2) {
             m_arm.Drive(
                 frc::ApplyDeadband(m_manipController.GetRightY(), IOConstants::kDriveDeadband),
@@ -67,6 +68,16 @@ RobotContainer::RobotContainer() : m_wrapper(m_drive, m_arm, m_limelight, m_leds
             Logger::Log(LogLevel::Dev) << "Arm lower angle: " << m_arm.GetLowerAngle() << "\n";
             Logger::Log(LogLevel::Dev) << "Arm upper angle: " << m_arm.GetUpperAngle() << "\n" << LoggerCommand::Flush;
         }
+
+        // Claw
+        auto close_pressed = m_manipController.GetLeftBumper() ?  1.0 : 0.0;
+        auto open_pressed =  m_manipController.GetRightBumper() ? 1.0 : 0.0;
+
+        auto spit = m_manipController.GetLeftTriggerAxis()  > 0.5 ? 1.0 : 0.0;
+        auto suck = m_manipController.GetRightTriggerAxis() > 0.5 ? 1.0 : 0.0;
+
+        m_arm.DriveClaw(open_pressed - close_pressed);
+        m_arm.DriveCollectWheels(suck - spit);
       },
       {&m_arm}));
 
@@ -168,28 +179,10 @@ void RobotContainer::ConfigureButtonBindings() {
   frc2::JoystickButton(&m_manipController, ControlConstants::PosZeroButton)
       .OnTrue(
           new frc2::InstantCommand([this] { m_arm.SetState(6); }, {&m_arm}));
-
-
-    frc2::JoystickButton(&m_manipController, ControlConstants::CloseClawButton)
-        .OnTrue(new frc2::InstantCommand([this] { m_arm.DriveClawClosed(); }, {&m_arm}))
-        .OnFalse(new frc2::InstantCommand([this] { m_arm.StopDriveClaw(); }, {&m_arm}));
-    
-    frc2::JoystickButton(&m_manipController, ControlConstants::OpenClawButton)
-        .OnTrue(new frc2::InstantCommand([this] { m_arm.DriveClawOpen();}, {&m_arm}))
-        .OnFalse(new frc2::InstantCommand([this] { m_arm.StopDriveClaw(); }, {&m_arm}));
-
-    frc2::Trigger([this] { return m_manipController.GetLeftTriggerAxis() > 0.5;})
-    .OnTrue(new frc2::InstantCommand([this] { m_arm.Spit(); }, {&m_arm}));
-
-    frc2::Trigger([this] { return m_manipController.GetRightTriggerAxis() > 0.5;})
-    .OnTrue(new frc2::InstantCommand([this] { m_arm.Collect(); }, {&m_arm}));
-
-    frc2::Trigger([this] { return m_manipController.GetLeftTriggerAxis() + m_manipController.GetRightTriggerAxis() < 0.25;})
-    .OnTrue(new frc2::InstantCommand([this] { m_arm.StopWheels(); }, {&m_arm}));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
-    auto selected_command = AutoConstants::kAutoSequences[m_selected_auto].Commands[m_auto_command_index];
+    auto selected_command = AutoConstants::kAutoSequences[AutoConstants::kSelectedAuto].Commands[m_auto_command_index];
     m_auto_command_index++;
 
     switch(selected_command.CommandType) {

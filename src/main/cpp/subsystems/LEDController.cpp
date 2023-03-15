@@ -26,6 +26,12 @@ void LEDController::Periodic() {
   
   i%=512;
   */
+  j++;
+  if (j>=150) {
+    j=0;
+    state++;
+    state%=3;
+  }
   switch (state) {
     case 0:
       Circles();
@@ -203,6 +209,7 @@ void LEDController::Flash(int i) {
 }
 
 int LEDController::pos(int x, int y) {
+  x/=2;
   int output = floor(x/2)*32;
   if (x%2==0) {
     output+=y;

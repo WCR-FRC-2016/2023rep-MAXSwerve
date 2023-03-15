@@ -61,7 +61,7 @@ namespace ControlConstants {
     constexpr int PosManualButton = frc::XboxController::Button::kBack;
     constexpr int PosZeroButton   = frc::XboxController::Button::kStart;
     constexpr int CloseClawButton = frc::XboxController::Button::kRightBumper;
-    constexpr int OpenClawButton = frc::XboxController::Button::kLeftBumper;
+    constexpr int OpenClawButton  = frc::XboxController::Button::kLeftBumper;
 
     // Debug Controller
     //constexpr int RightClaw = frc::XboxController::Button::kA;

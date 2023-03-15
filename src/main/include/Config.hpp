@@ -56,6 +56,7 @@ inline void loadConfig() {
         AutoConstants::kAlignRotationSpeed = json["align-rotation-speed"].get<double>();
 
         // Autonomous Routines
+        AutoConstants::kSelectedAuto = json["auto-command"].get<int32_t>();
         AutoConstants::kAutoSequences = interpretJsonSequences(json["autonomous-sequences"]);
 
         // Arm Constants
@@ -67,10 +68,9 @@ inline void loadConfig() {
         ArmConstants::kArmHighP = json["arm-high-p"].get<double>();
         ArmConstants::kArmHighI = json["arm-high-i"].get<double>();
         ArmConstants::kArmHighD = json["arm-high-d"].get<double>();
-        
-        AutoConstants::kSelectedAuto = json["auto-command"].get<int32_t>();
-        AutoConstants::kAutoSequences = interpretJsonSequences(json["autonomous-routines"]);
 
+        frc::SmartDashboard::PutNumber("Config/Selected Auto", AutoConstants::kSelectedAuto);
+        frc::SmartDashboard::PutNumber("Config/Auto Count", AutoConstants::kAutoSequences.size());
         frc::SmartDashboard::PutNumber("Config/Max Speed", DriveConstants::kMaxSpeed.value());
         frc::SmartDashboard::PutNumber("Config/Fast Speed", DriveConstants::kFastSpeed.value());
         frc::SmartDashboard::PutNumber("Config/Slow Speed", DriveConstants::kLowSpeed.value());

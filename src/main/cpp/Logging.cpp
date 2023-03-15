@@ -43,6 +43,14 @@ Logger &Logger::operator<<(const std::string &message)
     return *this;
 }
 
+Logger &Logger::operator<<(const bool &state) {
+    if (!checkLevel())
+        return *this;
+
+    wpi::outs() << (state ? "True" : "False");
+    return *this;
+}
+
 Logger &Logger::operator<<(const int &number)
 {
     if (!checkLevel())

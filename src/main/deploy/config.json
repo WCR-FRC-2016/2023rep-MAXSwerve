@@ -10,6 +10,39 @@
 
     "autonomous-routines": [
         {
+            "name": "Spit Test",
+            "commands": [
+                {
+                    "type": 3,
+                    "data": {
+                        "distance-x": -1.0,
+                        "distance-y": 0.0,
+                        "speed-x": 1.0,
+                        "speed-y": 0.0,
+                        "field-relative": false
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": {
+                        "arm-state": 2
+                    }
+                },
+                {
+                    "type": 2,
+                    "data": {
+                        "time": 2.0
+                    }
+                },
+                {
+                    "type": 4,
+                    "data": {
+                        "spin-direction": -1.0
+                    }
+                }
+            ]
+        },
+        {
             "name": "Move Distance Test",
             "commands": [
                 {
@@ -102,7 +135,7 @@
     "align-rotation-speed": 2.0,
     "time-inches-scale": 35,
     "auto-max-speed": 3.0,
-    "auto-command": 1,
+    "auto-command": 0,
     "auto-pcontroller-x": 0.5,
     "auto-pcontroller-y": 0.5,
     "auto-pcontroller-theta": 0.5,

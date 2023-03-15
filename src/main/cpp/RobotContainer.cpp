@@ -30,6 +30,8 @@
 #include "autonomous/commands/AutoTimedMoveCommand.hpp"
 #include "autonomous/commands/AutoArmMoveCommand.hpp"
 #include "autonomous/commands/AutoMoveDistanceCommand.hpp"
+#include "autonomous/commands/AutoClawWheelCommand.hpp"
+#include "autonomous/commands/AutoWaitArmStateCommand.hpp"
 #include "utils/JsonUtils.hpp"
 
 using namespace DriveConstants;
@@ -95,23 +97,6 @@ void RobotContainer::ConfigureButtonBindings() {
       .OnTrue(
           new frc2::InstantCommand([this] { m_relative ^= true; }, {&m_drive}));
 
-  // Toggle RateLimit
-  frc2::JoystickButton(&m_driverController, ControlConstants::RateLimitButton)
-      .OnTrue(new frc2::InstantCommand([this] { m_rate_limit ^= true; },
-                                       {&m_drive}));
-
-  // Log some information
-  frc2::JoystickButton(&m_driverController, ControlConstants::DebugPrintButton)
-      .OnTrue(new frc2::InstantCommand(
-          [this] {
-            Logger::Log(LogLevel::Dev)
-                << "Speed [" << m_drive.GetSpeed().value()
-                << " mps], Relative: [" << m_relative << "], RateLimit: ["
-                << m_rate_limit << "], Gyro Angle: ["
-                << m_drive.GetHeading().value() << "]" << LoggerCommand::Flush;
-          },
-          {&m_drive}));
-
   frc2::JoystickButton(&m_driverController, ControlConstants::AlignATButton)
       .WhileTrue(new AutoAlignCommand(m_drive, m_limelight));
       
@@ -132,15 +117,6 @@ void RobotContainer::ConfigureButtonBindings() {
             else
               m_drive.SetSpeed(DriveConstants::kLowSpeed);
             m_low_speed ^= true;
-          },
-          {&m_drive}));
-
-  frc2::JoystickButton(&m_driverController, ControlConstants::PosButton)
-      .OnTrue(new frc2::InstantCommand(
-          [this] {
-            Logger::Log(LogLevel::Dev)
-                << "Position: " << m_drive.GetPose().Translation()
-                << LoggerCommand::Flush;
           },
           {&m_drive}));
 
@@ -194,6 +170,10 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
             return new frc2::InstantCommand([this, selected_command] { frc::Wait(units::second_t{getValueOrDefault<double>(selected_command.CommandData, "time", 0.0)}); }, {});
         case 3:
             return new AutoMoveDistanceCommand(m_wrapper, selected_command);
+        case 4:
+            return new AutoClawWheelCommand(m_wrapper, selected_command);
+        case 5:
+            return new AutoWaitArmStateCommand(m_wrapper, selected_command);
         default:
             return new frc2::InstantCommand([this, selected_command]() { Logger::Log(LogLevel::Dev) << "Command: [" << std::to_string(selected_command.CommandType) << "] not implemented!!!" << LoggerCommand::Flush; }, {});
     }

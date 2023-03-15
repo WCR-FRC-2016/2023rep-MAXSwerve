@@ -146,6 +146,8 @@ void Arm::DriveClaw(double dir) {
   //m_hand_grab.Set(std::clamp(dir, -1.0, 1.0));
 }
 
+//  1 Sucks in
+// -1 Spits out
 void Arm::DriveCollectWheels(double dir) {
   m_hand_right.Set(-dir);
   m_hand_left.Set(dir);

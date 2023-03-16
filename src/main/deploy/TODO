@@ -5,6 +5,8 @@ Todo's that aren't in code
  . Make auto commands selectable in the dashboard               [ ]
  . Make autonomous read from AutoRoutines.json                  [ ]
 
+ . AutoMoveDistanceCommand rotation incorrect (fix it) [ ]
+
  . Add/Update Commands [ ]:
     // Drive
     : AutoMoveTimedCommand    [0] [x]

@@ -83,8 +83,8 @@ RobotContainer::RobotContainer() : m_wrapper(m_drive, m_arm, m_limelight, m_leds
         auto close_pressed = m_manipController.GetLeftBumper() ?  1.0 : 0.0;
         auto open_pressed =  m_manipController.GetRightBumper() ? 1.0 : 0.0;
 
-        auto spit = m_manipController.GetLeftTriggerAxis()  > 0.5 ? 1.0 : 0.0;
-        auto suck = m_manipController.GetRightTriggerAxis() > 0.5 ? 1.0 : 0.0;
+        auto spit = m_manipController.GetRightTriggerAxis()  > 0.5 ? 1.0 : 0.0;
+        auto suck = m_manipController.GetLeftTriggerAxis() > 0.5 ? 1.0 : 0.0;
 
         m_arm.DriveClaw(open_pressed - close_pressed);
         m_arm.DriveCollectWheels(suck - spit);
@@ -146,9 +146,9 @@ void RobotContainer::ConfigureButtonBindings() {
       .OnTrue(
           new frc2::InstantCommand([this] { m_arm.SetState(2); }, {&m_arm}));
 
-  //frc2::JoystickButton(&m_manipController, ControlConstants::PosHighButton)
-  //    .OnTrue(
-  //        new frc2::InstantCommand([this] { m_arm.SetState(3); }, {&m_arm}));
+  frc2::JoystickButton(&m_manipController, ControlConstants::PosHighButton)
+      .OnTrue(
+          new frc2::InstantCommand([this] { m_arm.SetState(3); }, {&m_arm}));
 
   frc2::JoystickButton(&m_manipController, ControlConstants::PosSubButton)
       .OnTrue(
@@ -194,6 +194,8 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
             return new AutoMoveDistanceCommand(m_wrapper, selected_command);
         case 22:
             return new AutoSetClawCollectStateCommand(m_wrapper, selected_command);
+        case 30:
+            return new AutoTimedWaitCommand(m_wrapper, selected_command);
         default:
             return new frc2::InstantCommand([this, selected_command]() { Logger::Log(LogLevel::Autonomous) << "Command: [" << std::to_string(selected_command.CommandType) << "] not implemented!!!" << LoggerCommand::Flush; }, {});
     }

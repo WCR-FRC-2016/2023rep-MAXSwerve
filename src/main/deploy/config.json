@@ -27,6 +27,41 @@
                     }
                 }
             ]
+        },
+        {
+            "name": "Arm Test",
+            "commands": [
+                {
+                    "type": 22,
+                    "data": {
+                        "claw-state": -1
+                    }
+                },
+                {
+                    "type": 30,
+                    "data": {
+                        "time": 2.0
+                    }
+                },
+                {
+                    "type": 22,
+                    "data": {
+                        "claw-state": -1
+                    }
+                },
+                {
+                    "type": 30,
+                    "data": {
+                        "time": 2.0
+                    }
+                },
+                {
+                    "type": 22,
+                    "data": {
+                        "claw-state": 0
+                    }
+                }
+            ]
         }
     ],
 

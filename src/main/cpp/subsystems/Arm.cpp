@@ -150,6 +150,8 @@ void Arm::SetCollectState(int32_t state) { m_collect_state = state; }
 // -1 drives closed
 //  1 drives open
 void Arm::DriveClaw(double dir) {
+  Logger::Log(LogLevel::All) << "Outer: " << m_outer_switch.Get() << ", Inn er: " << m_inner_switch.Get() << LoggerCommand::Flush;
+
   // TODO: Fix Limit Switches
   if (m_outer_switch.Get()) {
     Logger::Log(LogLevel::Dev) << "Outer Switch Active!" << LoggerCommand::Flush;

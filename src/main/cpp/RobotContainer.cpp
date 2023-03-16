@@ -128,9 +128,16 @@ void RobotContainer::ConfigureButtonBindings() {
   
   frc2::Trigger([this] {return m_driverController.GetLeftTriggerAxis() > 0.5;})
       .OnTrue(new frc2::ConditionalCommand(
-        new MoveOverCommand(m_drive, DriveConstants::kMoveOverTime),
-        new MoveOverCommand(m_drive, DriveConstants::kMoveOverSubTime),
-        [this] {return true;}
+        MoveOverCommand(m_drive, -DriveConstants::kMoveOverSubTime),
+        MoveOverCommand(m_drive, -DriveConstants::kMoveOverTime),
+        [this] {return m_limelight.IsSubstation();}
+      ));
+  
+  frc2::Trigger([this] {return m_driverController.GetRightTriggerAxis() > 0.5;})
+      .OnTrue(new frc2::ConditionalCommand(
+        MoveOverCommand(m_drive, DriveConstants::kMoveOverSubTime),
+        MoveOverCommand(m_drive, DriveConstants::kMoveOverTime),
+        [this] {return m_limelight.IsSubstation();}
       ));
 
   // Map this to potentially reset just the rotation and not the position???

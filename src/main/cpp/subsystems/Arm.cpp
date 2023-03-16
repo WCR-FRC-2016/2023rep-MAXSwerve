@@ -39,7 +39,7 @@ Arm::Arm()
       m_low_encoder{kArmLowEncoderId},
       m_high_encoder{kArmHighEncoderId},
       m_outer_switch{3},
-      m_inner_switch{4} {
+      m_inner_switch{2} {
   // Factory reset, so we get the SPARKS MAX to a known state before configuring
   // them. This is useful in case a SPARK MAX is swapped out.
   m_hand_left.RestoreFactoryDefaults();
@@ -150,8 +150,11 @@ void Arm::SetCollectState(int32_t state) { m_collect_state = state; }
 // -1 drives closed
 //  1 drives open
 void Arm::DriveClaw(double dir) {
+  //Logger::Log(LogLevel::All) << "Outer: " << m_outer_switch.Get() << ", Inner: " << m_inner_switch.Get() << LoggerCommand::Flush;
+
   // TODO: Fix Limit Switches
   if (m_outer_switch.Get()) {
+    Logger::Log(LogLevel::Dev) << "Outer Switch Active!" << LoggerCommand::Flush;
     if (dir == 1) dir = 0.0;
 
     m_claw_state = 0;
@@ -159,6 +162,7 @@ void Arm::DriveClaw(double dir) {
   }
 
   if (m_inner_switch.Get()) {
+    Logger::Log(LogLevel::Dev) << "Inner Switch Active!" << LoggerCommand::Flush;
     if (dir == -1) dir = 0.0;
 
     m_claw_state = 0;

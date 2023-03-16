@@ -32,9 +32,15 @@ void AutoMoveDistanceCommand::Initialize() {
         m_speed_y = units::meters_per_second_t{y_speed};
         m_speed_rot = units::radians_per_second_t{(rot_speed_double * M_PI) / 180.0};
 
+        Logger::Log(LogLevel::Dev) << x_speed << " " << y_speed << " " << rot_speed_double << LoggerCommand::Flush;
+        //Logger::Log(LogLevel::Dev) << 
+
         m_move_time_x = x_dist / x_speed;
         m_move_time_y = y_dist / y_speed;
         m_rot_time    = rot_dist / rot_speed_double;
+
+        Logger::Log(LogLevel::Dev) << "Speed-x: " << m_speed_x << ", Speed-y: " << m_speed_y << ", Speed-rot" << m_speed_rot << LoggerCommand::Flush; 
+        Logger::Log(LogLevel::Dev) << "Time-x: " << m_move_time_x << ", Time-y: " << m_move_time_y << ", Time-rot" << m_rot_time << LoggerCommand::Flush; 
     } catch (...) {
         Logger::Log(LogLevel::Autonomous) << "Failed to initialize AutoMoveDistanceCommand" << LoggerCommand::Flush;
     }

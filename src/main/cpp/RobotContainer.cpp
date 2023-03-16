@@ -31,9 +31,19 @@
 #include "subsystems/DriveSubsystem.h"
 #include "utils/JsonUtils.hpp"
 
+#include "autonomous/commands/arm/AutoArmMoveCommand.hpp"
+#include "autonomous/commands/arm/AutoClawHitLimitSwitchCommand.hpp"
+#include "autonomous/commands/arm/AutoSetClawCollectStateCommand.hpp"
+#include "autonomous/commands/arm/AutoWaitArmStateCommand.hpp"
 #include "autonomous/commands/arm/AutoWaitLimitSwitchCommand.hpp"
+
+#include "autonomous/commands/drive/AutoMoveDistanceCommand.hpp"
+#include "autonomous/commands/drive/AutoMoveTimedCommand.hpp"
+
 #include "autonomous/commands/utility/AutoResetOdometryCommand.hpp"
 #include "autonomous/commands/utility/AutoTimedWaitCommand.hpp"
+
+
 
 using namespace DriveConstants;
 
@@ -78,10 +88,16 @@ RobotContainer::RobotContainer() : m_wrapper(m_drive, m_arm, m_limelight, m_leds
 
         m_arm.DriveClaw(open_pressed - close_pressed);
         m_arm.DriveCollectWheels(suck - spit);
+
+        //PrintDebugStuff();
       },
       {&m_arm}));
 
   m_limelight.Deactivate();
+}
+
+void RobotContainer::PrintDebugStuff() {
+    Logger::Log(LogLevel::All) << "Encoder 4 state: " << TestEncoder.Get() << LoggerCommand::Flush;
 }
 
 void RobotContainer::ConfigureButtonBindings() {
@@ -137,9 +153,9 @@ void RobotContainer::ConfigureButtonBindings() {
       .OnTrue(
           new frc2::InstantCommand([this] { m_arm.SetState(2); }, {&m_arm}));
 
-  frc2::JoystickButton(&m_manipController, ControlConstants::PosHighButton)
-      .OnTrue(
-          new frc2::InstantCommand([this] { m_arm.SetState(3); }, {&m_arm}));
+  //frc2::JoystickButton(&m_manipController, ControlConstants::PosHighButton)
+  //    .OnTrue(
+  //        new frc2::InstantCommand([this] { m_arm.SetState(3); }, {&m_arm}));
 
   frc2::JoystickButton(&m_manipController, ControlConstants::PosSubButton)
       .OnTrue(
@@ -161,14 +177,30 @@ void RobotContainer::ConfigureButtonBindings() {
         m_leds.SetState(2); 
         Logger::Log(LogLevel::All) << " CUBE LEDS ENABLED" << LoggerCommand::Flush;
     }, {&m_leds}));
+    frc2::POVButton(&m_manipController, 90, 0).OnTrue(new frc2::InstantCommand([this] { 
+        m_leds.SetState(0); 
+        Logger::Log(LogLevel::All) << " Hypno LEDS ENABLED" << LoggerCommand::Flush;
+    }, {&m_leds}));
+    frc2::POVButton(&m_manipController, 270, 0).OnTrue(new frc2::InstantCommand([this] { 
+        m_leds.SetState(0); 
+        Logger::Log(LogLevel::All) << " Hypno LEDS ENABLED" << LoggerCommand::Flush;
+    }, {&m_leds}));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
     auto selected_command = AutoConstants::kAutoSequences[AutoConstants::kSelectedAuto].Commands[m_auto_command_index];
     m_auto_command_index++;
 
+    Logger::Log(LogLevel::Dev) << "Getting Command: " << std::to_string(selected_command.CommandType) << LoggerCommand::Flush;
+
     // TODO: Update these
     switch(selected_command.CommandType) {
+        case 0:
+            return new AutoMoveTimedCommand(m_wrapper, selected_command);
+        case 1:
+            return new AutoMoveDistanceCommand(m_wrapper, selected_command);
+        case 22:
+            return new AutoSetClawCollectStateCommand(m_wrapper, selected_command);
         default:
             return new frc2::InstantCommand([this, selected_command]() { Logger::Log(LogLevel::Autonomous) << "Command: [" << std::to_string(selected_command.CommandType) << "] not implemented!!!" << LoggerCommand::Flush; }, {});
     }

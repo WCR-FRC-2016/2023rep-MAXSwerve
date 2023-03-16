@@ -1,13 +1,13 @@
 {
     "log-levels": {
         "none": false,
-        "all": true,
-        "info": false,
-        "utility": false,
-        "important": false,
-        "error": false,
-        "autonomous": false,
-        "dev": false
+        "all": false,
+        "info": true,
+        "utility": true,
+        "important": true,
+        "error": true,
+        "autonomous": true,
+        "dev": true
     },
 
     "autonomous-routines": [
@@ -15,13 +15,13 @@
             "name": "Move Forward",
             "commands": [
                 {
-                    "type": 0,
+                    "type": 1,
                     "data": {
-                        "time-x": 1.0,
+                        "distance-x": 1.0,
                         "speed-x": 1.0,
-                        "time-y": 0.0,
+                        "distance-y": 0.0,
                         "speed-y": 0.0,
-                        "time-rot": 0.0,
+                        "distance-rot": 0.0,
                         "speed-rot": 0.0,
                         "field-relative": false
                     }

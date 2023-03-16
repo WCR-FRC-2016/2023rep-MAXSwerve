@@ -271,4 +271,5 @@ constexpr int kDriverControllerPort = 0;
 constexpr int kManipControllerPort = 1;
 constexpr int kDebugControllerPort = 2;
 constexpr double kDriveDeadband = 0.15;
+constexpr double kLEDBrightness = 0.2;
 }  // namespace IOConstants

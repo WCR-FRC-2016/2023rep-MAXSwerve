@@ -70,7 +70,7 @@ void LEDController::Circles() {
   for (int x=0; x<16; x++) {
     for (int y=0; y<16; y++) {
       double d = sqrt((x-8)*(x-8) + (y-8)*(y-8));
-      SetRGB(x,y, 10+10*sin((i/200.0+d/10.0)*2*std::numbers::pi), 0, 0);
+      SetRGB(x,y, 100+100*sin((i/200.0+d/10.0)*2*std::numbers::pi), 0, 0);
     }
   }
   Flush();
@@ -86,7 +86,7 @@ void LEDController::Cone() {
     // Triangle of cone
     if (maxy>0) {
       for (int y=0; y<=maxy; y++) {
-        SetRGB(x, y, 25, 7, 0);
+        SetRGB(x, y, 255, 70, 0);
       }
     }
 
@@ -94,13 +94,13 @@ void LEDController::Cone() {
     for (int y=std::max(0,maxy+1); y<16; y++) {
       double d = y-maxy;
       double s = sin((i/100.0-d/10.0)*2*std::numbers::pi);
-      SetRGB(x, y, 6+6*s, 1+1*s, 0);
+      SetRGB(x, y, 60+60*s, 10+10*s, 0);
     }
 
     // Base of cone
     if (x>=2 && x<14) {
       for (int y=0; y<2; y++) {
-        SetRGB(x, y, 25, 7, 0);
+        SetRGB(x, y, 255, 70, 0);
       }
     }
   }
@@ -120,7 +120,7 @@ void LEDController::Cube() {
     }
 
     for (int x=minx; x<=maxx; x++) {
-      SetRGB(x, y, 11, 0, 25);
+      SetRGB(x, y, 110, 0, 255);
     }
   }
   Flush();
@@ -134,7 +134,7 @@ void LEDController::Cube2() {
         double a = atan2(y-8,x-8);
         double s = sin((i/75.0-a/std::numbers::pi)*2*std::numbers::pi);
         double s2 = sin((i/75.0-a/std::numbers::pi)*std::numbers::pi + std::numbers::pi/4);
-        SetRGB(x, y, 6*pow(s2,10), 0, 5+5*s);
+        SetRGB(x, y, 60*pow(s2,10), 0, 50+50*s);
       }
     }
   }
@@ -142,7 +142,7 @@ void LEDController::Cube2() {
   for (int y = 4; y<12; y++) {
     for (int x = 4; x<12; x++) {
       if (((x-8.5)*(x-8.5)+(y-8.5)*(y- 8.5))<20)
-        SetRGB(x, y, 11, 0, 25);
+        SetRGB(x, y, 110, 0, 255);
     }
   }
 
@@ -201,7 +201,7 @@ int LEDController::pos(int x, int y) {
 
 void LEDController::SetRGB(int index, int r, int g, int b) {
   double i = index%kLength;
-  m_ledBuffer[i<0?i+kLength:i].SetRGB(r, g, b);
+  m_ledBuffer[i<0?i+kLength:i].SetRGB(r*bright, g*bright, b*bright);
 }
 
 void LEDController::SetRGB(int x, int y, int r, int g, int b) {
@@ -214,7 +214,7 @@ void LEDController::SetHSV(int index, int h, int s, int v) {
 }
 
 void LEDController::SetHSV(int x, int y, int h, int s, int v) {
-  SetHSV(pos(x, y), h, s, v);
+  SetHSV(pos(x, y), h, s, v*bright);
 }
 
 void LEDController::Flush() {

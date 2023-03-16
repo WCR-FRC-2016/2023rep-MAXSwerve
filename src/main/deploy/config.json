@@ -17,7 +17,7 @@
                 {
                     "type": 1,
                     "data": {
-                        "distance-x": 3.0,
+                        "distance-x": -3.0,
                         "speed-x": 1.0,
                         "distance-y": 0.0,
                         "speed-y": 0.0,

@@ -125,6 +125,13 @@ void RobotContainer::ConfigureButtonBindings() {
             m_low_speed ^= true;
           },
           {&m_drive}));
+  
+  frc2::Trigger([this] {return m_driverController.GetLeftTriggerAxis() > 0.5;})
+      .OnTrue(new frc2::ConditionalCommand(
+        new MoveOverCommand(m_drive, DriveConstants::kMoveOverTime),
+        new MoveOverCommand(m_drive, DriveConstants::kMoveOverSubTime),
+        [this] {return true;}
+      ));
 
   // Map this to potentially reset just the rotation and not the position???
   frc2::JoystickButton(&m_driverController,

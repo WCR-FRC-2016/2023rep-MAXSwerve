@@ -141,7 +141,7 @@ void LEDController::Cube2() {
 
   for (int y = 4; y<12; y++) {
     for (int x = 4; x<12; x++) {
-      if (((x-8)*(x-8)+(y-8)*(y-8))<25)
+      if (((x-8.5)*(x-8.5)+(y-8.5)*(y- 8.5))<20)
         SetRGB(x, y, 11, 0, 25);
     }
   }

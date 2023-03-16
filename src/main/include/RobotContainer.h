@@ -40,6 +40,8 @@ class RobotContainer {
   void ResetArmState();
   void ResetAutoCommandCount();
 
+  void PrintDebugStuff();
+
  private:
   // The driver's controller
   frc::XboxController m_driverController{IOConstants::kDriverControllerPort};
@@ -56,6 +58,8 @@ class RobotContainer {
   AutoSubsystemWrapper m_wrapper; // uhh, I can explain...
   bool m_relative = true;
   bool m_rate_limit = true;
+
+  frc::DigitalInput TestEncoder{4};
 
   bool m_low_speed = true;
 

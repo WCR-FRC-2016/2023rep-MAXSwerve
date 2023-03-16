@@ -78,10 +78,16 @@ RobotContainer::RobotContainer() : m_wrapper(m_drive, m_arm, m_limelight, m_leds
 
         m_arm.DriveClaw(open_pressed - close_pressed);
         m_arm.DriveCollectWheels(suck - spit);
+
+        PrintDebugStuff();
       },
       {&m_arm}));
 
   m_limelight.Deactivate();
+}
+
+void RobotContainer::PrintDebugStuff() {
+    Logger::Log(LogLevel::All) << "Encoder 4 state: " << TestEncoder.Get() << LoggerCommand::Flush;
 }
 
 void RobotContainer::ConfigureButtonBindings() {
@@ -153,6 +159,14 @@ void RobotContainer::ConfigureButtonBindings() {
     frc2::POVButton(&m_manipController, 180, 0).OnTrue(new frc2::InstantCommand([this] { 
         m_leds.SetState(2); 
         Logger::Log(LogLevel::All) << " CUBE LEDS ENABLED" << LoggerCommand::Flush;
+    }, {&m_leds}));
+    frc2::POVButton(&m_manipController, 90, 0).OnTrue(new frc2::InstantCommand([this] { 
+        m_leds.SetState(0); 
+        Logger::Log(LogLevel::All) << " Hypno LEDS ENABLED" << LoggerCommand::Flush;
+    }, {&m_leds}));
+    frc2::POVButton(&m_manipController, 270, 0).OnTrue(new frc2::InstantCommand([this] { 
+        m_leds.SetState(0); 
+        Logger::Log(LogLevel::All) << " Hypno LEDS ENABLED" << LoggerCommand::Flush;
     }, {&m_leds}));
 }
 

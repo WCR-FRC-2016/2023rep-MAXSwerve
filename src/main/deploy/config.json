@@ -85,6 +85,7 @@
     "arm-high-p": 0.005,
     "arm-high-i": 0,
     "arm-high-d": 0,
+    "claw-move-time": 800,
 
     "default-slow": false
 }

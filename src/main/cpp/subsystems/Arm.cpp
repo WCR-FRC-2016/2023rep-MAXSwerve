@@ -38,8 +38,8 @@ Arm::Arm()
       m_arm_high_pid{kArmHighP, kArmHighI, kArmHighD},
       m_low_encoder{kArmLowEncoderId},
       m_high_encoder{kArmHighEncoderId},
-      m_outer_switch{3},
-      m_inner_switch{2} {
+      m_outer_switch{0},
+      m_inner_switch{1} {
   // Factory reset, so we get the SPARKS MAX to a known state before configuring
   // them. This is useful in case a SPARK MAX is swapped out.
   m_hand_left.RestoreFactoryDefaults();
@@ -136,14 +136,14 @@ void Arm::TurnToAngles(units::degree_t low, units::degree_t high) {
   if (!m_arm_high_pid.AtSetpoint()) m_high_actuator.Drive(high_move);
 
   if (m_use_collect_state) DriveCollectWheels(m_collect_state);
-  if (m_use_claw_state) DriveClaw(m_claw_state);
+  //if (m_use_claw_state) DriveClaw(m_claw_state);
 }
 
 bool Arm::GetOuterLimitSwitchState() { return m_outer_switch.Get(); }
 bool Arm::GetInnerLimitSwitchState() { return m_inner_switch.Get(); }
 
-void Arm::SetClawState(int32_t state)    { m_claw_state = state; }
-void Arm::SetClawUseState(bool state)    { m_use_claw_state = state; }
+//void Arm::SetClawState(int32_t state)    { m_claw_state = state; }
+//void Arm::SetClawUseState(bool state)    { m_use_claw_state = state; }
 void Arm::SetCollectUseState(bool state) { m_use_collect_state = state; }
 void Arm::SetCollectState(int32_t state) { m_collect_state = state; }
 
@@ -153,6 +153,7 @@ void Arm::DriveClaw(double dir) {
   //Logger::Log(LogLevel::All) << "Outer: " << m_outer_switch.Get() << ", Inner: " << m_inner_switch.Get() << LoggerCommand::Flush;
 
   // TODO: Fix Limit Switches
+  /*
    if (m_outer_switch.Get()) {
      Logger::Log(LogLevel::Dev) << "Outer Switch Active!" << LoggerCommand::Flush;
      if (dir == 1) dir = 0.0;
@@ -171,10 +172,18 @@ void Arm::DriveClaw(double dir) {
 
   // Verify we aren't using claw state when its 0
   if (m_use_claw_state && m_claw_state == 0) 
-    m_use_claw_state = false; 
+    m_use_claw_state = false;
+  */
+  
+  if (dir<0 && m_current_pos>=ArmConstants::kClawMoveTime) return;
+  if (dir>0 && m_current_pos<=0) return;
 
   m_hand_grab.Set(dir);
+  
+  m_current_pos -= dir*20;
 }
+
+int Arm::GetClawPos() { return m_current_pos; }
 
 //  1 Sucks in
 // -1 Spits out

@@ -39,10 +39,12 @@ class Arm : public frc2::SubsystemBase {
   bool GetOuterLimitSwitchState();
   bool GetInnerLimitSwitchState();
 
+  int GetClawPos();
   void SetCollectUseState(bool state);
   void SetCollectState(int32_t state);
-  void SetClawUseState(bool state);
-  void SetClawState(int32_t state);
+  //void SetClawUseState(bool state);
+  //void SetClawState(int32_t state);
+
   void DriveClaw(double dir);
   void DriveCollectWheels(double dir);
 
@@ -75,6 +77,9 @@ class Arm : public frc2::SubsystemBase {
   bool m_use_collect_state = false;
   int m_collect_state = 0;
 
-  bool m_use_claw_state = false;
-  int m_claw_state = 0;
+  //bool m_use_claw_state = false;
+  // Cube = 0, Cone = 1
+
+  // Warning: direction inverted from DriveClaw.
+  int m_current_pos = 0;
 };

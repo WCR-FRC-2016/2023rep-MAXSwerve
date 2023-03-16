@@ -71,6 +71,7 @@ inline void loadConfig() {
         ArmConstants::kArmHighP = json["arm-high-p"].get<double>();
         ArmConstants::kArmHighI = json["arm-high-i"].get<double>();
         ArmConstants::kArmHighD = json["arm-high-d"].get<double>();
+        ArmConstants::kClawMoveTime = json["claw-move-time"].get<double>();
 
         // Other Stuff
 

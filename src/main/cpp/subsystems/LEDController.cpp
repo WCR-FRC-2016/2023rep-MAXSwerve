@@ -194,13 +194,13 @@ void LEDController::Flash(int i) {
 
 void LEDController::DrawWord() {
   Clear();
-  for (int k=0; k<strlen(word.c_str()); k++) {
-    DrawLetter(word[k], 4*k+16-i, 6);
+  for (int k=0; k<(int) strlen(word.c_str()); k++) {
+    DrawLetter(word[k], 4*k+16-floor(i/4), 6);
   }
   Flush();
 
   i++;
-  i%=4*strlen(word.c_str())+16;
+  i%=(4*strlen(word.c_str())+16)*4;
 }
 
 void LEDController::DrawLetter(char c, int x, int y) {
@@ -289,6 +289,7 @@ void LEDController::DrawLetter(char c, int x, int y) {
 }
 
 int LEDController::pos(int x, int y) {
+  if (x<0 || y<0 || x>=16 || y>=16) return -1;
   int output = floor(x/2)*32;
   if (x%2==0) {
     output+=y;
@@ -299,7 +300,8 @@ int LEDController::pos(int x, int y) {
 }
 
 void LEDController::SetRGB(int index, int r, int g, int b) {
-  double i = index%kLength;
+  if (index<0 || index>=kLength) return;
+  double i = index%kLength; // TODO: clean up (not necessary now we have line above)
   m_ledBuffer[i<0?i+kLength:i].SetRGB(r*bright, g*bright, b*bright);
 }
 
@@ -308,12 +310,13 @@ void LEDController::SetRGB(int x, int y, int r, int g, int b) {
 }
 
 void LEDController::SetHSV(int index, int h, int s, int v) {
+  if (index<0 || index>=kLength) return;
   double i = index%kLength;
-  m_ledBuffer[i<0?i+kLength:i].SetHSV(h, s, v);
+  m_ledBuffer[i<0?i+kLength:i].SetHSV(h, s, v*bright);
 }
 
 void LEDController::SetHSV(int x, int y, int h, int s, int v) {
-  SetHSV(pos(x, y), h, s, v*bright);
+  SetHSV(pos(x, y), h, s, v);
 }
 
 void LEDController::Flush() {

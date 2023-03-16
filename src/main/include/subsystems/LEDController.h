@@ -46,5 +46,5 @@ class LEDController : public frc2::SubsystemBase {
   int i = 0;
   //int j = 0;
   int y = 0;
-  int state = 1;
+  int state = 0;
 };

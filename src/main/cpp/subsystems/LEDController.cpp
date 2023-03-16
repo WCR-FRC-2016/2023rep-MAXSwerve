@@ -34,7 +34,7 @@ void LEDController::Periodic() {
     state++;
     state%=3;
   }
-  */
+  //*/
 
   switch (state) {
     case 0:
@@ -130,7 +130,7 @@ void LEDController::Cube2() {
   Clear();
   for (int x = 0; x<16; x++) {
     for (int y = 0; y<16; y++) {
-      if (x<2 || x>13 || y<2 || y>13) {
+      if (x<3 || x>12 || y<3 || y>12) {
         double a = atan2(y-8,x-8);
         double s = sin((i/75.0-a/std::numbers::pi)*2*std::numbers::pi);
         double s2 = sin((i/75.0-a/std::numbers::pi)*std::numbers::pi + std::numbers::pi/4);
@@ -141,7 +141,7 @@ void LEDController::Cube2() {
 
   for (int y = 4; y<12; y++) {
     for (int x = 4; x<12; x++) {
-      if (((x-8)*(x-8)+(y-8)*(y-8))<100)
+      if (((x-8)*(x-8)+(y-8)*(y-8))<25)
         SetRGB(x, y, 11, 0, 25);
     }
   }

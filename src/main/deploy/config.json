@@ -17,7 +17,7 @@
                 {
                     "type": 1,
                     "data": {
-                        "distance-x": 1.0,
+                        "distance-x": 3.0,
                         "speed-x": 1.0,
                         "distance-y": 0.0,
                         "speed-y": 0.0,
@@ -66,8 +66,8 @@
     ],
 
     "drive-max-speed": 3,
-    "fast-speed": 1.5,
-    "slow-speed": 1.0,
+    "fast-speed": 2.0,
+    "slow-speed": 1.5,
     "align-speed": 1.0,
     "align-rotation-speed": 2.0,
     "move-over-time": 600,

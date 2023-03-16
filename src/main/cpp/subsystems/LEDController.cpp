@@ -213,6 +213,35 @@ void LEDController::DrawLetter(char c, int x, int y) {
       SetRGB(x+1,y,   0, 0, 255);
       SetRGB(x+1,y+2, 0, 0, 255);
       break;
+    case 'B':
+      for (int y2=y;y2<y+5;y2++) {
+        SetRGB(x,y2, 0, 0, 255);
+      }
+      SetRGB(x+1,y,   0, 0, 255);
+      SetRGB(x+2,y+1, 0, 0, 255);
+      SetRGB(x+1,y+2, 0, 0, 255);
+      SetRGB(x+2,y+3, 0, 0, 255);
+      SetRGB(x+1,y+4, 0, 0, 255);
+      break;
+    case 'C':
+      for (int y2=y+1;y2<y+4;y2++) {
+        SetRGB(x,y2, 0, 0, 255);
+      }
+      for (int x2=x+1;x2<x+3;x2++) {
+        SetRGB(x2,y,   0, 0, 255);
+        SetRGB(x2,y+4, 0, 0, 255);
+      }
+      break;
+    case 'D':
+      for (int y2=y;y2<y+5;y2++) {
+        SetRGB(x,y2, 0, 0, 255);
+      }
+      SetRGB(x+1,y,   0, 0, 255);
+      SetRGB(x+2,y+1, 0, 0, 255);
+      SetRGB(x+2,y+2, 0, 0, 255);
+      SetRGB(x+2,y+3, 0, 0, 255);
+      SetRGB(x+1,y+4, 0, 0, 255);
+      break;
     case 'E':
       for (int y2=y;y2<y+5;y2++) {
         SetRGB(x,y2, 0, 0, 255);
@@ -223,12 +252,63 @@ void LEDController::DrawLetter(char c, int x, int y) {
       SetRGB(x+1,y+4, 0, 0, 255);
       SetRGB(x+2,y+4, 0, 0, 255);
       break;
+    case 'F':
+      for (int y2=y;y2<y+5;y2++) {
+        SetRGB(x,y2, 0, 0, 255);
+      }
+      SetRGB(x+1,y,   0, 0, 255);
+      SetRGB(x+2,y,   0, 0, 255);
+      SetRGB(x+1,y+2, 0, 0, 255);
+      break;
+    case 'G':
+      for (int y2=y+1;y2<y+4;y2++) {
+        SetRGB(x,y2, 0, 0, 255);
+      }
+      for (int x2=x+1;x2<x+3;x2++) {
+        SetRGB(x2,y,   0, 0, 255);
+        SetRGB(x2,y+4, 0, 0, 255);
+      }
+      SetRGB(x+2,y+3, 0, 0, 255);
+      SetRGB(x+2,y+2, 0, 0, 255);
+      break;
     case 'H':
       for (int y2=y;y2<y+5;y2++) {
         SetRGB(x,y2, 0, 0, 255);
         SetRGB(x+2,y2, 0, 0, 255);
       }
       SetRGB(x+1,y+2, 0, 0, 255);
+      break;
+    case 'I':
+      SetRGB(x,y,     0, 0, 255);
+      SetRGB(x+2,y,   0, 0, 255);
+      SetRGB(x,y+4,   0, 0, 255);
+      SetRGB(x+2,y+4, 0, 0, 255);
+      for (int y2=y;y2<y+5;y2++) {
+        SetRGB(x+1,y2, 0, 0, 255);
+      }
+      break;
+    case 'J':
+      for (int y2=y+1;y2<y+4;y2++) {
+        SetRGB(x,y2, 0, 0, 255);
+      }
+      for (int y2=y;y2<y+5;y2++) {
+        SetRGB(x+2,y2, 0, 0, 255);
+      }
+      SetRGB(x+1,y+4, 0, 0, 255);
+      break;
+    case 'K':
+      for (int y2=y;y2<y+5;y2++) {
+        SetRGB(x,y2, 0, 0, 255);
+        if (y2!=2) SetRGB(x+2,y2, 0, 0, 255);
+      }
+      SetRGB(x+1,y+2, 0, 0, 255);
+      break;
+    case 'L':
+      for (int y2=y;y2<y+5;y2++) {
+        SetRGB(x,y2, 0, 0, 255);
+      }
+      SetRGB(x+1,y+4, 0, 0, 255);
+      SetRGB(x+2,y+4, 0, 0, 255);
       break;
     case 'M':
       for (int y2=y;y2<y+5;y2++) {
@@ -238,6 +318,13 @@ void LEDController::DrawLetter(char c, int x, int y) {
       SetRGB(x+1,y,   0, 0, 255);
       SetRGB(x+1,y+1, 0, 0, 255);
       break;
+    case 'N':
+      for (int y2=y;y2<y+5;y2++) {
+        SetRGB(x,y2,   0, 0, 255);
+        SetRGB(x+2,y2, 0, 0, 255);
+      }
+      SetRGB(x+1,y,   0, 0, 255);
+      break;
     case 'O':
       for (int y2=y+1;y2<y+4;y2++) {
         SetRGB(x,y2,   0, 0, 255);
@@ -245,6 +332,17 @@ void LEDController::DrawLetter(char c, int x, int y) {
       }
       SetRGB(x+1,y,   0, 0, 255);
       SetRGB(x+1,y+4, 0, 0, 255);
+      break;
+    case 'P':
+      for (int y2=y;y2<y+5;y2++) {
+        SetRGB(x,y2, 0, 0, 255);
+      }
+      SetRGB(x+1,y,   0, 0, 255);
+      SetRGB(x+2,y+1, 0, 0, 255);
+      SetRGB(x+1,y+2, 0, 0, 255);
+      break;
+    case 'Q':
+      //TODO
       break;
     case 'R':
       for (int y2=y;y2<y+5;y2++) {
@@ -273,6 +371,36 @@ void LEDController::DrawLetter(char c, int x, int y) {
       for (int y2=y;y2<y+5;y2++) {
         SetRGB(x+1,y2, 0, 0, 255);
       }
+      break;
+    case 'U':
+      for (int y2=y;y2<y+4;y2++) {
+        SetRGB(x,y2, 0, 0, 255);
+        SetRGB(x+2,y2, 0, 0, 255);
+      }
+      SetRGB(x+1,y+4, 0, 0, 255);
+      break;
+    case 'V':
+      for (int y2=y;y2<y+3;y2++) {
+        SetRGB(x,y2, 0, 0, 255);
+        SetRGB(x+2,y2, 0, 0, 255);
+      }
+      SetRGB(x+1,y+3, 0, 0, 255);
+      SetRGB(x+1,y+4, 0, 0, 255);
+      break;
+    case 'W':
+      for (int y2=y;y2<y+5;y2++) {
+        SetRGB(x,y2, 0, 0, 255);
+        SetRGB(x+2,y2, 0, 0, 255);
+      }
+      SetRGB(x+1,y+3, 0, 0, 255);
+      SetRGB(x+1,y+4, 0, 0, 255);
+      break;
+    case 'X':
+      for (int y2=y;y2<y+5;y2++) {
+        if (y2!=2) SetRGB(x,y2, 0, 0, 255);
+        if (y2!=2) SetRGB(x+2,y2, 0, 0, 255);
+      }
+      SetRGB(x+1,y+2, 0, 0, 255);
       break;
     case 'Y':
       for (int y2=y;y2<y+2;y2++) {

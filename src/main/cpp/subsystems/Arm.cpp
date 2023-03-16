@@ -153,24 +153,26 @@ void Arm::DriveClaw(double dir) {
   //Logger::Log(LogLevel::All) << "Outer: " << m_outer_switch.Get() << ", Inner: " << m_inner_switch.Get() << LoggerCommand::Flush;
 
   // TODO: Fix Limit Switches
+  if (ArmConstants::kUseLimitSwitches) {
+    if (m_outer_switch.Get()) {
+      Logger::Log(LogLevel::Dev) << "Outer Switch Active!" << LoggerCommand::Flush;
+      if (dir < 0) dir = 0.0;
+
+      //m_claw_state = 0;
+      //m_use_claw_state = false;
+    }
+
+    if (m_inner_switch.Get()) {
+      Logger::Log(LogLevel::Dev) << "Inner Switch Active!" << LoggerCommand::Flush;
+      if (dir > 0) dir = 0.0;
+
+      //m_claw_state = 0;
+      //m_use_claw_state = false;
+    }
+  }
+
   /*
-   if (m_outer_switch.Get()) {
-     Logger::Log(LogLevel::Dev) << "Outer Switch Active!" << LoggerCommand::Flush;
-     if (dir == 1) dir = 0.0;
-
-    m_claw_state = 0;
-    m_use_claw_state = false;
-  }
-
-  if (m_inner_switch.Get()) {
-    Logger::Log(LogLevel::Dev) << "Inner Switch Active!" << LoggerCommand::Flush;
-    if (dir == -1) dir = 0.0;
-
-    m_claw_state = 0;
-    m_use_claw_state = false;
-  }
-
-  // Verify we aren't using claw state when its 0
+  // Verify we aren't using claw state when it's 0
   if (m_use_claw_state && m_claw_state == 0) 
     m_use_claw_state = false;
   */

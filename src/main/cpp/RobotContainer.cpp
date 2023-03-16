@@ -154,13 +154,14 @@ void RobotContainer::ConfigureButtonBindings() {
       .OnTrue(new frc2::InstantCommand(
           [this] { m_leds.SetState((m_leds.GetState() + 1) % 3); }, {&m_leds}));
 
+  // TODO: these shouldn't be backwards. What's going on?
   frc2::JoystickButton(&m_manipController,
                        ControlConstants::CloseClawButton)
-      .OnTrue(new MoveClawCommand(m_arm, -1.0));
+      .OnTrue(new MoveClawCommand(m_arm, 1.0));
   
   frc2::JoystickButton(&m_manipController,
                        ControlConstants::OpenClawButton)
-      .OnTrue(new MoveClawCommand(m_arm, 1.0));
+      .OnTrue(new MoveClawCommand(m_arm, -1.0));
 
   // Arm State Change Command
   frc2::JoystickButton(&m_manipController, ControlConstants::PosCarryButton)

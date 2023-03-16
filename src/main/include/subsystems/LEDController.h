@@ -55,5 +55,5 @@ class LEDController : public frc2::SubsystemBase {
   // LED Brightness from config (shortened to fit more easily in expressions).
   double bright = IOConstants::kLEDBrightness;
 
-  std::string word = "TERRY THOMAS";
+  std::string word = "WE HAVE MORE LETTERS NOW";
 };

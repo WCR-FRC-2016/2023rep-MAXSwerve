@@ -161,6 +161,7 @@ constexpr units::ampere_t kArmLowCurrentLimit    = 4_A;  // Very hard to find, m
 constexpr units::ampere_t kArmHighCurrentLimit   = 12_A; // Works between 4 and 12 amps [PA-04 -> https://www.progressiveautomations.com/products/linear-actuator-ip66]
 
 inline double kClawMoveTime = 1000;
+inline bool kUseLimitSwitches = false;
 
 inline double kArmLowP  = 0.4;
 inline double kArmLowI  = 0;

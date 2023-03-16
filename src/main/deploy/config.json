@@ -1,97 +1,16 @@
 {
     "log-levels": {
         "none": false,
-        "info": true,
-        "utility": true,
-        "important": true,
-        "error": true,
-        "dev": true
+        "all": true,
+        "info": false,
+        "utility": false,
+        "important": false,
+        "error": false,
+        "autonomous": false,
+        "dev": false
     },
 
     "autonomous-routines": [
-        {
-            "name": "Spit Test",
-            "commands": [
-                {
-                    "type": 3,
-                    "data": {
-                        "distance-x": -1.0,
-                        "distance-y": 0.0,
-                        "speed-x": 1.0,
-                        "speed-y": 0.0,
-                        "field-relative": false
-                    }
-                },
-                {
-                    "type": 1,
-                    "data": {
-                        "arm-state": 2
-                    }
-                },
-                {
-                    "type": 2,
-                    "data": {
-                        "time": 2.0
-                    }
-                },
-                {
-                    "type": 4,
-                    "data": {
-                        "spin-direction": -1.0
-                    }
-                }
-            ]
-        },
-        {
-            "name": "Move Distance Test",
-            "commands": [
-                {
-                    "type": 3,
-                    "data": {
-                        "distance-x": 1.0,
-                        "distance-y": 0.0,
-                        "speed-x": 1.0,
-                        "speed-y": 0.0,
-                        "field-relative": false
-                    }
-                }
-            ]
-        },
-        {
-            "name": "Score Cone Middle -> Doesn't work",
-            "commands": [
-                {
-                    "type": 1,
-                    "data": {
-                        "arm-state": 2
-                    }
-                },
-                {
-                    "type": 0,
-                    "data": {
-                        "time-x": 0.25,
-                        "dir-x": -1.0,
-                        "time-y": 0.0,
-                        "dir-y": 0.0
-                    }
-                },
-                {
-                    "type": 2,
-                    "data": {
-                        "time": 1.0
-                    }
-                },
-                {
-                    "type": 0,
-                    "data": {
-                        "time-x": 0.25,
-                        "dir-x": 1.0,
-                        "time-y": 0.0,
-                        "dir-y": 0.0
-                    }
-                }
-            ]
-        },
         {
             "name": "Move Forward",
             "commands": [
@@ -99,37 +18,20 @@
                     "type": 0,
                     "data": {
                         "time-x": 1.0,
-                        "dir-x": 1.0,
+                        "speed-x": 1.0,
                         "time-y": 0.0,
-                        "dir-y": 0.0
-                    }
-                }
-            ]
-        },
-        {
-            "name": "Test Routine",
-            "commands": [
-                {
-                    "type": 0,
-                    "data": {
-                        "time-x": 0.0,
-                        "dir-x": 0.0,
-                        "time-y": 1.0,
-                        "dir-y": -1.0
-                    }
-                },
-                {
-                    "type": 1,
-                    "data": {
-                        "arm-state": 2
+                        "speed-y": 0.0,
+                        "time-rot": 0.0,
+                        "speed-rot": 0.0,
+                        "field-relative": false
                     }
                 }
             ]
         }
     ],
 
-    "drive-max-speed": 4.8,
-    "fast-speed": 3.0,
+    "drive-max-speed": 3,
+    "fast-speed": 1.5,
     "slow-speed": 1.0,
     "align-speed": 1.0,
     "align-rotation-speed": 2.0,
@@ -147,6 +49,7 @@
     "arm-low-d":  0,
     "arm-high-p": 0.005,
     "arm-high-i": 0,
-    "arm-high-d": 0
+    "arm-high-d": 0,
 
+    "default-slow": false
 }

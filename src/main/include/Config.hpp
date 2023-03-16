@@ -47,6 +47,7 @@ inline void loadConfig() {
         DriveConstants::kLowSpeed = units::meters_per_second_t(json["slow-speed"].get<double>());
         DriveConstants::kMoveOverTime = json["move-over-time"].get<double>();
         DriveConstants::kMoveOverSubTime = json["move-over-sub-time"].get<double>();
+        DriveConstants::kDefaultSlow = json["default-slow"].get<bool>();
 
         // Auto Constants
         AutoConstants::kAutoMaxSpeed = units::meters_per_second_t{json["auto-max-speed"].get<double>()};
@@ -59,6 +60,7 @@ inline void loadConfig() {
         // Autonomous Routines
         AutoConstants::kSelectedAuto = json["auto-command"].get<int32_t>();
         AutoConstants::kAutoSequences = interpretJsonSequences(json["autonomous-routines"]);
+        mapAutoSequences();
 
         // Arm Constants
         ArmConstants::kArmLowOffset  = json["arm-low-offset"].get<double>();
@@ -69,6 +71,9 @@ inline void loadConfig() {
         ArmConstants::kArmHighP = json["arm-high-p"].get<double>();
         ArmConstants::kArmHighI = json["arm-high-i"].get<double>();
         ArmConstants::kArmHighD = json["arm-high-d"].get<double>();
+
+        // Other Stuff
+
 
         frc::SmartDashboard::PutNumber("Config/Selected Auto", AutoConstants::kSelectedAuto);
         frc::SmartDashboard::PutNumber("Config/Max Speed", DriveConstants::kMaxSpeed.value());

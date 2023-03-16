@@ -36,8 +36,17 @@ class Arm : public frc2::SubsystemBase {
   double GetRawUpperAngle();
   double GetRawLowerAngle();
 
+  bool GetOuterLimitSwitchState();
+  bool GetInnerLimitSwitchState();
+
+  void SetCollectUseState(bool state);
+  void SetCollectState(int32_t state);
+  void SetClawUseState(bool state);
+  void SetClawState(int32_t state);
   void DriveClaw(double dir);
   void DriveCollectWheels(double dir);
+
+  void SetClaw(int32_t claw_settings);
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be
@@ -56,9 +65,16 @@ class Arm : public frc2::SubsystemBase {
   CTREMagEncoder m_low_encoder;
   CTREMagEncoder m_high_encoder;
 
-  frc::DigitalInput m_test;
+  frc::DigitalInput m_outer_switch;
+  frc::DigitalInput m_inner_switch;
 
   int m_state = 1;
   int m_goal_state = -1;
   int m_next_goal_state = -1;
+
+  bool m_use_collect_state = false;
+  int m_collect_state = 0;
+
+  bool m_use_claw_state = false;
+  int m_claw_state = 0;
 };

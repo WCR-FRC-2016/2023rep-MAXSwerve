@@ -44,19 +44,7 @@ inline std::vector<AutoSequence> interpretJsonSequences(nlohmann::json& json) {
     return sequences;
 }
 
-inline frc2::SequentialCommandGroup* createAutonomousCommandGroup(AutoSubsystemWrapper& wrapper, AutoSequence& sequence) {
-    //frc2::SequentialCommandGroup* group = new frc2::SequentialCommandGroup();
-    //std::vector<std::unique_ptr<frc2::Command>> sequence_commands;
-
-    for (auto& command : sequence.Commands) {
-        switch(command.CommandType) {
-            case 0:
-                //sequence_commands.push_back(std::make_unique<frc2::Command>(new AutoMoveCommand(wrapper, command)));
-                break;
-            default:
-                break;
-        }
-    }
-
-    return nullptr; 
+inline void mapAutoSequences() {
+    for (auto i = 0u; i < AutoConstants::kAutoSequences.size(); i++)
+        AutoConstants::kAutoSequencesMapped.emplace(AutoConstants::kAutoSequences[i].SequenceName, i);
 }

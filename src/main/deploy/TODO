@@ -1,0 +1,23 @@
+Todo's that aren't in code
+ . Configure Claw to be state based rather than directly driven [x]
+ . Update autonomous command mapper to use new commands and ids [ ]
+ . Auto-fill auto mapped map                                    [x]
+ . Make auto commands selectable in the dashboard               [ ]
+ . Make autonomous read from AutoRoutines.json                  [ ]
+
+ . Add/Update Commands [ ]:
+    // Drive
+    : AutoMoveTimedCommand    [0] [x]
+    : AutoMoveDistanceCommand [1] [x]
+
+    // Arm
+    : AutoSetArmStateCommand         [20] [x]
+    : AutoWaitArmStateCommand        [21] [x]
+    : AutoSetClawCollectStateCommand [22] [x]
+    : AutoTimedClawCloseCommand      [23] [ ]
+    : AutoWaitLimitSwitchCommand     [24] [x]
+    : AutoClawHitLimitSwitchCommand  [25] [x]
+    
+    // Utility
+    : AutoTimedWaitCommand     [30] [x]
+    : AutoResetOdometryCommand [31] [x]

@@ -1,0 +1,120 @@
+// This file is currently for information I need, it is not used anywhere in code
+
+// IDs 0-19  are reserved for driving,
+// IDs 20-29 are reserved for the arm,
+
+// Command ID Mappings
+// Driving
+[x] [0 ]: AutoMoveTimedCommand
+[x] [1 ]: AutoMoveDistanceCommand
+[ ] [2 ]: Reserved
+[ ] [3 ]: Reserved
+[ ] [4 ]: Reserved
+[ ] [5 ]: Reserved
+[ ] [6 ]: Reserved
+[ ] [7 ]: Reserved
+[ ] [8 ]: Reserved
+[ ] [9 ]: Reserved 
+[ ] [10]: Reserved
+[ ] [11]: Reserved
+[ ] [12]: Reserved
+[ ] [13]: Reserved
+[ ] [14]: Reserved
+[ ] [15]: Reserved
+[ ] [16]: Reserved
+[ ] [17]: Reserved
+[ ] [18]: Reserved
+[ ] [19]: Reserved
+// Arm [includes claw]
+[x] [20]: AutoSetArmStateCommand
+[x] [21]: AutoWaitArmStateCommand
+[x] [22]: AutoSetClawCollectStateCommand
+[ ] [23]: AutoTimedClawCloseCommand
+[x] [24]: AutoWaitLimitSwitchCommand
+[x] [25]: AutoClawHitLimitSwitchCommand
+[ ] [26]: AutoTimedDriveArmCommand
+[ ] [27]: Reserved
+[ ] [28]: Reserved
+[ ] [29]: Reserved
+// Utility
+[x] [30]: AutoTimedWaitCommand
+[x] [31]: AutoResetOdometryCommand
+
+// Command Info: All commands having auto infront of them is just a formality
+// Commands [ ]
+
+// DRIVING [x]
+
+AutoMoveTimedCommand [0]: [x]
+ . Desciption:
+    : Simple driving command that drives a set speed for a specific amount of time
+ . time-x    -> double: Time to move forward/backwards for [seconds]
+ . time-y    -> double: Time to move side-to-side for [seconds]
+ . time-rot  -> double: Time to rotate for [seconds]
+ . speed-x   -> double: Forwards/Backwars Move speed (in meters per second) ->
+        [specify negative to go backwards]
+ . speed-y   -> double: Right/Left Move speed (in meters per second) -> 
+        [specify negative to go right? -> verify]
+ . speed-rot -> double: Rotation speed (in degrees per second)
+ . field-relative -> bool: Specifies whether the robot is moving relative to the field or itself
+
+AutoMoveDistanceCommand [1]: [x]
+ . Desciption:
+    : A fancier version of the AutoMoveTimedCommand, takes in distances and speeds and calculates how much time is needed on each axis to achieve that distance
+ . distance-x     -> double: [meters] X distance to move
+ . distance-y     -> double: [meters] Y distance to move
+ . distance-rot   -> double: [degrees] Degrees to rotate [+ -> clockwise : - -> counter-clockwise]
+ . speed-x        -> double: [mps] X speed
+ . speed-y        -> double: [mps] Y speed
+ . speed-rot      -> double: [dps] Rotation speed [degrees_per_second]
+ . field-relative -> bool: Specifies whether the robot is moving relative to the field or itself
+
+// ARM [ ]
+AutoSetArmStateCommand [20]: [x]
+ . Description:
+    : A command that calls the SetState() function on Arm, sets the state than immediately goes to the next command
+ . arm-state -> int: State to set the arm to
+ . wait      -> bool: Wait until the arm has reached its state
+
+AutoWaitArmStateCommand [21]: [x]
+ . Description:
+    : A command that pauses the autonomous routine until the arm has reached its goal state
+
+AutoSetClawCollectStateCommand [22]: [x]
+ . Description:
+    : A command that sets the claw collect state
+ . claw-state -> int: State to set the claw collect state [1 collects, 0 stops, -1 rejects]
+
+AutoTimedClawCloseCommand [23]: [ ]
+ . Description:
+    : A command that closes the claw for a specified amount of time
+ . claw-direction -> int: direction to drive the claw [-1 closed, 0 stop, 1 open]
+ . time           -> double: Amount of time to close the claw for
+
+AutoWaitLimitSwitchCommand [24]: [x]
+ . Description:
+    : A command that waits until the specified claw limit switch has been hit
+ . limit-switch -> int: Limit switch to wait for [3 is outer, 4 is inner]
+
+AutoClawHitLimitSwitchCommand [25]: [x]
+ . Description:
+    : Drive the claw out to the specified limit switch
+ . limit-switch -> int: Limit switch to drive toward [3 is outer, 4 is inner]
+ 
+AutoTimedDriveArmCommand [25]: [ ]
+ . Description:
+    : Drive both arms by a set amount of time
+ . lower-arm-percent -> double: Speed Percent to drive lower arm at
+ . lower-arm-time    -> double: Time to drive lower arm for
+ . upper-arm-percent -> double: Speed Percent to drive upper arm at
+ . upper-arm-time    -> double: Time to drive upper arm for
+
+// Misc [x]
+AutoTimedWaitCommand [30]: [x]
+ . Description:
+    : A simple command that stalls the sequence for the input amount of time
+ . time -> double: Time to wait for [seconds]
+
+ AutoResetOdometryCommand [31]: [x]
+ . Description:
+    : A simple command that resets the robots odometry for field relative

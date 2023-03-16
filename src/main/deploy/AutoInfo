@@ -32,7 +32,7 @@
 [ ] [23]: AutoTimedClawCloseCommand
 [x] [24]: AutoWaitLimitSwitchCommand
 [x] [25]: AutoClawHitLimitSwitchCommand
-[ ] [26]: Reserved
+[ ] [26]: AutoTimedDriveArmCommand
 [ ] [27]: Reserved
 [ ] [28]: Reserved
 [ ] [29]: Reserved
@@ -100,8 +100,16 @@ AutoClawHitLimitSwitchCommand [25]: [x]
  . Description:
     : Drive the claw out to the specified limit switch
  . limit-switch -> int: Limit switch to drive toward [3 is outer, 4 is inner]
+ 
+AutoTimedDriveArmCommand [25]: [ ]
+ . Description:
+    : Drive both arms by a set amount of time
+ . lower-arm-percent -> double: Speed Percent to drive lower arm at
+ . lower-arm-time    -> double: Time to drive lower arm for
+ . upper-arm-percent -> double: Speed Percent to drive upper arm at
+ . upper-arm-time    -> double: Time to drive upper arm for
 
-// Misc [ ]
+// Misc [x]
 AutoTimedWaitCommand [30]: [x]
  . Description:
     : A simple command that stalls the sequence for the input amount of time

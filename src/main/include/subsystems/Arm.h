@@ -46,6 +46,8 @@ class Arm : public frc2::SubsystemBase {
   void DriveClaw(double dir);
   void DriveCollectWheels(double dir);
 
+  void SetClaw(int32_t claw_settings);
+
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.

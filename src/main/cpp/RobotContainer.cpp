@@ -15,9 +15,11 @@
 #include <frc2/command/SwerveControllerCommand.h>
 #include <frc2/command/button/JoystickButton.h>
 #include <frc2/command/button/Trigger.h>
+#include <frc2/command/button/POVButton.h>
 #include <units/angle.h>
 #include <units/velocity.h>
 #include <units/time.h>
+
 
 #include <utility>
 
@@ -65,9 +67,6 @@ RobotContainer::RobotContainer() : m_wrapper(m_drive, m_arm, m_limelight, m_leds
                 frc::ApplyDeadband(m_manipController.GetRightY(), IOConstants::kDriveDeadband),
                 frc::ApplyDeadband(-m_manipController.GetLeftY(), IOConstants::kDriveDeadband)
             );
-            //Logger::Log(LogLevel::Dev) << "Arm raw lower angle: " << m_arm.GetRawLowerAngle() << LoggerCommand::Flush;
-            //Logger::Log(LogLevel::Dev) << "Arm lower angle: " << m_arm.GetLowerAngle() << "\n";
-            //Logger::Log(LogLevel::Dev) << "Arm upper angle: " << m_arm.GetUpperAngle() << "\n" << LoggerCommand::Flush;
         }
 
         // Claw
@@ -89,8 +88,6 @@ void RobotContainer::ConfigureButtonBindings() {
   frc2::JoystickButton(&m_driverController, ControlConstants::xModeButton)
       .WhileTrue(new frc2::RunCommand([this] { m_drive.SetX(); }, {&m_drive}));
 
-  // Temporary Commands
-
   // Toggle Field Relative
   frc2::JoystickButton(&m_driverController, ControlConstants::RelativeButton)
       .OnTrue(
@@ -101,18 +98,6 @@ void RobotContainer::ConfigureButtonBindings() {
       
   frc2::JoystickButton(&m_driverController, ControlConstants::AlignRTButton)
       .WhileTrue(new ReflectiveAlignCommand(m_drive, m_limelight));
-
-  /*frc2::Trigger([this] {return m_driverController.GetLeftTriggerAxis()>0.5;})
-      .OnTrue(frc2::ConditionalCommand(
-        new MoveOverCommand(m_drive, -DriveConstants::kMoveOverSubTime),
-        new MoveOverCommand(m_drive, -DriveConstants::kMoveOverTime),
-        m_limelight.IsSubstation);
-
-  frc2::Trigger([this] {return m_driverController.GetRightTriggerAxis()>0.5;})
-      .OnTrue(frc2::ConditionalCommand(
-        new MoveOverCommand(m_drive, DriveConstants::kMoveOverSubTime),
-        new MoveOverCommand(m_drive, DriveConstants::kMoveOverTime),
-        m_limelight.IsSubstation);*/
 
   frc2::JoystickButton(&m_driverController, ControlConstants::SwapSpeedButton)
       .OnTrue(new frc2::InstantCommand(
@@ -160,6 +145,15 @@ void RobotContainer::ConfigureButtonBindings() {
   frc2::JoystickButton(&m_manipController, ControlConstants::PosZeroButton)
       .OnTrue(
           new frc2::InstantCommand([this] { m_arm.SetState(6); }, {&m_arm}));
+
+    frc2::POVButton(&m_manipController, 0, 0).OnTrue(new frc2::InstantCommand([this] { 
+        m_leds.SetState(1); 
+        Logger::Log(LogLevel::All) << "CONE LEDS ENABLED" << LoggerCommand::Flush;
+    }, {&m_leds}));
+    frc2::POVButton(&m_manipController, 180, 0).OnTrue(new frc2::InstantCommand([this] { 
+        m_leds.SetState(2); 
+        Logger::Log(LogLevel::All) << " CUBE LEDS ENABLED" << LoggerCommand::Flush;
+    }, {&m_leds}));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
@@ -173,8 +167,9 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
     }
 }
 
-void RobotContainer::InitArmTeleop() {
+void RobotContainer::InitTeleop() {
     m_arm.SetCollectUseState(false);
+    m_drive.SetSpeed(DriveConstants::kDefaultSlow ? DriveConstants::kLowSpeed : DriveConstants::kFastSpeed);
 }
 
 void RobotContainer::ResetArmState() {
@@ -184,4 +179,8 @@ void RobotContainer::ResetArmState() {
 
 void RobotContainer::ResetAutoCommandCount() {
     m_auto_command_index = 0;
+}
+
+void RobotContainer::PostConfigInit() {
+    m_arm.SetClaw(0); // TODO: Implement this
 }

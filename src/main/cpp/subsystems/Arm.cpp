@@ -190,16 +190,8 @@ units::degree_t Arm::GetLowerAngle() { return m_low_encoder.GetNormalizedDistanc
 double Arm::GetRawUpperAngle() { return m_high_encoder.GetDistance(); }
 double Arm::GetRawLowerAngle() { return m_low_encoder.GetDistance(); }
 
-void Arm::PrintTestEncoder() {
-  frc::SmartDashboard::PutBoolean("LowEncoderConnected", m_low_encoder.IsConnected());
-  frc::SmartDashboard::PutNumber("LowEncoderDistance", m_low_encoder.GetDistance());
-  frc::SmartDashboard::PutNumber("LowEncoderDistanceDegrees", m_low_encoder.GetDistanceDegrees().value());
-  frc::SmartDashboard::PutNumber("LowEncoderNormalizedDistanceDegrees", m_low_encoder.GetNormalizedDistanceDegrees().value());
-  frc::SmartDashboard::PutNumber("LowEncoderRevolutions", m_low_encoder.GetRevolutions());
+void Arm::SetClaw(int32_t claw_settings) {
+  // if (claw_settings == 0) {
 
-  frc::SmartDashboard::PutBoolean("HighEncoderConnected", m_high_encoder.IsConnected());
-  frc::SmartDashboard::PutNumber("HighEncoderDistance", m_high_encoder.GetDistance());
-  frc::SmartDashboard::PutNumber("HighEncoderDistanceDegrees", m_high_encoder.GetDistanceDegrees().value());
-  frc::SmartDashboard::PutNumber("HighEncoderNormalizedDistanceDegrees", m_high_encoder.GetNormalizedDistanceDegrees().value());
-  frc::SmartDashboard::PutNumber("HighEncoderRevolutions", m_high_encoder.GetRevolutions());
+  // }
 }

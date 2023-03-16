@@ -35,7 +35,8 @@ class RobotContainer {
 
   frc2::Command* GetAutonomousCommand();
 
-  void InitArmTeleop();
+  void PostConfigInit();
+  void InitTeleop();
   void ResetArmState();
   void ResetAutoCommandCount();
 

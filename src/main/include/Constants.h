@@ -53,9 +53,11 @@
 //  : Open Claw:      Right Bumper  [x]
 //  : Spit:           Left Trigger  [x]
 //  : Collect:        Right Trigger [x]
-//  : LED Hypno:      DPAD up       [ ]
-//  : LED Cone        DPAD right    [ ]
-//  : LED Cube        DPAD left     [ ]
+//  : LED Cone        DPAD right    [x]
+//  : LED Cube        DPAD left     [x]
+
+// Unimplemented [Manipulator]
+//  : LED Hypno:      ? [ ]
 
 // Debug Controller:
 //  : Absolute Zero:  Start
@@ -100,6 +102,8 @@ namespace DriveConstants {
 inline units::meters_per_second_t     kMaxSpeed      = 4.8_mps;
 inline units::meters_per_second_t     kDriveMaxSpeed = 4.8_mps;
 constexpr units::radians_per_second_t kMaxAngularSpeed{2 / 2 * std::numbers::pi};
+
+inline bool kDefaultSlow = false;
 
 // Mode Switch Speeds
 inline units::meters_per_second_t kFastSpeed = 3.0_mps;

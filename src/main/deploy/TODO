@@ -3,6 +3,7 @@ Todo's that aren't in code
  . Update autonomous command mapper to use new commands and ids [ ]
  . Auto-fill auto mapped map                                    [x]
  . Make auto commands selectable in the dashboard               [ ]
+ . Make autonomous read from AutoRoutines.json                  [ ]
 
  . Add/Update Commands [ ]:
     // Drive

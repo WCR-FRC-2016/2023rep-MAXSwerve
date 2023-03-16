@@ -194,56 +194,68 @@ void LEDController::Flash(int i) {
 
 void LEDController::DrawWord() {
   Clear();
-  for (int k=0; k<strlen(word); k++) {
+  for (int k=0; k<strlen(word.c_str()); k++) {
     DrawLetter(word[k], 4*k+16-i, 6);
   }
   Flush();
 
   i++;
-  i%=4*strlen(word)+16;
+  i%=4*strlen(word.c_str())+16;
 }
 
 void LEDController::DrawLetter(char c, int x, int y) {
   switch (c) {
     case 'A':
-      for (int y2=y+1;y2<y+5;y2++)
+      for (int y2=y+1;y2<y+5;y2++) {
         SetRGB(x,y2,   0, 0, 255);
         SetRGB(x+2,y2, 0, 0, 255);
+      }
       SetRGB(x+1,y,   0, 0, 255);
       SetRGB(x+1,y+2, 0, 0, 255);
+      break;
     case 'E':
-      for (int y2=y;y2<y+5;y2++)
+      for (int y2=y;y2<y+5;y2++) {
         SetRGB(x,y2, 0, 0, 255);
+      }
       SetRGB(x+1,y,   0, 0, 255);
       SetRGB(x+2,y,   0, 0, 255);
       SetRGB(x+1,y+2, 0, 0, 255);
       SetRGB(x+1,y+4, 0, 0, 255);
       SetRGB(x+2,y+4, 0, 0, 255);
+      break;
     case 'H':
-      for (int y2=y;y2<y+5;y2++)
+      for (int y2=y;y2<y+5;y2++) {
         SetRGB(x,y2, 0, 0, 255);
         SetRGB(x+2,y2, 0, 0, 255);
+      }
       SetRGB(x+1,y+2, 0, 0, 255);
+      break;
     case 'M':
-      for (int y2=y;y2<y+5;y2++)
+      for (int y2=y;y2<y+5;y2++) {
         SetRGB(x,y2,   0, 0, 255);
         SetRGB(x+2,y2, 0, 0, 255);
+      }
       SetRGB(x+1,y,   0, 0, 255);
       SetRGB(x+1,y+1, 0, 0, 255);
+      break;
     case 'O':
-      for (int y2=y+1;y2<y+4;y2++)
+      for (int y2=y+1;y2<y+4;y2++) {
         SetRGB(x,y2,   0, 0, 255);
         SetRGB(x+2,y2, 0, 0, 255);
+      }
       SetRGB(x+1,y,   0, 0, 255);
       SetRGB(x+1,y+4, 0, 0, 255);
+      break;
     case 'R':
-      for (int y2=y;y2<y+5;y2++)
+      for (int y2=y;y2<y+5;y2++) {
         SetRGB(x,y2, 0, 0, 255);
+      }
       SetRGB(x+1,y,   0, 0, 255);
       SetRGB(x+2,y+1, 0, 0, 255);
       SetRGB(x+1,y+2, 0, 0, 255);
       SetRGB(x+2,y+3, 0, 0, 255);
       SetRGB(x+2,y+4, 0, 0, 255);
+      break;
     case 'S':
       SetRGB(x+1,y,   0, 0, 255);
       SetRGB(x+2,y,   0, 0, 255);
@@ -254,17 +266,23 @@ void LEDController::DrawLetter(char c, int x, int y) {
       SetRGB(x+2,y+3, 0, 0, 255);
       SetRGB(x,y+4,   0, 0, 255);
       SetRGB(x+1,y+4, 0, 0, 255);
+      break;
     case 'T':
       SetRGB(x,y,   0, 0, 255);
       SetRGB(x+2,y, 0, 0, 255);
-      for (int y2=y;y2<y+5;y2++)
+      for (int y2=y;y2<y+5;y2++) {
         SetRGB(x+1,y2, 0, 0, 255);
+      }
+      break;
     case 'Y':
-      for (int y2=y;y2<y+2;y2++)
+      for (int y2=y;y2<y+2;y2++) {
         SetRGB(x,y2,   0, 0, 255);
         SetRGB(x+2,y2, 0, 0, 255);
-      for (int y2=y+2;y2<y+5;y2++)
+      }
+      for (int y2=y+2;y2<y+5;y2++) {
         SetRGB(x+1,y2, 0, 0, 255);
+      }
+      break;
     default:
       return;
   }

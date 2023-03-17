@@ -119,13 +119,7 @@ void RobotContainer::ConfigureButtonBindings() {
 
   frc2::JoystickButton(&m_driverController, ControlConstants::SwapSpeedButton)
       .OnTrue(new frc2::InstantCommand(
-          [this] {
-            if (m_low_speed)
-              m_drive.SetSpeed(DriveConstants::kFastSpeed);
-            else
-              m_drive.SetSpeed(DriveConstants::kLowSpeed);
-            m_low_speed ^= true;
-          },
+          [this] { m_drive.SwapSpeed(); },
           {&m_drive}));
   
   frc2::Trigger([this] {return m_driverController.GetLeftTriggerAxis() > 0.5;})

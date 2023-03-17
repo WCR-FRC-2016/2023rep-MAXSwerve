@@ -150,6 +150,14 @@ void DriveSubsystem::SetX() {
 // Speed
 void DriveSubsystem::SetSpeed(units::meters_per_second_t value) { m_speed = value; }
 units::meters_per_second_t DriveSubsystem::GetSpeed() { return m_speed; }
+void DriveSubsystem::SwapSpeed() {
+  if (m_speed == DriveConstants::kMaxSpeed)
+    m_speed = DriveConstants::kLowSpeed;
+  else
+    m_speed = DriveConstants::kMaxSpeed;
+
+  Logger::Log(LogLevel::Match) << "Driving Speed Set to: " << m_speed << LoggerCommand::Flush;
+}
 
 void DriveSubsystem::SetModuleStates(
     wpi::array<frc::SwerveModuleState, 4> desiredStates) {

@@ -19,6 +19,7 @@ enum LogLevel : uint32_t
     Error = 1 << 3,
     Dev = 1 << 4,
     Autonomous = 1 << 5,
+    Match = 1 << 6,
     All = UINT_MAX
 };
 
@@ -79,6 +80,8 @@ private:
             return "Dev";
         case 1 << 5:
             return "Autonomous";
+        case 1 << 6:
+            return "Match";
         default:
             return "Invalid";
         }

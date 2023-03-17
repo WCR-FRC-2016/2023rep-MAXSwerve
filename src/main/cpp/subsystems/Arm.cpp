@@ -152,8 +152,8 @@ void Arm::SetCollectState(int32_t state) { m_collect_state = state; }
 void Arm::DriveClaw(double dir) {
   //Logger::Log(LogLevel::All) << "Outer: " << m_outer_switch.Get() << ", Inner: " << m_inner_switch.Get() << LoggerCommand::Flush;
 
-  // TODO: Fix Limit Switches
-  if (ArmConstants::kUseLimitSwitches) {
+  // TODO: Fix Limit Switches (still dont work)
+  /*if (ArmConstants::kUseLimitSwitches) {
     if (m_outer_switch.Get()) {
       Logger::Log(LogLevel::Dev) << "Outer Switch Active!" << LoggerCommand::Flush;
       if (dir < 0) dir = 0.0;
@@ -169,7 +169,7 @@ void Arm::DriveClaw(double dir) {
       //m_claw_state = 0;
       //m_use_claw_state = false;
     }
-  }
+  } */
 
   /*
   // Verify we aren't using claw state when it's 0

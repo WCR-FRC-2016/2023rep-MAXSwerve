@@ -36,10 +36,13 @@ inline void loadConfig() {
             if (levels["utility"].get<bool>())   log_level |= LogLevel::Utility;
             if (levels["important"].get<bool>()) log_level |= LogLevel::Important;
             if (levels["error"].get<bool>())     log_level |= LogLevel::Error;
+            if (levels["match"].get<bool>())     log_level |= LogLevel::Match;
             if (levels["dev"].get<bool>())       log_level |= LogLevel::Dev;
 
             Logger::SetGlobalLevel(log_level);
         } else Logger::SetGlobalLevel(LogLevel::None);
+
+        if (json["log-levels"]["all"]) Logger::SetGlobalLevel(LogLevel::All);
 
         // Drive Constants
         DriveConstants::kDriveMaxSpeed = units::meters_per_second_t(json["drive-max-speed"].get<double>());

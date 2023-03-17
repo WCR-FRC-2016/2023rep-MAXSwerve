@@ -46,6 +46,9 @@ void LEDController::Periodic() {
     case 2:
       Cube2();
       break;
+    case 3:
+      DrawWord();
+      break;
     default:
       Clear();
       Flush();
@@ -70,7 +73,7 @@ void LEDController::Circles() {
   for (int x=0; x<16; x++) {
     for (int y=0; y<16; y++) {
       double d = sqrt((x-8)*(x-8) + (y-8)*(y-8));
-      SetRGB(x,y, 10+10*sin((i/200.0+d/10.0)*2*std::numbers::pi), 0, 0);
+      SetRGB(x,y, 100+100*sin((i/200.0+d/10.0)*2*std::numbers::pi), 0, 0);
     }
   }
   Flush();
@@ -86,7 +89,7 @@ void LEDController::Cone() {
     // Triangle of cone
     if (maxy>0) {
       for (int y=0; y<=maxy; y++) {
-        SetRGB(x, y, 25, 7, 0);
+        SetRGB(x, y, 255, 70, 0);
       }
     }
 
@@ -94,13 +97,13 @@ void LEDController::Cone() {
     for (int y=std::max(0,maxy+1); y<16; y++) {
       double d = y-maxy;
       double s = sin((i/100.0-d/10.0)*2*std::numbers::pi);
-      SetRGB(x, y, 6+6*s, 1+1*s, 0);
+      SetRGB(x, y, 60+60*s, 10+10*s, 0);
     }
 
     // Base of cone
     if (x>=2 && x<14) {
       for (int y=0; y<2; y++) {
-        SetRGB(x, y, 25, 7, 0);
+        SetRGB(x, y, 255, 70, 0);
       }
     }
   }
@@ -120,7 +123,7 @@ void LEDController::Cube() {
     }
 
     for (int x=minx; x<=maxx; x++) {
-      SetRGB(x, y, 11, 0, 25);
+      SetRGB(x, y, 110, 0, 255);
     }
   }
   Flush();
@@ -134,7 +137,7 @@ void LEDController::Cube2() {
         double a = atan2(y-8,x-8);
         double s = sin((i/75.0-a/std::numbers::pi)*2*std::numbers::pi);
         double s2 = sin((i/75.0-a/std::numbers::pi)*std::numbers::pi + std::numbers::pi/4);
-        SetRGB(x, y, 6*pow(s2,10), 0, 5+5*s);
+        SetRGB(x, y, 60*pow(s2,10), 0, 50+50*s);
       }
     }
   }
@@ -142,7 +145,7 @@ void LEDController::Cube2() {
   for (int y = 4; y<12; y++) {
     for (int x = 4; x<12; x++) {
       if (((x-8.5)*(x-8.5)+(y-8.5)*(y- 8.5))<20)
-        SetRGB(x, y, 11, 0, 25);
+        SetRGB(x, y, 110, 0, 255);
     }
   }
 
@@ -189,7 +192,232 @@ void LEDController::Flash(int i) {
   Flush();
 }
 
+void LEDController::DrawWord() {
+  Clear();
+  for (int k=0; k<(int) strlen(word.c_str()); k++) {
+    DrawLetter(word[k], 4*k+16-floor(i/4), 6);
+  }
+  Flush();
+
+  i++;
+  i%=(4*strlen(word.c_str())+16)*4;
+}
+
+void LEDController::DrawLetter(char c, int x, int y) {
+  switch (c) {
+    case 'A':
+      for (int y2=y+1;y2<y+5;y2++) {
+        SetRGB(x,y2,   0, 0, 255);
+        SetRGB(x+2,y2, 0, 0, 255);
+      }
+      SetRGB(x+1,y,   0, 0, 255);
+      SetRGB(x+1,y+2, 0, 0, 255);
+      break;
+    case 'B':
+      for (int y2=y;y2<y+5;y2++) {
+        SetRGB(x,y2, 0, 0, 255);
+      }
+      SetRGB(x+1,y,   0, 0, 255);
+      SetRGB(x+2,y+1, 0, 0, 255);
+      SetRGB(x+1,y+2, 0, 0, 255);
+      SetRGB(x+2,y+3, 0, 0, 255);
+      SetRGB(x+1,y+4, 0, 0, 255);
+      break;
+    case 'C':
+      for (int y2=y+1;y2<y+4;y2++) {
+        SetRGB(x,y2, 0, 0, 255);
+      }
+      for (int x2=x+1;x2<x+3;x2++) {
+        SetRGB(x2,y,   0, 0, 255);
+        SetRGB(x2,y+4, 0, 0, 255);
+      }
+      break;
+    case 'D':
+      for (int y2=y;y2<y+5;y2++) {
+        SetRGB(x,y2, 0, 0, 255);
+      }
+      SetRGB(x+1,y,   0, 0, 255);
+      SetRGB(x+2,y+1, 0, 0, 255);
+      SetRGB(x+2,y+2, 0, 0, 255);
+      SetRGB(x+2,y+3, 0, 0, 255);
+      SetRGB(x+1,y+4, 0, 0, 255);
+      break;
+    case 'E':
+      for (int y2=y;y2<y+5;y2++) {
+        SetRGB(x,y2, 0, 0, 255);
+      }
+      SetRGB(x+1,y,   0, 0, 255);
+      SetRGB(x+2,y,   0, 0, 255);
+      SetRGB(x+1,y+2, 0, 0, 255);
+      SetRGB(x+1,y+4, 0, 0, 255);
+      SetRGB(x+2,y+4, 0, 0, 255);
+      break;
+    case 'F':
+      for (int y2=y;y2<y+5;y2++) {
+        SetRGB(x,y2, 0, 0, 255);
+      }
+      SetRGB(x+1,y,   0, 0, 255);
+      SetRGB(x+2,y,   0, 0, 255);
+      SetRGB(x+1,y+2, 0, 0, 255);
+      break;
+    case 'G':
+      for (int y2=y+1;y2<y+4;y2++) {
+        SetRGB(x,y2, 0, 0, 255);
+      }
+      for (int x2=x+1;x2<x+3;x2++) {
+        SetRGB(x2,y,   0, 0, 255);
+        SetRGB(x2,y+4, 0, 0, 255);
+      }
+      SetRGB(x+2,y+3, 0, 0, 255);
+      SetRGB(x+2,y+2, 0, 0, 255);
+      break;
+    case 'H':
+      for (int y2=y;y2<y+5;y2++) {
+        SetRGB(x,y2, 0, 0, 255);
+        SetRGB(x+2,y2, 0, 0, 255);
+      }
+      SetRGB(x+1,y+2, 0, 0, 255);
+      break;
+    case 'I':
+      SetRGB(x,y,     0, 0, 255);
+      SetRGB(x+2,y,   0, 0, 255);
+      SetRGB(x,y+4,   0, 0, 255);
+      SetRGB(x+2,y+4, 0, 0, 255);
+      for (int y2=y;y2<y+5;y2++) {
+        SetRGB(x+1,y2, 0, 0, 255);
+      }
+      break;
+    case 'J':
+      for (int y2=y+1;y2<y+4;y2++) {
+        SetRGB(x,y2, 0, 0, 255);
+      }
+      for (int y2=y;y2<y+5;y2++) {
+        SetRGB(x+2,y2, 0, 0, 255);
+      }
+      SetRGB(x+1,y+4, 0, 0, 255);
+      break;
+    case 'K':
+      for (int y2=y;y2<y+5;y2++) {
+        SetRGB(x,y2, 0, 0, 255);
+        if (y2!=2) SetRGB(x+2,y2, 0, 0, 255);
+      }
+      SetRGB(x+1,y+2, 0, 0, 255);
+      break;
+    case 'L':
+      for (int y2=y;y2<y+5;y2++) {
+        SetRGB(x,y2, 0, 0, 255);
+      }
+      SetRGB(x+1,y+4, 0, 0, 255);
+      SetRGB(x+2,y+4, 0, 0, 255);
+      break;
+    case 'M':
+      for (int y2=y;y2<y+5;y2++) {
+        SetRGB(x,y2,   0, 0, 255);
+        SetRGB(x+2,y2, 0, 0, 255);
+      }
+      SetRGB(x+1,y,   0, 0, 255);
+      SetRGB(x+1,y+1, 0, 0, 255);
+      break;
+    case 'N':
+      for (int y2=y;y2<y+5;y2++) {
+        SetRGB(x,y2,   0, 0, 255);
+        SetRGB(x+2,y2, 0, 0, 255);
+      }
+      SetRGB(x+1,y,   0, 0, 255);
+      break;
+    case 'O':
+      for (int y2=y+1;y2<y+4;y2++) {
+        SetRGB(x,y2,   0, 0, 255);
+        SetRGB(x+2,y2, 0, 0, 255);
+      }
+      SetRGB(x+1,y,   0, 0, 255);
+      SetRGB(x+1,y+4, 0, 0, 255);
+      break;
+    case 'P':
+      for (int y2=y;y2<y+5;y2++) {
+        SetRGB(x,y2, 0, 0, 255);
+      }
+      SetRGB(x+1,y,   0, 0, 255);
+      SetRGB(x+2,y+1, 0, 0, 255);
+      SetRGB(x+1,y+2, 0, 0, 255);
+      break;
+    case 'Q':
+      //TODO
+      break;
+    case 'R':
+      for (int y2=y;y2<y+5;y2++) {
+        SetRGB(x,y2, 0, 0, 255);
+      }
+      SetRGB(x+1,y,   0, 0, 255);
+      SetRGB(x+2,y+1, 0, 0, 255);
+      SetRGB(x+1,y+2, 0, 0, 255);
+      SetRGB(x+2,y+3, 0, 0, 255);
+      SetRGB(x+2,y+4, 0, 0, 255);
+      break;
+    case 'S':
+      SetRGB(x+1,y,   0, 0, 255);
+      SetRGB(x+2,y,   0, 0, 255);
+      SetRGB(x,y+1,   0, 0, 255);
+      SetRGB(x,y+2,   0, 0, 255);
+      SetRGB(x+1,y+2, 0, 0, 255);
+      SetRGB(x+2,y+2, 0, 0, 255);
+      SetRGB(x+2,y+3, 0, 0, 255);
+      SetRGB(x,y+4,   0, 0, 255);
+      SetRGB(x+1,y+4, 0, 0, 255);
+      break;
+    case 'T':
+      SetRGB(x,y,   0, 0, 255);
+      SetRGB(x+2,y, 0, 0, 255);
+      for (int y2=y;y2<y+5;y2++) {
+        SetRGB(x+1,y2, 0, 0, 255);
+      }
+      break;
+    case 'U':
+      for (int y2=y;y2<y+4;y2++) {
+        SetRGB(x,y2, 0, 0, 255);
+        SetRGB(x+2,y2, 0, 0, 255);
+      }
+      SetRGB(x+1,y+4, 0, 0, 255);
+      break;
+    case 'V':
+      for (int y2=y;y2<y+3;y2++) {
+        SetRGB(x,y2, 0, 0, 255);
+        SetRGB(x+2,y2, 0, 0, 255);
+      }
+      SetRGB(x+1,y+3, 0, 0, 255);
+      SetRGB(x+1,y+4, 0, 0, 255);
+      break;
+    case 'W':
+      for (int y2=y;y2<y+5;y2++) {
+        SetRGB(x,y2, 0, 0, 255);
+        SetRGB(x+2,y2, 0, 0, 255);
+      }
+      SetRGB(x+1,y+3, 0, 0, 255);
+      SetRGB(x+1,y+4, 0, 0, 255);
+      break;
+    case 'X':
+      for (int y2=y;y2<y+5;y2++) {
+        if (y2!=2) SetRGB(x,y2, 0, 0, 255);
+        if (y2!=2) SetRGB(x+2,y2, 0, 0, 255);
+      }
+      SetRGB(x+1,y+2, 0, 0, 255);
+      break;
+    case 'Y':
+      for (int y2=y;y2<y+2;y2++) {
+        SetRGB(x,y2,   0, 0, 255);
+        SetRGB(x+2,y2, 0, 0, 255);
+      }
+      for (int y2=y+2;y2<y+5;y2++) {
+        SetRGB(x+1,y2, 0, 0, 255);
+      }
+      break;
+    default:
+      return;
+  }
+}
+
 int LEDController::pos(int x, int y) {
+  if (x<0 || y<0 || x>=16 || y>=16) return -1;
   int output = floor(x/2)*32;
   if (x%2==0) {
     output+=y;
@@ -200,8 +428,9 @@ int LEDController::pos(int x, int y) {
 }
 
 void LEDController::SetRGB(int index, int r, int g, int b) {
-  double i = index%kLength;
-  m_ledBuffer[i<0?i+kLength:i].SetRGB(r, g, b);
+  if (index<0 || index>=kLength) return;
+  double i = index%kLength; // TODO: clean up (not necessary now we have line above)
+  m_ledBuffer[i<0?i+kLength:i].SetRGB(r*bright, g*bright, b*bright);
 }
 
 void LEDController::SetRGB(int x, int y, int r, int g, int b) {
@@ -209,8 +438,9 @@ void LEDController::SetRGB(int x, int y, int r, int g, int b) {
 }
 
 void LEDController::SetHSV(int index, int h, int s, int v) {
+  if (index<0 || index>=kLength) return;
   double i = index%kLength;
-  m_ledBuffer[i<0?i+kLength:i].SetHSV(h, s, v);
+  m_ledBuffer[i<0?i+kLength:i].SetHSV(h, s, v*bright);
 }
 
 void LEDController::SetHSV(int x, int y, int h, int s, int v) {

@@ -151,14 +151,17 @@ constexpr int kHandLeftId  = 4;
 constexpr int kArmLowId    = 6;
 constexpr int kArmHighId   = 7;
 
-constexpr int kArmLowEncoderId  = 3; // DIO slot 0 on RoboRio 2.0
-constexpr int kArmHighEncoderId = 2; // DIO slot 1 on RoboRio 2.0
+constexpr int kArmLowEncoderId  = 3; // DIO slot 3 on RoboRio 2.0
+constexpr int kArmHighEncoderId = 2; // DIO slot 2 on RoboRio 2.0
 
 constexpr units::ampere_t kHandLeftCurrentLimit  = 26_A; // Works between 2 and 26 amps [Johnson Electric PLG Motor -> https://www.andymark.com/products/johnson-electric-gearmotor-and-output-shaft]
 constexpr units::ampere_t kHandRightCurrentLimit = 26_A; // Works between 2 and 26 amps [Johnson Electric PLG Motor -> https://www.andymark.com/products/johnson-electric-gearmotor-and-output-shaft]
 constexpr units::ampere_t kHandGrabCurrentLimit  = 50_A; // Update this
 constexpr units::ampere_t kArmLowCurrentLimit    = 4_A;  // Very hard to find, max found on amazon listing (doug said change to 4) [ECO-WORTHY 14mm/s 1000N -> https://www.amazon.com/ECO-LLC-Actuator-Mounting-Brackets/dp/B07L7XCSDW/ref=sr_1_2?c=ts&keywords=Linear+Motion+Actuators&qid=1678491620&refinements=p_89%3AECO-WORTHY&s=industrial&sr=1-2-catcorr&ts_id=350654011]
 constexpr units::ampere_t kArmHighCurrentLimit   = 12_A; // Works between 4 and 12 amps [PA-04 -> https://www.progressiveautomations.com/products/linear-actuator-ip66]
+
+inline double kClawMoveTime = 1000;
+inline bool kUseLimitSwitches = false;
 
 inline double kArmLowP  = 0.4;
 inline double kArmLowI  = 0;
@@ -271,4 +274,5 @@ constexpr int kDriverControllerPort = 0;
 constexpr int kManipControllerPort = 1;
 constexpr int kDebugControllerPort = 2;
 constexpr double kDriveDeadband = 0.15;
+constexpr double kLEDBrightness = 0.2;
 }  // namespace IOConstants

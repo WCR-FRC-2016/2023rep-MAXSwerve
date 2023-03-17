@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <string>
+
 #include <frc2/command/SubsystemBase.h>
 #include <frc/AddressableLED.h>
 
@@ -33,6 +35,8 @@ class LEDController : public frc2::SubsystemBase {
   void Cube();
   void Cube2();
   void Flash(int i);
+  void DrawWord();
+  void DrawLetter(char c, int x, int y);
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be
@@ -46,5 +50,10 @@ class LEDController : public frc2::SubsystemBase {
   int i = 0;
   //int j = 0;
   int y = 0;
-  int state = 0;
+  int state = 3;
+
+  // LED Brightness from config (shortened to fit more easily in expressions).
+  double bright = IOConstants::kLEDBrightness;
+
+  std::string word = "WE HAVE MORE LETTERS NOW";
 };

@@ -28,6 +28,7 @@
 #include "commands/AutoAlignCommand.h"
 #include "commands/ReflectiveAlignCommand.h"
 #include "commands/MoveOverCommand.h"
+#include "commands/MoveClawCommand.h"
 #include "subsystems/DriveSubsystem.h"
 #include "utils/JsonUtils.hpp"
 
@@ -66,6 +67,7 @@ RobotContainer::RobotContainer() : m_wrapper(m_drive, m_arm, m_limelight, m_leds
             -units::radians_per_second_t{frc::ApplyDeadband(
                 m_driverController.GetRightX(), IOConstants::kDriveDeadband)},
             m_relative, m_rate_limit);
+        Logger::Log(LogLevel::Dev) << "gyro: " << m_drive.GetHeading() << LoggerCommand::Flush;
         },
         {&m_drive}));
 
@@ -80,13 +82,13 @@ RobotContainer::RobotContainer() : m_wrapper(m_drive, m_arm, m_limelight, m_leds
         }
 
         // Claw
-        auto close_pressed = m_manipController.GetLeftBumper() ?  1.0 : 0.0;
-        auto open_pressed =  m_manipController.GetRightBumper() ? 1.0 : 0.0;
+        //auto close_pressed = m_manipController.GetLeftBumper() ?  1.0 : 0.0;
+        //auto open_pressed =  m_manipController.GetRightBumper() ? 1.0 : 0.0;
 
         auto spit = m_manipController.GetRightTriggerAxis()  > 0.5 ? 1.0 : 0.0;
         auto suck = m_manipController.GetLeftTriggerAxis() > 0.5 ? 1.0 : 0.0;
 
-        m_arm.DriveClaw(open_pressed - close_pressed);
+        //m_arm.DriveClaw(open_pressed - close_pressed);
         m_arm.DriveCollectWheels(suck - spit);
 
         //PrintDebugStuff();
@@ -139,6 +141,7 @@ void RobotContainer::ConfigureButtonBindings() {
         MoveOverCommand(m_drive, DriveConstants::kMoveOverTime),
         [this] {return m_limelight.IsSubstation();}
       ));
+  
 
   // Map this to potentially reset just the rotation and not the position???
   frc2::JoystickButton(&m_driverController,
@@ -150,6 +153,15 @@ void RobotContainer::ConfigureButtonBindings() {
   frc2::JoystickButton(&m_driverController, ControlConstants::DebugLEDButton)
       .OnTrue(new frc2::InstantCommand(
           [this] { m_leds.SetState((m_leds.GetState() + 1) % 3); }, {&m_leds}));
+
+  // TODO: these shouldn't be backwards. What's going on?
+  frc2::JoystickButton(&m_manipController,
+                       ControlConstants::CloseClawButton)
+      .OnTrue(new MoveClawCommand(m_arm, 1.0));
+  
+  frc2::JoystickButton(&m_manipController,
+                       ControlConstants::OpenClawButton)
+      .OnTrue(new MoveClawCommand(m_arm, -1.0));
 
   // Arm State Change Command
   frc2::JoystickButton(&m_manipController, ControlConstants::PosCarryButton)
@@ -230,5 +242,5 @@ void RobotContainer::ResetAutoCommandCount() {
 }
 
 void RobotContainer::PostConfigInit() {
-    m_arm.SetClaw(0); // TODO: Implement this
+    //m_arm.SetClaw(0); // TODO: Implement this
 }

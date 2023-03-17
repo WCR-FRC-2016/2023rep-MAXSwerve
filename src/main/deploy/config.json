@@ -95,7 +95,7 @@
     "move-over-time": 600,
     "move-over-sub-time": 1000,
     "auto-max-speed": 3.0,
-    "auto-command": 0,
+    "auto-command": 2,
     "auto-pcontroller-x": 0.5,
     "auto-pcontroller-y": 0.5,
     "auto-pcontroller-theta": 0.5,

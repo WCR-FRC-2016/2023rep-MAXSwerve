@@ -151,8 +151,8 @@ constexpr int kHandLeftId  = 4;
 constexpr int kArmLowId    = 6;
 constexpr int kArmHighId   = 7;
 
-constexpr int kArmLowEncoderId  = 0; // DIO slot 0 on RoboRio 2.0
-constexpr int kArmHighEncoderId = 1; // DIO slot 1 on RoboRio 2.0
+constexpr int kArmLowEncoderId  = 3; // DIO slot 0 on RoboRio 2.0
+constexpr int kArmHighEncoderId = 2; // DIO slot 1 on RoboRio 2.0
 
 constexpr units::ampere_t kHandLeftCurrentLimit  = 26_A; // Works between 2 and 26 amps [Johnson Electric PLG Motor -> https://www.andymark.com/products/johnson-electric-gearmotor-and-output-shaft]
 constexpr units::ampere_t kHandRightCurrentLimit = 26_A; // Works between 2 and 26 amps [Johnson Electric PLG Motor -> https://www.andymark.com/products/johnson-electric-gearmotor-and-output-shaft]

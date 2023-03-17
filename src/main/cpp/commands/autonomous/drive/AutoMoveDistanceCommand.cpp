@@ -35,9 +35,9 @@ void AutoMoveDistanceCommand::Initialize() {
         Logger::Log(LogLevel::Dev) << x_speed << " " << y_speed << " " << rot_speed_double << LoggerCommand::Flush;
         //Logger::Log(LogLevel::Dev) << 
 
-        m_move_time_x = x_dist / x_speed;
-        m_move_time_y = y_dist / y_speed;
-        m_rot_time    = rot_dist / rot_speed_double;
+        m_move_time_x = std::abs(x_dist / x_speed);
+        m_move_time_y = std::abs(y_dist / y_speed);
+        m_rot_time    = std::abs(rot_dist / rot_speed_double);
 
         Logger::Log(LogLevel::Dev) << "Speed-x: " << m_speed_x << ", Speed-y: " << m_speed_y << ", Speed-rot" << m_speed_rot << LoggerCommand::Flush; 
         Logger::Log(LogLevel::Dev) << "Time-x: " << m_move_time_x << ", Time-y: " << m_move_time_y << ", Time-rot" << m_rot_time << LoggerCommand::Flush; 

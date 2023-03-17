@@ -7,8 +7,7 @@
 #include "utils/JsonUtils.hpp"
 
 AutoMoveDistanceCommand::AutoMoveDistanceCommand(AutoSubsystemWrapper& wrapper, AutoCommandInfo& info) : m_wrapper(wrapper), m_info(info) { 
-    AddRequirements(&m_wrapper.m_drive);
-    AddRequirements(&m_wrapper.m_arm);
+    AddRequirements({&m_wrapper.m_drive, &m_wrapper.m_arm});
 }
 void AutoMoveDistanceCommand::Initialize() {
     try {
@@ -39,10 +38,12 @@ void AutoMoveDistanceCommand::Initialize() {
             m_move_time_x = 0.0;
         else
             m_move_time_x = std::abs(x_dist / x_speed);
+        
         if (y_speed == 0.0) 
             m_move_time_y = 0.0;
         else
             m_move_time_y = std::abs(y_dist / y_speed);
+        
         if (rot_speed_double == 0.0) 
             m_rot_time = 0.0;
         else
@@ -53,7 +54,6 @@ void AutoMoveDistanceCommand::Initialize() {
     } catch (...) {
         Logger::Log(LogLevel::Autonomous) << "Failed to initialize AutoMoveDistanceCommand" << LoggerCommand::Flush;
     }
-    
 }
 void AutoMoveDistanceCommand::Execute() {
     units::meters_per_second_t x_move = 0_mps, y_move = 0_mps;
@@ -68,5 +68,7 @@ void AutoMoveDistanceCommand::Execute() {
     m_elapsed_time += 0.02;
 }
 bool AutoMoveDistanceCommand::IsFinished() {
-    return (m_elapsed_time > std::max(m_rot_time, std::max(m_move_time_x, m_move_time_y)));
+    // Chris: Why do we not just return this like we did before?
+    auto done = (m_elapsed_time > std::max(m_rot_time, std::max(m_move_time_x, m_move_time_y)));
+    return done;
 }

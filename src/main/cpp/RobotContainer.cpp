@@ -201,12 +201,14 @@ void RobotContainer::ConfigureButtonBindings() {
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
+    // Chris: This seems like it's not working, right?
+    if (m_auto_command_index >= AutoConstants::kAutoSequences[AutoConstants::kSelectedAuto].Commands.size()) return nullptr;
+
     auto selected_command = AutoConstants::kAutoSequences[AutoConstants::kSelectedAuto].Commands[m_auto_command_index];
     m_auto_command_index++;
 
     Logger::Log(LogLevel::Dev) << "Getting Command: " << std::to_string(selected_command.CommandType) << LoggerCommand::Flush;
 
-    // TODO: Update these
     switch(selected_command.CommandType) {
         case 0:
             return new AutoMoveTimedCommand(m_wrapper, selected_command);
@@ -214,6 +216,8 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
             return new AutoMoveDistanceCommand(m_wrapper, selected_command);
         case 20:
             return new AutoArmMoveCommand(m_wrapper, selected_command);
+        case 21:
+            return new AutoWaitArmStateCommand(m_wrapper, selected_command);
         case 22:
             return new AutoDriveClawCommand(m_wrapper, selected_command);
         case 30:

@@ -153,6 +153,7 @@ units::meters_per_second_t DriveSubsystem::GetSpeed() { return m_speed; }
 void DriveSubsystem::SwapSpeed() {
   if (m_speed == DriveConstants::kMaxSpeed)
     m_speed = DriveConstants::kLowSpeed;
+    
   else
     m_speed = DriveConstants::kMaxSpeed;
 

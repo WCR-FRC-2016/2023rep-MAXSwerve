@@ -34,7 +34,7 @@
 
 #include "autonomous/commands/arm/AutoArmMoveCommand.hpp"
 #include "autonomous/commands/arm/AutoClawHitLimitSwitchCommand.hpp"
-#include "autonomous/commands/arm/AutoSetClawCollectStateCommand.hpp"
+#include "autonomous/commands/arm/AutoDriveClawCommand.hpp"
 #include "autonomous/commands/arm/AutoWaitArmStateCommand.hpp"
 #include "autonomous/commands/arm/AutoWaitLimitSwitchCommand.hpp"
 
@@ -212,8 +212,10 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
             return new AutoMoveTimedCommand(m_wrapper, selected_command);
         case 1:
             return new AutoMoveDistanceCommand(m_wrapper, selected_command);
+        case 20:
+            return new AutoArmMoveCommand(m_wrapper, selected_command);
         case 22:
-            return new AutoSetClawCollectStateCommand(m_wrapper, selected_command);
+            return new AutoDriveClawCommand(m_wrapper, selected_command);
         case 30:
             return new AutoTimedWaitCommand(m_wrapper, selected_command);
         default:

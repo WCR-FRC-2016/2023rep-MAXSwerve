@@ -12,8 +12,6 @@ class AutoArmMoveCommand
  public:
     AutoArmMoveCommand(AutoSubsystemWrapper& wrapper, AutoCommandInfo& info);
 
-    void Initialize() override;
-    void Execute() override;
     bool IsFinished() override;
 private:
     AutoSubsystemWrapper& m_wrapper;

@@ -6,24 +6,52 @@
         "utility": false,
         "important": false,
         "error": false,
-        "autonomous": false,
+        "autonomous": true,
         "match": true,
         "dev": false
     },
 
     "autonomous-routines": [
         {
-            "name": "Move Forward",
+            "name": "Spit",
             "commands": [
+                {
+                    "type": 20,
+                    "data": {
+                        "arm-state": 4
+                    }
+                },
                 {
                     "type": 1,
                     "data": {
-                        "distance-x": 2.0,
-                        "speed-x": -1.0,
+                        "distance-x": 0.47,
+                        "speed-x": -1,
                         "distance-y": 0.0,
                         "speed-y": 0.0,
                         "distance-rot": 0.0,
                         "speed-rot": 0.0,
+                        "field-relative": false
+                    }
+                },
+                {
+                    "type": 21,
+                    "data": { }
+                },
+                {
+                    "type": 22,
+                    "data": {
+                        "claw-state": -1
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": {
+                        "speed-x": -1.0,
+                        "speed-y": 0.0,
+                        "speed-rot": 0.0,
+                        "distance-x": 2.0,
+                        "distance-y": 0.0,
+                        "distance-rot": 0.0,
                         "field-relative": false
                     }
                 }
@@ -37,29 +65,22 @@
                     "data": {
                         "claw-state": -1
                     }
-                },
+                }
+            ]
+        },
+        {
+            "name": "Move Back",
+            "commands": [
                 {
-                    "type": 30,
+                    "type": 1,
                     "data": {
-                        "time": 2.0
-                    }
-                },
-                {
-                    "type": 22,
-                    "data": {
-                        "claw-state": -1
-                    }
-                },
-                {
-                    "type": 30,
-                    "data": {
-                        "time": 2.0
-                    }
-                },
-                {
-                    "type": 22,
-                    "data": {
-                        "claw-state": 0
+                        "distance-x": 2.0,
+                        "speed-x": -1.0,
+                        "distance-y": 0.0,
+                        "speed-y": 0.0,
+                        "distance-rot": 0.0,
+                        "speed-rot": 0.0,
+                        "field-relative": false
                     }
                 }
             ]

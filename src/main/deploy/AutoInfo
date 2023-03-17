@@ -28,7 +28,7 @@
 // Arm [includes claw]
 [x] [20]: AutoSetArmStateCommand
 [x] [21]: AutoWaitArmStateCommand
-[x] [22]: AutoSetClawCollectStateCommand
+[x] [22]: AutoDriveClawCommand // Drives the collector wheels (ironically)
 [ ] [23]: AutoTimedClawCloseCommand
 [x] [24]: AutoWaitLimitSwitchCommand
 [x] [25]: AutoClawHitLimitSwitchCommand
@@ -80,7 +80,7 @@ AutoWaitArmStateCommand [21]: [x]
  . Description:
     : A command that pauses the autonomous routine until the arm has reached its goal state
 
-AutoSetClawCollectStateCommand [22]: [x]
+AutoDriveClawCommand [22]: [x]
  . Description:
     : A command that sets the claw collect state
  . claw-state -> int: State to set the claw collect state [1 collects, 0 stops, -1 rejects]

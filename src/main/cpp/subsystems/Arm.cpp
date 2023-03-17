@@ -93,6 +93,9 @@ void Arm::Periodic() {
   }
 
   TurnToAngles(low, high);
+  if (m_use_collect_state) {
+    DriveCollectWheels(m_collect_state);
+  }
 
   if (m_arm_low_pid.AtSetpoint() && m_arm_high_pid.AtSetpoint()) {
     m_state = m_goal_state;
@@ -135,7 +138,6 @@ void Arm::TurnToAngles(units::degree_t low, units::degree_t high) {
   if (!m_arm_low_pid.AtSetpoint())   m_low_actuator.Drive(low_move);
   if (!m_arm_high_pid.AtSetpoint()) m_high_actuator.Drive(high_move);
 
-  if (m_use_collect_state) DriveCollectWheels(m_collect_state);
   //if (m_use_claw_state) DriveClaw(m_claw_state);
 }
 

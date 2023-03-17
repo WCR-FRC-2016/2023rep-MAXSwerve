@@ -75,7 +75,7 @@ class Arm : public frc2::SubsystemBase {
   int m_next_goal_state = -1;
 
   bool m_use_collect_state = false;
-  int m_collect_state = 0;
+  int m_collect_state = 1;
 
   //bool m_use_claw_state = false;
   // Cube = 0, Cone = 1

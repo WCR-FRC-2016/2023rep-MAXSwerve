@@ -6,6 +6,8 @@
 
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandScheduler.h>
+#include <cscore_oo.h>
+#include <cameraserver/CameraServer.h>
 
 #include "Constants.h"
 #include "Config.hpp"
@@ -13,6 +15,8 @@
 void Robot::RobotInit() {
   loadConfig();
   m_container.PostConfigInit();
+
+  cs::UsbCamera camera = frc::CameraServer::StartAutomaticCapture();
 }
 
 /**

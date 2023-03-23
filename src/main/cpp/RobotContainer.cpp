@@ -227,6 +227,7 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
 
 void RobotContainer::InitTeleop() {
     m_drive.SetSpeed(DriveConstants::kDefaultSlow ? DriveConstants::kLowSpeed : DriveConstants::kFastSpeed);
+    m_drive.SetRotSpeed(DriveConstants::kDefaultSlow ? DriveConstants::kLowRotSpeed : DriveConstants::kFastRotSpeed);
     m_arm.SetCollectUseState(false);
     m_leds.SetState(m_relative?4:5);
 }
@@ -235,6 +236,7 @@ void RobotContainer::InitAutonomous() {
     m_auto_command_index = 0;
 
     m_drive.SetSpeed(AutoConstants::kAutoMaxSpeed);
+    m_drive.SetRotSpeed(AutoConstants::kMaxAngularSpeed);
     m_arm.SetCollectUseState(false);
 }
 

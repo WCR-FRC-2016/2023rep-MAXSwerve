@@ -150,6 +150,9 @@ void DriveSubsystem::SetX() {
 // Speed
 void DriveSubsystem::SetSpeed(units::meters_per_second_t value) { m_speed = value; }
 units::meters_per_second_t DriveSubsystem::GetSpeed() { return m_speed; }
+void DriveSubsystem::SetRotSpeed(units::radians_per_second_t value) { m_angular_speed = value; }
+units::radians_per_second_t DriveSubsystem::GetRotSpeed() { return m_angular_speed; }
+
 void DriveSubsystem::SwapSpeed() {
   if (m_speed == DriveConstants::kMaxSpeed) {
     m_speed = DriveConstants::kLowSpeed;
@@ -161,7 +164,7 @@ void DriveSubsystem::SwapSpeed() {
   }
 
   Logger::Log(LogLevel::Match) << "Driving Speed Set to: " << m_speed << LoggerCommand::Flush;
-  Logger::Log(LogLevel::Match) << "Rotation Speed Set to: " << m_rot_speed << LoggerCommand::Flush;
+  Logger::Log(LogLevel::Match) << "Rotation Speed Set to: " << m_angular_speed << LoggerCommand::Flush;
 }
 
 void DriveSubsystem::SetModuleStates(

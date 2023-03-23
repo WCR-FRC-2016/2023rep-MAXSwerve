@@ -51,6 +51,9 @@ class DriveSubsystem : public frc2::SubsystemBase {
   // Speed
   void SetSpeed(units::meters_per_second_t value);
   units::meters_per_second_t GetSpeed();
+  
+  void SetRotSpeed(units::radians_per_second_t value);
+  units::radians_per_second_t GetRotSpeed();
 
   /**
    * Resets the drive encoders to currently read a position of 0.

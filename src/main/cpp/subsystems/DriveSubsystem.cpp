@@ -161,7 +161,7 @@ void DriveSubsystem::SwapSpeed() {
   }
 
   Logger::Log(LogLevel::Match) << "Driving Speed Set to: " << m_speed << LoggerCommand::Flush;
-  Logger::Log(LogLevel::Match) << "Rotation Speed Set to: " << m_rot_speed << LoggerCommand::Flush;
+  Logger::Log(LogLevel::Match) << "Rotation Speed Set to: " << m_angular_speed << LoggerCommand::Flush;
 }
 
 void DriveSubsystem::SetModuleStates(

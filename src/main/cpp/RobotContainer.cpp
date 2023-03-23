@@ -98,6 +98,9 @@ RobotContainer::RobotContainer() : m_wrapper(m_drive, m_arm, m_limelight, m_leds
 }
 
 void RobotContainer::ConfigureButtonBindings() {
+  frc2::JoystickButton(&m_driverController, ControlConstants::SetHeading90Button)
+      .OnTrue(new frc2::InstantCommand([this] { m_drive.SetHeading(90_deg); }, {&m_drive}));
+
   frc2::JoystickButton(&m_driverController, ControlConstants::xModeButton)
       .WhileTrue(new frc2::RunCommand([this] { m_drive.SetX(); }, {&m_drive}));
 

@@ -1,5 +1,29 @@
 [
-    {
+    
 
+    {
+        "UNUSED FILE": true,
+        "name": "test",
+        "commands": [
+            {
+                "id": 0,
+                "data": {
+
+                }
+            }
+        ]
     }
+    ,
+                {
+                    "type": 1,
+                    "data": {
+                        "distance-x": -1.0,
+                        "speed-x": 1.0,
+                        "distance-y": 0.0,
+                        "speed-y": 0.0,
+                        "distance-rot": 0.0,
+                        "speed-rot": 0.0,
+                        "field-relative": false
+                    }
+                }
 ]

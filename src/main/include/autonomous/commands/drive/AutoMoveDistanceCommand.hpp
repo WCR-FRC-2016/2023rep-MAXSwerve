@@ -15,6 +15,7 @@ class AutoMoveDistanceCommand
     void Initialize() override;
     void Execute() override;
     bool IsFinished() override;
+    void End(bool) override;
 private:
     AutoSubsystemWrapper& m_wrapper;
     AutoCommandInfo m_info;

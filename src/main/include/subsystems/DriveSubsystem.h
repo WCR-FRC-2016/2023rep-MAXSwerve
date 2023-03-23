@@ -120,7 +120,8 @@ class DriveSubsystem : public frc2::SubsystemBase {
   AHRS m_gyro;
 
   // Current Speed
-  units::meters_per_second_t m_speed = DriveConstants::kLowSpeed;  
+  units::meters_per_second_t m_speed = DriveConstants::kLowSpeed;
+  units::radians_per_second_t m_angular_speed = DriveConstants::kLowRotSpeed;
 
   // Slew rate filter variables for controlling lateral acceleration
   double m_currentRotation = 0.0;

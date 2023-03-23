@@ -6,9 +6,7 @@
 #include "utils/JsonUtils.hpp"
 
 AutoTimedWaitCommand::AutoTimedWaitCommand(AutoSubsystemWrapper& wrapper, AutoCommandInfo& info) : m_wrapper(wrapper), m_info(info) { 
-    AddRequirements(&m_wrapper.m_limelight);
-    AddRequirements(&m_wrapper.m_drive);
-    AddRequirements(&m_wrapper.m_arm);
+
 }
 void AutoTimedWaitCommand::Initialize() {
     try {
@@ -21,7 +19,7 @@ void AutoTimedWaitCommand::Execute() {
     m_elapsed_time += 0.02;
 }
 void AutoTimedWaitCommand::End(bool interrupted) {
-
+    m_wrapper.m_drive.Drive(0_mps, 0_mps, 0_rad_per_s, false, true);
 }
 bool AutoTimedWaitCommand::IsFinished() {
     return m_elapsed_time > m_target_time;

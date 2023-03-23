@@ -30,6 +30,7 @@ class LEDController : public frc2::SubsystemBase {
   void SetHSV(int x, int y, int h, int s, int v);
   void Flush();
   void Clear();
+  void Fill(int r, int g, int b);
   void Circles();
   void Cone();
   void Cube();

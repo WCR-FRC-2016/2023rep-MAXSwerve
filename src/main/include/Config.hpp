@@ -52,6 +52,15 @@ inline void loadConfig() {
         DriveConstants::kMoveOverSubTime = json["move-over-sub-time"].get<double>();
         DriveConstants::kDefaultSlow = json["default-slow"].get<bool>();
 
+        auto max_rot_speed = json["drive-max-rot-speed"].get<double>();
+        auto max_rot_speed_rads = max_rot_speed * std::numbers::pi / 180.0;
+
+        //auto fast_rot_speed = json[""]
+
+        DriveConstants::kMaxAngularSpeed = units::radians_per_second_t{max_rot_speed_rads};
+
+        Logger::Log(LogLevel::All) << "Max Rot Speed: " << max_rot_speed_rads << LoggerCommand::Flush;
+
         // Auto Constants
         AutoConstants::kAutoMaxSpeed = units::meters_per_second_t{json["auto-max-speed"].get<double>()};
         AutoConstants::kPXController = json["auto-pcontroller-x"].get<double>();

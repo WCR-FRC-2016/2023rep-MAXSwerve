@@ -45,7 +45,8 @@
 
 // DRIVING [x]
 
-AutoMoveTimedCommand [0]: [x]
+// ROTATION DOESNT WORK
+AutoMoveTimedCommand [0]: [?]
  . Desciption:
     : Simple driving command that drives a set speed for a specific amount of time
  . time-x    -> double: Time to move forward/backwards for [seconds]
@@ -58,6 +59,7 @@ AutoMoveTimedCommand [0]: [x]
  . speed-rot -> double: Rotation speed (in degrees per second)
  . field-relative -> bool: Specifies whether the robot is moving relative to the field or itself
 
+// ROTATION DOESNT WORK
 AutoMoveDistanceCommand [1]: [x]
  . Desciption:
     : A fancier version of the AutoMoveTimedCommand, takes in distances and speeds and calculates how much time is needed on each axis to achieve that distance

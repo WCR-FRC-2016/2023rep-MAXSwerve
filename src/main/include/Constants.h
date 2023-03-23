@@ -45,10 +45,10 @@
 //  : Arm High:       Left Stick  [Manual Mode Only] [x]
 //  : Arm Low:        Right Stick [Manual Mode Only] [x]
 //  : Manual Mode:    Back [x]
-//  : Mid Goal:       X    [x]
-//  : High Goal:      Y    [x]
-//  : Carry Position: A    [x]
-//  : Piece Station:  B    [x]
+//  : Mid Goal:       X    [x] TODO: Ensure these are correct
+//  : High Goal:      Y    [x] TODO: Ensure these are correct
+//  : Carry Position: A    [x] TODO: Ensure these are correct
+//  : Piece Station:  B    [x] TODO: Ensure these are correct
 //  : Close Claw:     Left Bumper   [x]
 //  : Open Claw:      Right Bumper  [x]
 //  : Spit:           Left Trigger  [x]
@@ -99,15 +99,17 @@ namespace ControlConstants {
 namespace DriveConstants {
 // Driving Parameters - Note that these are not the maximum capable speeds of
 // the robot, rather the allowed maximum speeds
-inline units::meters_per_second_t     kMaxSpeed      = 4.8_mps;
-inline units::meters_per_second_t     kDriveMaxSpeed = 4.8_mps;
-constexpr units::radians_per_second_t kMaxAngularSpeed{2 / 2 * std::numbers::pi};
+inline units::meters_per_second_t  kMaxSpeed      = 4.8_mps;
+inline units::meters_per_second_t  kDriveMaxSpeed = 4.8_mps;
+inline units::radians_per_second_t kMaxAngularSpeed{2 / 2 * std::numbers::pi};
 
 inline bool kDefaultSlow = false;
 
 // Mode Switch Speeds
-inline units::meters_per_second_t kFastSpeed = 3.0_mps;
-inline units::meters_per_second_t kLowSpeed = 1.0_mps;
+inline units::meters_per_second_t  kFastSpeed    = 3.0_mps;
+inline units::meters_per_second_t  kLowSpeed     = 1.0_mps;
+inline units::radians_per_second_t kFastRotSpeed = 0.0_rad_per_s;
+inline units::radians_per_second_t kLowRotSpeed  = 0.0_rad_per_s;
 
 inline double kMoveOverTime = 600;
 inline double kMoveOverSubTime = 600;
@@ -274,5 +276,5 @@ constexpr int kDriverControllerPort = 0;
 constexpr int kManipControllerPort = 1;
 constexpr int kDebugControllerPort = 2;
 constexpr double kDriveDeadband = 0.15;
-constexpr double kLEDBrightness = 0.2;
+constexpr double kLEDBrightness = 1.0;
 }  // namespace IOConstants

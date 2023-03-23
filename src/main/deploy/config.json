@@ -1,16 +1,32 @@
 {
-    "log-levels": {
-        "none": false,
-        "all": false,
-        "info": false,
-        "utility": false,
-        "important": false,
-        "error": false,
-        "autonomous": true,
-        "match": true,
-        "dev": false
-    },
+    "drive-max-speed": 4.0,
+    "drive-max-rot-speed": 270.0,
+    "fast-speed": 3.0,
+    "slow-speed": 1.0,
+    "fast-rot-speed": 270.0,
+    "slow-rot-speed": 180.0,
+    "align-speed": 1.0,
+    "align-rotation-speed": 2.0,
+    "move-over-time": 600,
+    "move-over-sub-time": 1000,
+    "auto-max-speed": 3.0,
+    "auto-pcontroller-x": 0.5,
+    "auto-pcontroller-y": 0.5,
+    "auto-pcontroller-theta": 0.5,
+    "arm-low-offset": 72.2,
+    "arm-high-offset": -52.5,
+    "arm-low-p":  0.2,
+    "arm-low-i":  0,
+    "arm-low-d":  0,
+    "arm-high-p": 0.005,
+    "arm-high-i": 0,
+    "arm-high-d": 0,
+    "claw-move-time": 920,
+    "use-limit-switches": false,
 
+    "default-slow": false,
+
+    "auto-command": 1,
     "autonomous-routines": [
         {
             "name": "Spit",
@@ -24,8 +40,8 @@
                 {
                     "type": 1,
                     "data": {
-                        "distance-x": 0.47,
-                        "speed-x": -1,
+                        "distance-x": 0.48,
+                        "speed-x": -1.0,
                         "distance-y": 0.0,
                         "speed-y": 0.0,
                         "distance-rot": 0.0,
@@ -34,8 +50,22 @@
                     }
                 },
                 {
-                    "type": 21,
-                    "data": { }
+                    "type": 30,
+                    "data": { 
+                        "time": 3.0
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": {
+                        "distance-x": 0.44,
+                        "speed-x": 1.0,
+                        "distance-y": 0.0,
+                        "speed-y": 0.0,
+                        "distance-rot": 0.0,
+                        "speed-rot": 0.0,
+                        "field-relative": false
+                    }
                 },
                 {
                     "type": 22,
@@ -44,26 +74,88 @@
                     }
                 },
                 {
+                    "type": 30,
+                    "data": { 
+                        "time": 0.5
+                    }
+                },
+                {
+                    "type": 20,
+                    "data": {
+                        "arm-state": 1
+                    }
+                },
+                {
                     "type": 1,
                     "data": {
-                        "speed-x": -1.0,
-                        "speed-y": 0.0,
-                        "speed-rot": 0.0,
-                        "distance-x": 2.0,
-                        "distance-y": 0.0,
-                        "distance-rot": 0.0,
+                        "distance-x": 4.0,
+                        "speed-x": -2.0,
                         "field-relative": false
                     }
                 }
             ]
         },
         {
-            "name": "Arm Test",
+            "name": "Better Move Back",
             "commands": [
                 {
                     "type": 22,
                     "data": {
                         "claw-state": -1
+                    }
+                },
+                {
+                    "type": 30,
+                    "data": {
+                        "time": 0.5
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": {
+                        "distance-x": 0.44,
+                        "speed-x": -1.0,
+                        "distance-y": 0.0,
+                        "speed-y": 0.0,
+                        "distance-rot": 0.0,
+                        "speed-rot": 0.0,
+                        "field-relative": false
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": {
+                        "distance-x": 0.0,
+                        "speed-x": 0.0,
+                        "distance-y": 0.0,
+                        "speed-y": 0.0,
+                        "distance-rot": 115.0,
+                        "speed-rot": 90.0,
+                        "field-relative": false
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": {
+                        "distance-x": 0.44,
+                        "speed-x": -1.0,
+                        "distance-y": 0.0,
+                        "speed-y": 0.0,
+                        "distance-rot": 0.0,
+                        "speed-rot": 0.0,
+                        "field-relative": false
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": {
+                        "distance-x": 4.0,
+                        "speed-x": 1.0,
+                        "distance-y": 0.0,
+                        "speed-y": 0.0,
+                        "distance-rot": 0.0,
+                        "speed-rot": 0.0,
+                        "field-relative": false
                     }
                 }
             ]
@@ -74,7 +166,7 @@
                 {
                     "type": 1,
                     "data": {
-                        "distance-x": 2.0,
+                        "distance-x": 4.0,
                         "speed-x": -1.0,
                         "distance-y": 0.0,
                         "speed-y": 0.0,
@@ -87,28 +179,15 @@
         }
     ],
 
-    "drive-max-speed": 3,
-    "fast-speed": 2.5,
-    "slow-speed": 1.0,
-    "align-speed": 1.0,
-    "align-rotation-speed": 2.0,
-    "move-over-time": 600,
-    "move-over-sub-time": 1000,
-    "auto-max-speed": 3.0,
-    "auto-command": 2,
-    "auto-pcontroller-x": 0.5,
-    "auto-pcontroller-y": 0.5,
-    "auto-pcontroller-theta": 0.5,
-    "arm-low-offset": 72.2,
-    "arm-high-offset": -52.5,
-    "arm-low-p":  0.2,
-    "arm-low-i":  0,
-    "arm-low-d":  0,
-    "arm-high-p": 0.005,
-    "arm-high-i": 0,
-    "arm-high-d": 0,
-    "claw-move-time": 800,
-    "use-limit-switches": false,
-
-    "default-slow": false
+    "log-levels": {
+        "none": false,
+        "all": false,
+        "info": false,
+        "utility": false,
+        "important": false,
+        "error": false,
+        "autonomous": true,
+        "match": true,
+        "dev": false
+    }
 }

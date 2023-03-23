@@ -12,6 +12,7 @@
 
 void Robot::RobotInit() {
   loadConfig();
+  m_container.PostConfigInit();
 }
 
 /**
@@ -30,7 +31,6 @@ void Robot::RobotPeriodic() { frc2::CommandScheduler::GetInstance().Run(); }
  * robot is disabled.
  */
 void Robot::DisabledInit() {
-  m_container.ResetArmState();
 }
 
 void Robot::DisabledPeriodic() {}
@@ -42,7 +42,8 @@ void Robot::DisabledPeriodic() {}
 void Robot::AutonomousInit() {
   DriveConstants::kMaxSpeed = AutoConstants::kAutoMaxSpeed;
 
-  m_container.ResetAutoCommandCount();
+  m_container.InitAutonomous();
+
   m_autonomousCommand = m_container.GetAutonomousCommand();
 
   if (m_autonomousCommand != nullptr) {
@@ -51,7 +52,7 @@ void Robot::AutonomousInit() {
 }
 
 void Robot::AutonomousPeriodic() {
-  if (m_autonomousCommand->IsFinished()) {
+  if (m_autonomousCommand != nullptr && m_autonomousCommand->IsFinished()) {
     m_autonomousCommand = m_container.GetAutonomousCommand();
 
     if (m_autonomousCommand != nullptr) {

@@ -20,7 +20,6 @@
 #include <units/velocity.h>
 #include <units/time.h>
 
-
 #include <utility>
 
 #include "Constants.h"
@@ -98,10 +97,6 @@ RobotContainer::RobotContainer() : m_wrapper(m_drive, m_arm, m_limelight, m_leds
   m_limelight.Deactivate();
 }
 
-void RobotContainer::PrintDebugStuff() {
-    Logger::Log(LogLevel::All) << "Encoder 4 state: " << TestEncoder.Get() << LoggerCommand::Flush;
-}
-
 void RobotContainer::ConfigureButtonBindings() {
   frc2::JoystickButton(&m_driverController, ControlConstants::xModeButton)
       .WhileTrue(new frc2::RunCommand([this] { m_drive.SetX(); }, {&m_drive}));
@@ -109,7 +104,10 @@ void RobotContainer::ConfigureButtonBindings() {
   // Toggle Field Relative
   frc2::JoystickButton(&m_driverController, ControlConstants::RelativeButton)
       .OnTrue(
-          new frc2::InstantCommand([this] { m_relative ^= true; }, {&m_drive}));
+          new frc2::InstantCommand([this] {
+            m_relative ^= true;
+            m_leds.SetState(m_relative?4:5);
+          }, {&m_drive, &m_leds}));
 
   frc2::JoystickButton(&m_driverController, ControlConstants::AlignATButton)
       .WhileTrue(new AutoAlignCommand(m_drive, m_limelight));
@@ -184,30 +182,23 @@ void RobotContainer::ConfigureButtonBindings() {
 
     frc2::POVButton(&m_manipController, 0, 0).OnTrue(new frc2::InstantCommand([this] { 
         m_leds.SetState(1); 
-        Logger::Log(LogLevel::All) << "CONE LEDS ENABLED" << LoggerCommand::Flush;
     }, {&m_leds}));
     frc2::POVButton(&m_manipController, 180, 0).OnTrue(new frc2::InstantCommand([this] { 
         m_leds.SetState(2); 
-        Logger::Log(LogLevel::All) << " CUBE LEDS ENABLED" << LoggerCommand::Flush;
     }, {&m_leds}));
     frc2::POVButton(&m_manipController, 90, 0).OnTrue(new frc2::InstantCommand([this] { 
         m_leds.SetState(0); 
-        Logger::Log(LogLevel::All) << " Hypno LEDS ENABLED" << LoggerCommand::Flush;
     }, {&m_leds}));
     frc2::POVButton(&m_manipController, 270, 0).OnTrue(new frc2::InstantCommand([this] { 
         m_leds.SetState(0); 
-        Logger::Log(LogLevel::All) << " Hypno LEDS ENABLED" << LoggerCommand::Flush;
     }, {&m_leds}));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
-    // Chris: This seems like it's not working, right?
     if (m_auto_command_index >= AutoConstants::kAutoSequences[AutoConstants::kSelectedAuto].Commands.size()) return nullptr;
 
     auto selected_command = AutoConstants::kAutoSequences[AutoConstants::kSelectedAuto].Commands[m_auto_command_index];
     m_auto_command_index++;
-
-    Logger::Log(LogLevel::Dev) << "Getting Command: " << std::to_string(selected_command.CommandType) << LoggerCommand::Flush;
 
     switch(selected_command.CommandType) {
         case 0:
@@ -228,19 +219,18 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
 }
 
 void RobotContainer::InitTeleop() {
-    m_arm.SetCollectUseState(false);
     m_drive.SetSpeed(DriveConstants::kDefaultSlow ? DriveConstants::kLowSpeed : DriveConstants::kFastSpeed);
+    m_arm.SetCollectUseState(false);
+    m_leds.SetState(m_relative?4:5);
 }
 
-void RobotContainer::ResetArmState() {
-    m_arm.SetState(-1);
+void RobotContainer::InitAutonomous() {
+    m_auto_command_index = 0;
+
+    m_drive.SetSpeed(AutoConstants::kAutoMaxSpeed);
     m_arm.SetCollectUseState(false);
 }
 
-void RobotContainer::ResetAutoCommandCount() {
-    m_auto_command_index = 0;
-}
+void RobotContainer::PostConfigInit() { 
 
-void RobotContainer::PostConfigInit() {
-    //m_arm.SetClaw(0); // TODO: Implement this
 }

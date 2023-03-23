@@ -20,7 +20,6 @@ void AutoMoveTimedCommand::Initialize() {
         Logger::Log(LogLevel::Autonomous) << "Failed to initialize AutoMoveTimedCommand" << LoggerCommand::Flush;
     }
 }
-
 void AutoMoveTimedCommand::Execute() {
     auto x_speed = m_x_speed;
     auto y_speed = m_y_speed;
@@ -34,7 +33,9 @@ void AutoMoveTimedCommand::Execute() {
 
     m_elapsed_time = 0.02;
 }
-
+void AutoMoveTimedCommand::End(bool interrupted) {
+    m_wrapper.m_drive.Drive(0_mps, 0_mps, 0_rad_per_s, false, true);
+}
 bool AutoMoveTimedCommand::IsFinished() {
     return m_elapsed_time > std::max(std::max(m_x_time, m_y_time), m_rot_time);
 }

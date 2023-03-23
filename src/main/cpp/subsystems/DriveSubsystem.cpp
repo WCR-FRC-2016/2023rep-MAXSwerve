@@ -117,7 +117,7 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
   units::meters_per_second_t ySpeedDelivered =
       ySpeedCommanded * m_speed;
   units::radians_per_second_t rotDelivered =
-      m_currentRotation * DriveConstants::kMaxAngularSpeed;
+      m_currentRotation * m_angular_speed;
 
   auto states = kDriveKinematics.ToSwerveModuleStates(
       fieldRelative
@@ -151,13 +151,17 @@ void DriveSubsystem::SetX() {
 void DriveSubsystem::SetSpeed(units::meters_per_second_t value) { m_speed = value; }
 units::meters_per_second_t DriveSubsystem::GetSpeed() { return m_speed; }
 void DriveSubsystem::SwapSpeed() {
-  if (m_speed == DriveConstants::kMaxSpeed)
+  if (m_speed == DriveConstants::kMaxSpeed) {
     m_speed = DriveConstants::kLowSpeed;
-    
-  else
+    m_angular_speed = DriveConstants::kLowRotSpeed;
+  }
+  else {
     m_speed = DriveConstants::kMaxSpeed;
+    m_angular_speed = DriveConstants::kFastRotSpeed;
+  }
 
   Logger::Log(LogLevel::Match) << "Driving Speed Set to: " << m_speed << LoggerCommand::Flush;
+  Logger::Log(LogLevel::Match) << "Rotation Speed Set to: " << m_rot_speed << LoggerCommand::Flush;
 }
 
 void DriveSubsystem::SetModuleStates(

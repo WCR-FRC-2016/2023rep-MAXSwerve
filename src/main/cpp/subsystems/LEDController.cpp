@@ -49,6 +49,16 @@ void LEDController::Periodic() {
     case 3:
       DrawWord();
       break;
+    case 4: // Field-relative (blue)
+      Fill(0,0,255);
+      DrawLetter('F', 7, 6);
+      Flush();
+      break;
+    case 5: // Robot-relative (red)
+      Fill(255,0,0);
+      DrawLetter('R', 7, 6);
+      Flush();
+      break;
     default:
       Clear();
       Flush();
@@ -56,6 +66,12 @@ void LEDController::Periodic() {
   }
 }
 
+// 0: Hypno
+// 1: Cone
+// 2: Cube
+// 3: Scrolling text
+// 4: Field-relative
+// 5: Robot-relative
 void LEDController::SetState(int state) {this->state = state;}
 int LEDController::GetState() {return state;}
 
@@ -66,6 +82,14 @@ void LEDController::Clear() {
     }
   }
   //Flush();
+}
+
+void LEDController::Fill(int r, int g, int b) {
+  for (int x=0; x<32; x++) {
+    for (int y=0; y<16; y++) {
+      SetRGB(x, y, r, g, b);
+    }
+  }
 }
 
 void LEDController::Circles() {

@@ -73,6 +73,7 @@
 namespace ControlConstants {
     // Driver Controller
     constexpr int SetHeading90Button = frc::XboxController::Button::kA; // DEBUG!!! TODO: remove
+    constexpr int AutoBalanceButton  = frc::XboxController::Button::kB; // DEBUG!!! TODO: remove
     constexpr int xModeButton        = frc::XboxController::Button::kX;
     constexpr int RelativeButton     = frc::XboxController::Button::kY;
     constexpr int ResetHeadingButton = frc::XboxController::Button::kBack;

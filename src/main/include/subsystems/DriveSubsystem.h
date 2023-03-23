@@ -65,9 +65,16 @@ class DriveSubsystem : public frc2::SubsystemBase {
   /**
    * Returns the heading of the robot.
    *
-   * @return the robot's heading in degrees, from 180 to 180
+   * @return the robot's heading in degrees, from -180 to 180
    */
   units::degree_t GetHeading() const;
+
+  /**
+   * Returns the pitch of the robot.
+   *
+   * @return the robot's pitch in degrees, from -180 to 180
+   */
+  units::degree_t GetPitch();
 
   /**
    * Sets the heading of the robot.

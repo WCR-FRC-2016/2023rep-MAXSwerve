@@ -37,6 +37,7 @@
 #include "autonomous/commands/arm/AutoWaitArmStateCommand.hpp"
 #include "autonomous/commands/arm/AutoWaitLimitSwitchCommand.hpp"
 
+#include "autonomous/commands/drive/AutoBalanceCommand.hpp"
 #include "autonomous/commands/drive/AutoMoveDistanceCommand.hpp"
 #include "autonomous/commands/drive/AutoMoveTimedCommand.hpp"
 
@@ -100,6 +101,9 @@ RobotContainer::RobotContainer() : m_wrapper(m_drive, m_arm, m_limelight, m_leds
 void RobotContainer::ConfigureButtonBindings() {
   frc2::JoystickButton(&m_driverController, ControlConstants::SetHeading90Button)
       .OnTrue(new frc2::InstantCommand([this] { m_drive.SetHeading(90_deg); }, {&m_drive}));
+
+  frc2::JoystickButton(&m_driverController, ControlConstants::AutoBalanceButton)
+      .OnTrue(new AutoBalanceCommand(m_wrapper));
 
   frc2::JoystickButton(&m_driverController, ControlConstants::xModeButton)
       .WhileTrue(new frc2::RunCommand([this] { m_drive.SetX(); }, {&m_drive}));

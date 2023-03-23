@@ -184,7 +184,12 @@ units::degree_t DriveSubsystem::GetHeading() const {
   return units::degree_t{m_gyro.GetAngle()};
 }
 
-void DriveSubsystem::ZeroHeading() { m_gyro.Reset(); }
+void DriveSubsystem::SetHeading(units::degree_t heading) {
+  m_gyro.Reset();
+  m_gyro.SetAngleAdjustment(heading.value()); // TODO: check sign
+}
+
+void DriveSubsystem::ZeroHeading() { SetHeading(0_deg); }
 
 double DriveSubsystem::GetTurnRate() { return -m_gyro.GetRate(); }
 

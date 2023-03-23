@@ -70,6 +70,11 @@ class DriveSubsystem : public frc2::SubsystemBase {
   units::degree_t GetHeading() const;
 
   /**
+   * Sets the heading of the robot.
+   */
+  void SetHeading(units::degree_t heading);
+
+  /**
    * Zeroes the heading of the robot.
    */
   void ZeroHeading();

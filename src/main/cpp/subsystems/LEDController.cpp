@@ -97,7 +97,7 @@ void LEDController::Circles() {
   for (int x=0; x<16; x++) {
     for (int y=0; y<16; y++) {
       double d = sqrt((x-8)*(x-8) + (y-8)*(y-8));
-      SetRGB(x,y, 100+100*sin((i/200.0+d/10.0)*2*std::numbers::pi), 0, 0);
+      SetRGB(x,y, 80+120*sin((i/200.0+d/10.0)*2*std::numbers::pi), 0, 0);
     }
   }
   Flush();

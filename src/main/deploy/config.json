@@ -24,7 +24,7 @@
     "claw-move-time": 920,
     "use-limit-switches": false,
 
-    "default-slow": false,
+    "default-slow": true,
 
     "auto-command": 1,
     "autonomous-routines": [
@@ -129,7 +129,7 @@
                         "speed-x": 0.0,
                         "distance-y": 0.0,
                         "speed-y": 0.0,
-                        "distance-rot": 115.0,
+                        "distance-rot": 210.0,
                         "speed-rot": 90.0,
                         "field-relative": false
                     }
@@ -137,7 +137,7 @@
                 {
                     "type": 1,
                     "data": {
-                        "distance-x": 0.44,
+                        "distance-x": 0.46,
                         "speed-x": -1.0,
                         "distance-y": 0.0,
                         "speed-y": 0.0,

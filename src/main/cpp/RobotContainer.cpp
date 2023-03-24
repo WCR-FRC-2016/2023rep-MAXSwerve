@@ -212,6 +212,8 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
             return new AutoMoveTimedCommand(m_wrapper, selected_command);
         case 1:
             return new AutoMoveDistanceCommand(m_wrapper, selected_command);
+        case 3:
+            return new frc2::InstantCommand([this, selected_command] { m_drive.SetHeading(units::degree_t{getValueOrDefault<double>(selected_command.CommandData, "angle", 0.0)}); }, {&m_drive});
         case 20:
             return new AutoArmMoveCommand(m_wrapper, selected_command);
         case 21:

@@ -186,6 +186,18 @@ void RobotContainer::ConfigureButtonBindings() {
   frc2::JoystickButton(&m_manipController, ControlConstants::PosZeroButton)
       .OnTrue(
           new frc2::InstantCommand([this] { m_arm.SetState(6); }, {&m_arm}));
+  
+  frc2::Trigger([this] {return m_manipController.GetPOV() == 270 && m_manipController.GetBackButton();})
+      .OnTrue(new frc2::InstantCommand( [this] {
+          m_arm.OverrideClawPos(ArmConstants::kClawMoveTime);
+          Logger::Log(LogLevel::Important) << "WARNING: Claw position overridden to cone position." << LoggerCommand::Flush;
+      }, {&m_arm}));
+  
+  frc2::Trigger([this] {return m_manipController.GetPOV() == 90 && m_manipController.GetBackButton();})
+      .OnTrue(new frc2::InstantCommand( [this] {
+          m_arm.OverrideClawPos(0);
+          Logger::Log(LogLevel::Important) << "WARNING: Claw position overridden to cube position." << LoggerCommand::Flush;
+      }, {&m_arm}));
 
     frc2::POVButton(&m_manipController, 0, 0).OnTrue(new frc2::InstantCommand([this] { 
         m_leds.SetState(1); 

@@ -186,6 +186,11 @@ void Arm::DriveClaw(double dir) {
 
 int Arm::GetClawPos() { return m_current_pos; }
 
+// WARNING: Don't use this unless you know what you're doing (may break the claw otherwise)
+// 0 is fully cube position
+// ArmConstants::kClawMoveTime is fully cone position
+void Arm::OverrideClawPos(double new_pos) { m_current_pos = new_pos; }
+
 //  1 Sucks in
 // -1 Spits out
 void Arm::DriveCollectWheels(double dir) {

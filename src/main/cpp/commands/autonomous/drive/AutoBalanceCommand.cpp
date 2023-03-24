@@ -17,7 +17,7 @@ void AutoBalanceCommand::Initialize() {
     m_old_state = m_wrapper.m_leds.GetState();
 }
 void AutoBalanceCommand::Execute() {
-    double speed = m_wrapper.m_drive.GetPitch()/10_deg;
+    double speed = m_wrapper.m_drive.GetRoll()/10_deg;
 
     speed = std::clamp(speed, -1.0, 1.0);
 

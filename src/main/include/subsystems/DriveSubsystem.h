@@ -80,6 +80,13 @@ class DriveSubsystem : public frc2::SubsystemBase {
   units::degree_t GetPitch();
 
   /**
+   * Returns the roll of the robot.
+   *
+   * @return the robot's roll in degrees, from -180 to 180
+   */
+  units::degree_t GetRoll();
+
+  /**
    * Sets the heading of the robot.
    */
   void SetHeading(units::degree_t heading);

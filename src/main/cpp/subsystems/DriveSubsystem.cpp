@@ -195,6 +195,10 @@ units::degree_t DriveSubsystem::GetPitch() {
   return units::degree_t{m_gyro.GetPitch()};
 }
 
+units::degree_t DriveSubsystem::GetRoll() {
+  return units::degree_t{m_gyro.GetRoll()};
+}
+
 void DriveSubsystem::SetHeading(units::degree_t heading) {
   m_gyro.Reset();
   m_gyro.SetAngleAdjustment(heading.value()); // TODO: check sign

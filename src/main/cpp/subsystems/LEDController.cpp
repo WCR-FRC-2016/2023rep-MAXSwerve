@@ -59,6 +59,9 @@ void LEDController::Periodic() {
       DrawLetter('R', 7, 6);
       Flush();
       break;
+    case 6: // Angles (for autobalance)
+      DrawAngle();
+      break;
     default:
       Clear();
       Flush();
@@ -438,6 +441,24 @@ void LEDController::DrawLetter(char c, int x, int y) {
     default:
       return;
   }
+}
+
+void LEDController::DrawAngle() {
+  Clear();
+  for (int x = 0; x<16; x++) {
+    for (int y = 0; y<16; y++) {
+      double a = atan2(y-8,x-8);
+      double s = sin((angle/18.0-a/std::numbers::pi)*2*std::numbers::pi);
+      double s2 = sin((angle/18.0-a/std::numbers::pi)*std::numbers::pi + std::numbers::pi/4);
+      SetRGB(x, y, 60*pow(s2,10), 0, 50+50*s);
+    }
+  }
+
+  Flush();
+}
+
+void LEDController::SetAngle(double angle) {
+  this->angle = angle;
 }
 
 int LEDController::pos(int x, int y) {

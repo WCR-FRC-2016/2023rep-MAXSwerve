@@ -20,4 +20,6 @@ class AutoBalanceCommand
 private:
     AutoSubsystemWrapper& m_wrapper;
     AutoCommandInfo m_info;
+
+    int m_old_state;
 };

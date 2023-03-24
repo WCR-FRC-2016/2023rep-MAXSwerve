@@ -103,7 +103,7 @@ void RobotContainer::ConfigureButtonBindings() {
       .OnTrue(new frc2::InstantCommand([this] { m_drive.SetHeading(90_deg); }, {&m_drive}));
 
   frc2::JoystickButton(&m_driverController, ControlConstants::AutoBalanceButton)
-      .OnTrue(new AutoBalanceCommand(m_wrapper));
+      .WhileTrue(new AutoBalanceCommand(m_wrapper));
 
   frc2::JoystickButton(&m_driverController, ControlConstants::xModeButton)
       .WhileTrue(new frc2::RunCommand([this] { m_drive.SetX(); }, {&m_drive}));

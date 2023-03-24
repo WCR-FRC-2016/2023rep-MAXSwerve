@@ -38,6 +38,8 @@ class LEDController : public frc2::SubsystemBase {
   void Flash(int i);
   void DrawWord();
   void DrawLetter(char c, int x, int y);
+  void DrawAngle();
+  void SetAngle(double angle); // Takes angle between -18 and 18 (scales up by 10)
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be
@@ -52,6 +54,7 @@ class LEDController : public frc2::SubsystemBase {
   //int j = 0;
   int y = 0;
   int state = 0;
+  int angle = 0;
 
   // LED Brightness from config (shortened to fit more easily in expressions).
   double bright = IOConstants::kLEDBrightness;

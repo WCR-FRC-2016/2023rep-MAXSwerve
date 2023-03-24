@@ -44,8 +44,6 @@
 #include "autonomous/commands/utility/AutoResetOdometryCommand.hpp"
 #include "autonomous/commands/utility/AutoTimedWaitCommand.hpp"
 
-
-
 using namespace DriveConstants;
 
 RobotContainer::RobotContainer() : m_wrapper(m_drive, m_arm, m_limelight, m_leds) {
@@ -212,6 +210,8 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
             return new AutoMoveTimedCommand(m_wrapper, selected_command);
         case 1:
             return new AutoMoveDistanceCommand(m_wrapper, selected_command);
+        case 2:
+            return new AutoBalanceCommand(m_wrapper, selected_command);
         case 20:
             return new AutoArmMoveCommand(m_wrapper, selected_command);
         case 21:
@@ -220,6 +220,8 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
             return new AutoDriveClawCommand(m_wrapper, selected_command);
         case 30:
             return new AutoTimedWaitCommand(m_wrapper, selected_command);
+        case 31:
+            return new AutoResetOdometryCommand(m_wrapper, selected_command);
         default:
             return new frc2::InstantCommand([this, selected_command]() { Logger::Log(LogLevel::Autonomous) << "Command: [" << std::to_string(selected_command.CommandType) << "] not implemented!!!" << LoggerCommand::Flush; }, {});
     }

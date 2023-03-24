@@ -7,7 +7,7 @@
 // Driving
 [x] [0 ]: AutoMoveTimedCommand
 [x] [1 ]: AutoMoveDistanceCommand
-[ ] [2 ]: Reserved
+[ ] [2 ]: AutoBalanceCommand
 [ ] [3 ]: Reserved
 [ ] [4 ]: Reserved
 [ ] [5 ]: Reserved
@@ -59,7 +59,7 @@ AutoMoveTimedCommand [0]: [?]
  . speed-rot -> double: Rotation speed (in degrees per second)
  . field-relative -> bool: Specifies whether the robot is moving relative to the field or itself
 
-// ROTATION DOESNT WORK
+// ROTATION DOESNT WORK [well]
 AutoMoveDistanceCommand [1]: [x]
  . Desciption:
     : A fancier version of the AutoMoveTimedCommand, takes in distances and speeds and calculates how much time is needed on each axis to achieve that distance
@@ -70,6 +70,10 @@ AutoMoveDistanceCommand [1]: [x]
  . speed-y        -> double: [mps] Y speed [- moves left, + moves right]
  . speed-rot      -> double: [dps] Rotation speed [degrees_per_second] [- moves backwards, + moves forwards]
  . field-relative -> bool: Specifies whether the robot is moving relative to the field or itself
+
+AutoBalanceCommand [2]: [ ]
+ . Description:
+    : Auto balance command [NEVER ENDS]
 
 // ARM [ ]
 AutoSetArmStateCommand [20]: [x]

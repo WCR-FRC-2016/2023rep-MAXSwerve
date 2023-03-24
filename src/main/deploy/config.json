@@ -30,7 +30,7 @@
     "auto-command": 1,
     "autonomous-routines": [
         {
-            "name": "Spit",
+            "name": "High Cube x Line",
             "commands": [
                 {
                     "type": 20,
@@ -91,8 +91,35 @@
                     "data": {
                         "distance-x": 4.0,
                         "speed-x": -2.0,
+                        "distance-y": 0.5,
+                        "speed-y": 1.0,
                         "field-relative": false
                     }
+                }
+            ]
+        },
+        {
+            "name": "Score, Cross, Balance",
+            "commands": [
+                {
+                    "type": 1,
+                    "data": { 
+                        "distance-x": 4.5,
+                        "speed-x": -0.5,
+                        "field-relative": false
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": {
+                        "distance-x": 1.5,
+                        "speed-x": 0.5,
+                        "field-relative": false
+                    }
+                },
+                {
+                    "type": 2,
+                    "data": { }
                 }
             ]
         },

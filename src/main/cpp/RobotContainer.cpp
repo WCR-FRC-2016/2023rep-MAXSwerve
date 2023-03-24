@@ -184,6 +184,18 @@ void RobotContainer::ConfigureButtonBindings() {
   frc2::JoystickButton(&m_manipController, ControlConstants::PosZeroButton)
       .OnTrue(
           new frc2::InstantCommand([this] { m_arm.SetState(6); }, {&m_arm}));
+  
+  frc2::Trigger([this] {return m_manipController.GetPOV() == 270 && m_manipController.GetBackButton();})
+      .OnTrue(new frc2::InstantCommand( [this] {
+          m_arm.OverrideClawPos(ArmConstants::kClawMoveTime);
+          Logger::Log(LogLevel::Important) << "WARNING: Claw position overridden to cone position." << LoggerCommand::Flush;
+      }, {&m_arm}));
+  
+  frc2::Trigger([this] {return m_manipController.GetPOV() == 90 && m_manipController.GetBackButton();})
+      .OnTrue(new frc2::InstantCommand( [this] {
+          m_arm.OverrideClawPos(0);
+          Logger::Log(LogLevel::Important) << "WARNING: Claw position overridden to cube position." << LoggerCommand::Flush;
+      }, {&m_arm}));
 
     frc2::POVButton(&m_manipController, 0, 0).OnTrue(new frc2::InstantCommand([this] { 
         m_leds.SetState(1); 
@@ -212,6 +224,8 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
             return new AutoMoveDistanceCommand(m_wrapper, selected_command);
         case 2:
             return new AutoBalanceCommand(m_wrapper, selected_command);
+        case 3:
+            return new frc2::InstantCommand([this, selected_command] { m_drive.SetHeading(units::degree_t{getValueOrDefault<double>(selected_command.CommandData, "angle", 0.0)}); }, {&m_drive});
         case 20:
             return new AutoArmMoveCommand(m_wrapper, selected_command);
         case 21:

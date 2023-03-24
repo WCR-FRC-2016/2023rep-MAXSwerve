@@ -8,7 +8,7 @@
 [x] [0 ]: AutoMoveTimedCommand
 [x] [1 ]: AutoMoveDistanceCommand
 [ ] [2 ]: AutoBalanceCommand
-[ ] [3 ]: Reserved
+[x] [3 ]: SetHeading (instant command)
 [ ] [4 ]: Reserved
 [ ] [5 ]: Reserved
 [ ] [6 ]: Reserved
@@ -70,10 +70,6 @@ AutoMoveDistanceCommand [1]: [x]
  . speed-y        -> double: [mps] Y speed [- moves left, + moves right]
  . speed-rot      -> double: [dps] Rotation speed [degrees_per_second] [- moves backwards, + moves forwards]
  . field-relative -> bool: Specifies whether the robot is moving relative to the field or itself
-
-AutoBalanceCommand [2]: [ ]
- . Description:
-    : Auto balance command [NEVER ENDS]
 
 // ARM [ ]
 AutoSetArmStateCommand [20]: [x]

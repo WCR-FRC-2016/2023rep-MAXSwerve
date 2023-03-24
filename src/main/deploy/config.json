@@ -33,6 +33,12 @@
             "name": "High Cube x Line",
             "commands": [
                 {
+                    "type": 3,
+                    "data": {
+                        "angle": 180.0
+                    }
+                },
+                {
                     "type": 20,
                     "data": {
                         "arm-state": 4
@@ -127,6 +133,12 @@
             "name": "Better Move Back",
             "commands": [
                 {
+                    "type": 3,
+                    "data": {
+                        "angle": 180.0
+                    }
+                },
+                {
                     "type": 22,
                     "data": {
                         "claw-state": -1
@@ -191,6 +203,12 @@
         {
             "name": "Move Back",
             "commands": [
+                {
+                    "type": 3,
+                    "data": {
+                        "angle": 180.0
+                    }
+                },
                 {
                     "type": 1,
                     "data": {

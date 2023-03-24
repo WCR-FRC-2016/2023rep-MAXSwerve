@@ -40,6 +40,7 @@ class Arm : public frc2::SubsystemBase {
   bool GetInnerLimitSwitchState();
 
   int GetClawPos();
+  void OverrideClawPos(double new_pos);
   void SetCollectUseState(bool state);
   void SetCollectState(int32_t state);
   //void SetClawUseState(bool state);

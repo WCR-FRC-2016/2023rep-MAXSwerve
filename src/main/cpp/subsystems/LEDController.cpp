@@ -474,8 +474,7 @@ int LEDController::pos(int x, int y) {
 
 void LEDController::SetRGB(int index, int r, int g, int b) {
   if (index<0 || index>=kLength) return;
-  double i = index%kLength; // TODO: clean up (not necessary now we have line above)
-  m_ledBuffer[i<0?i+kLength:i].SetRGB(r*bright, g*bright, b*bright);
+  m_ledBuffer[kLength-index-1].SetRGB(r*bright, g*bright, b*bright);
 }
 
 void LEDController::SetRGB(int x, int y, int r, int g, int b) {
@@ -484,8 +483,7 @@ void LEDController::SetRGB(int x, int y, int r, int g, int b) {
 
 void LEDController::SetHSV(int index, int h, int s, int v) {
   if (index<0 || index>=kLength) return;
-  double i = index%kLength;
-  m_ledBuffer[i<0?i+kLength:i].SetHSV(h, s, v*bright);
+  m_ledBuffer[kLength-index-1].SetHSV(h, s, v*bright);
 }
 
 void LEDController::SetHSV(int x, int y, int h, int s, int v) {

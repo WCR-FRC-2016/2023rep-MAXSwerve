@@ -230,6 +230,7 @@ void RobotContainer::InitTeleop() {
     m_drive.SetRotSpeed(DriveConstants::kDefaultSlow ? DriveConstants::kLowRotSpeed : DriveConstants::kFastRotSpeed);
     m_arm.SetCollectUseState(false);
     m_leds.SetState(m_relative?4:5);
+    m_drive.PrintSpeeds();
 }
 
 void RobotContainer::InitAutonomous() {

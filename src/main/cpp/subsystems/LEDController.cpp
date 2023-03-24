@@ -111,25 +111,25 @@ void LEDController::Circles() {
 void LEDController::Cone() {
   Clear();
   for (int x=0; x<16; x++) {
-    int maxy = 12-3*abs(x-8);
+    int miny = 3*abs(x-8)-4;
 
     // Triangle of cone
-    if (maxy>0) {
-      for (int y=0; y<=maxy; y++) {
+    if (miny>0) {
+      for (int y=miny; y<16; y++) {
         SetRGB(x, y, 255, 70, 0);
       }
     }
 
     // Cool stripes
-    for (int y=std::max(0,maxy+1); y<16; y++) {
-      double d = y-maxy;
+    for (int y=0; y<miny; y++) {
+      double d = miny-y;
       double s = sin((i/100.0-d/10.0)*2*std::numbers::pi);
       SetRGB(x, y, 60+60*s, 10+10*s, 0);
     }
 
     // Base of cone
     if (x>=2 && x<14) {
-      for (int y=0; y<2; y++) {
+      for (int y=14; y<16; y++) {
         SetRGB(x, y, 255, 70, 0);
       }
     }

@@ -9,6 +9,7 @@
     "align-rotation-speed": 2.0,
     "move-over-time": 600,
     "move-over-sub-time": 1000,
+    "target-balance-roll": -1.32,
     "auto-max-speed": 3.0,
     "auto-pcontroller-x": 0.5,
     "auto-pcontroller-y": 0.5,

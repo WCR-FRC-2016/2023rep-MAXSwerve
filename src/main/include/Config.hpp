@@ -50,6 +50,7 @@ inline void loadConfig() {
         DriveConstants::kLowSpeed = units::meters_per_second_t(json["slow-speed"].get<double>());
         DriveConstants::kMoveOverTime = json["move-over-time"].get<double>();
         DriveConstants::kMoveOverSubTime = json["move-over-sub-time"].get<double>();
+        DriveConstants::kTargetBalanceRoll = json["target-balance-roll"].get<double>();
         DriveConstants::kDefaultSlow = json["default-slow"].get<bool>();
 
         auto max_rot_speed = json["drive-max-rot-speed"].get<double>();

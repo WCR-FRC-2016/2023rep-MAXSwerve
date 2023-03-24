@@ -116,6 +116,8 @@ inline units::radians_per_second_t kLowRotSpeed  = 0.0_rad_per_s;
 inline double kMoveOverTime = 600;
 inline double kMoveOverSubTime = 600;
 
+inline double kTargetBalanceRoll = 0;
+
 constexpr double kDirectionSlewRate = 1.2;   // radians per second
 // This controls the drive slew (damping on drive)
 constexpr double kMagnitudeSlewRate = 1.8;   // percent per second (1 = 100%)

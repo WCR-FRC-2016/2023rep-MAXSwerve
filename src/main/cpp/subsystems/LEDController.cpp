@@ -78,6 +78,8 @@ void LEDController::Periodic() {
 // 3: Scrolling text
 // 4: Field-relative
 // 5: Robot-relative
+// 6: Draw angle
+// 7: Flash Confirmation
 void LEDController::SetState(int state) {
   prevState = this->state;
   this->state = state;
@@ -106,7 +108,8 @@ void LEDController::Circles() {
   for (int x=0; x<16; x++) {
     for (int y=0; y<16; y++) {
       double d = sqrt((x-8)*(x-8) + (y-8)*(y-8));
-      SetRGB(x,y, 80+120*sin((i/200.0+d/10.0)*2*std::numbers::pi), 0, 0);
+      double s = 90+110*sin((i/200.0+d/10.0)*2*std::numbers::pi);
+      SetRGB(x,y, std::max(s,0.0), 0, 0);
     }
   }
   Flush();
@@ -117,7 +120,7 @@ void LEDController::Circles() {
 void LEDController::Cone() {
   Clear();
   for (int x=0; x<16; x++) {
-    int miny = 3*abs(x-8)-4;
+    int miny = 3*abs(x-8)+4;
 
     // Triangle of cone
     if (miny>0) {
@@ -502,7 +505,7 @@ int LEDController::pos(int x, int y) {
 
 void LEDController::SetRGB(int index, int r, int g, int b) {
   if (index<0 || index>=kLength) return;
-  m_ledBuffer[kLength-index-1].SetRGB(r*bright, g*bright, b*bright);
+  m_ledBuffer[index].SetRGB(r*bright, g*bright, b*bright);
 }
 
 void LEDController::SetRGB(int x, int y, int r, int g, int b) {
@@ -511,7 +514,7 @@ void LEDController::SetRGB(int x, int y, int r, int g, int b) {
 
 void LEDController::SetHSV(int index, int h, int s, int v) {
   if (index<0 || index>=kLength) return;
-  m_ledBuffer[kLength-index-1].SetHSV(h, s, v*bright);
+  m_ledBuffer[index].SetHSV(h, s, v*bright);
 }
 
 void LEDController::SetHSV(int x, int y, int h, int s, int v) {

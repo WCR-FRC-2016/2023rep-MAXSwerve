@@ -12,6 +12,7 @@ AutoDriveClawCommand::AutoDriveClawCommand(AutoSubsystemWrapper& wrapper, AutoCo
 void AutoDriveClawCommand::Initialize() {
     try {
         m_state = getValueOrDefault<double>(m_info.CommandData, "claw-state", 0.0);
+        m_target_time = getValueOrDefault<double>(m_info.CommandData, "time", 2.0);
     } catch (...) {
         Logger::Log(LogLevel::Autonomous) << "Failed to initialize AutoDriveClawCommand" << LoggerCommand::Flush;
     }
@@ -23,5 +24,5 @@ void AutoDriveClawCommand::Execute() {
     m_elapsed_time += 0.02;
 }
 bool AutoDriveClawCommand::IsFinished() {
-    return (m_elapsed_time > 2.0);
+    return (m_elapsed_time > m_target_time);
 }

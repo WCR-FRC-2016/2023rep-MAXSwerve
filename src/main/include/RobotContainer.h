@@ -5,6 +5,7 @@
 #pragma once
 
 #include <frc/XboxController.h>
+#include <frc/DriverStation.h>
 #include <frc/controller/PIDController.h>
 #include <frc/controller/ProfiledPIDController.h>
 #include <frc/smartdashboard/SendableChooser.h>
@@ -53,8 +54,6 @@ class RobotContainer {
   Limelight m_limelight;
   LEDController m_leds;
   AutoSubsystemWrapper m_wrapper;
-
-  DriverStation m_drivestation;
 
   bool m_relative = true;
   bool m_rate_limit = true;

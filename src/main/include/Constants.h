@@ -62,7 +62,7 @@
 // Debug Controller:
 //  : Absolute Zero:  Start
 
-// TODO: Convert move of these to be config based rather than constexpr variables
+// TODO: Convert more of these to be config based rather than constexpr variables
 // Some examples include:
 //     . Button Mappings?
 //     . Speeds, such as max total speed (as well as the mode swap speeds?)

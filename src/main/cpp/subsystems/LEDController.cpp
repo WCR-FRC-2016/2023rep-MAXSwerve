@@ -81,10 +81,14 @@ void LEDController::Periodic() {
 // 6: Draw angle
 // 7: Flash Confirmation
 void LEDController::SetState(int state) {
-  prevState = this->state;
-  this->state = state;
+  if (this->state!=state) {
+    prevState = this->state;
+    this->state = state;
+    i = 0;
+  }
 }
 int LEDController::GetState() {return state;}
+int LEDController::GetPrevState() {return prevState;}
 
 void LEDController::Clear() {
   for (int x=0; x<32; x++) {
@@ -383,7 +387,20 @@ void LEDController::DrawLetter(char c, int x, int y) {
       SetRGB(x+1,y+2, 0, 0, 255);
       break;
     case 'Q':
-      //TODO
+      // TODO: Make better Q
+      //  X
+      // X X
+      // X X
+      // XXX
+      //  XX
+      for (int y2=y+1;y2<y+4;y2++) {
+        SetRGB(x,y2,   0, 0, 255);
+        SetRGB(x+2,y2, 0, 0, 255);
+      }
+      SetRGB(x+1,y,   0, 0, 255);
+      SetRGB(x+1,y+3, 0, 0, 255);
+      SetRGB(x+1,y+4, 0, 0, 255);
+      SetRGB(x+3,y+4, 0, 0, 255);
       break;
     case 'R':
       for (int y2=y;y2<y+5;y2++) {
@@ -452,6 +469,17 @@ void LEDController::DrawLetter(char c, int x, int y) {
         SetRGB(x+1,y2, 0, 0, 255);
       }
       break;
+    case 'Z':
+      SetRGB(x,y,     0, 0, 255);
+      SetRGB(x+1,y,   0, 0, 255);
+      SetRGB(x+2,y,   0, 0, 255);
+      SetRGB(x+2,y+1, 0, 0, 255);
+      SetRGB(x+1,y+2, 0, 0, 255);
+      SetRGB(x,y+3,   0, 0, 255);
+      SetRGB(x,y+4,   0, 0, 255);
+      SetRGB(x+1,y+4, 0, 0, 255);
+      SetRGB(x+2,y+4, 0, 0, 255);
+      break;
     default:
       return;
   }
@@ -474,14 +502,12 @@ void LEDController::DrawAngle() {
 void LEDController::FlashConfirmation() {
   Clear();
 
-  double s = sin(i/10.0)*0.5 + 0.5;
+  double s = sin(i/25.0 *2*std::numbers::pi)*0.5 + 0.5;
   Fill(50*s, 205*s, 50*s);
 
   i++;
 
-  if (i >= 100) {
-    this->state = this->prevState;
-  }
+  i%=100;
 
   Flush();
 }

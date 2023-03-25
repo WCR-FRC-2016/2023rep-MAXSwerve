@@ -22,6 +22,7 @@ class LEDController : public frc2::SubsystemBase {
 
   void SetState(int state);
   int GetState();
+  int GetPrevState();
   int pos(int x, int y);
   void SetRGB(int index, int r, int g, int b);
   void SetRGB(int x, int y, int r, int g, int b);

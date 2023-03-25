@@ -71,7 +71,7 @@ RobotContainer::RobotContainer() : m_wrapper(m_drive, m_arm, m_limelight, m_leds
         {&m_drive}));
 
   // Collect command
-  // Chris [TODO]: Should this be a command on the arm?
+  // Chris TODO: Should this be a command on the arm?
   m_arm.SetDefaultCommand(frc2::RunCommand(
       [this] {
         // Arm
@@ -98,7 +98,7 @@ RobotContainer::RobotContainer() : m_wrapper(m_drive, m_arm, m_limelight, m_leds
 
   m_limelight.Deactivate();
 
-  m_leds.SetAlliance(m_driveStation.GetAlliance() == DriverStation::kRed);
+  m_leds.SetAlliance(frc::DriverStation::GetAlliance() == frc::DriverStation::kRed);
 }
 
 void RobotContainer::ConfigureButtonBindings() {
@@ -108,8 +108,9 @@ void RobotContainer::ConfigureButtonBindings() {
         [this] {return m_driverController.GetLeftTriggerAxis();},
         [this] {return m_driverController.GetRightTriggerAxis();}
       ));
-  frc2::Trigger([] {return m_arm.HasPiece();})
-      .OnTrue(new frc2::InstantCommand([this] { m_leds.SetState(7); }, {&m_leds}));
+  frc2::Trigger([this] {return m_arm.HasPiece();})
+      .OnTrue(new frc2::InstantCommand([this] { m_leds.SetState(7); }, {&m_leds}))
+      .OnFalse(new frc2::InstantCommand([this] { m_leds.SetState(m_leds.GetPrevState()); }, {&m_leds}));
   
   frc2::JoystickButton(&m_driverController, ControlConstants::SetHeading90Button)
       .OnTrue(new frc2::InstantCommand([this] { m_drive.SetHeading(90_deg); }, {&m_drive}));
@@ -272,7 +273,7 @@ void RobotContainer::InitAutonomous() {
     m_drive.SetRotSpeed(AutoConstants::kMaxAngularSpeed);
     m_arm.SetCollectUseState(false);
 
-    std::string name = frc::SmartDashboard::GetString("Auto Selector", ""); // TODO: default autonomous
+    std::string name = frc::SmartDashboard::GetString("Auto Selector", "");
     
     m_selected_auto = 0;
 

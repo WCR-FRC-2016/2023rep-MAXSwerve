@@ -191,13 +191,16 @@ int Arm::GetClawPos() { return m_current_pos; }
 // ArmConstants::kClawMoveTime is fully cone position
 void Arm::OverrideClawPos(double new_pos) { m_current_pos = new_pos; }
 
-bool Arm::HasPiece() { return m_hasPieceSensor.Get(); }
+bool Arm::HasPiece() { return !m_hasPieceSensor.Get(); }
 
 //  1 Sucks in
 // -1 Spits out
 void Arm::DriveCollectWheels(double dir) {
   // If collecting and piece has already been collected, don't run motors
-  if (!(dir > 0 && HasPiece())) {
+  if (dir > 0 && HasPiece()) {
+    m_hand_right.Set(0.0);
+    m_hand_left.Set(0.0);
+  } else {
     m_hand_right.Set(-dir);
     m_hand_left.Set(dir);
   }

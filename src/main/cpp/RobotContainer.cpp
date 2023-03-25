@@ -71,6 +71,7 @@ RobotContainer::RobotContainer() : m_wrapper(m_drive, m_arm, m_limelight, m_leds
         {&m_drive}));
 
   // Collect command
+  // Chris [TODO]: Should this be a command on the arm?
   m_arm.SetDefaultCommand(frc2::RunCommand(
       [this] {
         // Arm

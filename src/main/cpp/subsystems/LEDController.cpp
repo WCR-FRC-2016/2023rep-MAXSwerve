@@ -63,7 +63,7 @@ void LEDController::Periodic() {
       DrawAngle();
       break;
     case 7: // Confirmation (temporary state)
-      DrawConfirmation();
+      FlashConfirmation();
       break;
     default:
       Clear();
@@ -463,7 +463,7 @@ void LEDController::DrawAngle() {
   Flush();
 }
 
-void LEDController::DrawConfirmation() {
+void LEDController::FlashConfirmation() {
   Clear();
 
   for (int x = 0; x < 16; x++) {

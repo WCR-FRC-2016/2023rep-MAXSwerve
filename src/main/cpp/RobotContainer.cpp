@@ -70,6 +70,7 @@ RobotContainer::RobotContainer() : m_wrapper(m_drive, m_arm, m_limelight, m_leds
         },
         {&m_drive}));
 
+  // Collect command
   m_arm.SetDefaultCommand(frc2::RunCommand(
       [this] {
         // Arm
@@ -88,7 +89,11 @@ RobotContainer::RobotContainer() : m_wrapper(m_drive, m_arm, m_limelight, m_leds
         auto suck = m_manipController.GetLeftTriggerAxis() > 0.5 ? 1.0 : 0.0;
 
         //m_arm.DriveClaw(open_pressed - close_pressed);
-        m_arm.DriveCollectWheels(suck - spit);
+        bool hasPiece = m_arm.DriveCollectWheels(suck - spit);
+
+        if(hasPiece) {
+            m_leds.SetState(7);
+        }
 
         //PrintDebugStuff();
       },

@@ -71,6 +71,8 @@ class Arm : public frc2::SubsystemBase {
   frc::DigitalInput m_outer_switch;
   frc::DigitalInput m_inner_switch;
 
+  frc::DigitalInput m_has_collected_sensor{6}; // Sensor for knowing if we've collected a piece
+
   int m_state = 1;
   int m_goal_state = -1;
   int m_next_goal_state = -1;

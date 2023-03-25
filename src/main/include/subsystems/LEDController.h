@@ -39,7 +39,7 @@ class LEDController : public frc2::SubsystemBase {
   void DrawWord();
   void DrawLetter(char c, int x, int y);
   void DrawAngle();
-  void DrawConfirmation();
+  void FlashConfirmation();
   void SetAngle(double angle); // Takes angle between -18 and 18 (scales up by 10)
 
  private:

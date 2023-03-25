@@ -466,23 +466,19 @@ void LEDController::DrawAngle() {
 void LEDController::FlashConfirmation() {
   Clear();
 
-  for (int x = 0; x < 16; x++) {
-    for (int y = 0; y < 16; y++) {
-      if (j % 2 == 0) {
-        SetRGB(x, y, 0, 0, 0);
-      } else {
-        SetRGB(x, y, 50, 205, 50);
-      }
-    }
+  if (j % 2 == 0) {
+    Fill(0, 0, 0);
+  } else {
+    Fill(50, 205, 50);
   }
 
   i++;
 
-  if (i == 6) {
+  if (i >= 6) {
     i = 0;
     j++;
   }
-  if (j == 10) {
+  if (j >= 10) {
     this->state = this->prevState;
   }
 

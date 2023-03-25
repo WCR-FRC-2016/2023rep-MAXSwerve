@@ -41,13 +41,16 @@ class Arm : public frc2::SubsystemBase {
 
   int GetClawPos();
   void OverrideClawPos(double new_pos);
+
+  bool HasPiece();
+
   void SetCollectUseState(bool state);
   void SetCollectState(int32_t state);
   //void SetClawUseState(bool state);
   //void SetClawState(int32_t state);
 
   void DriveClaw(double dir);
-  bool DriveCollectWheels(double dir);
+  void DriveCollectWheels(double dir);
 
   void SetClaw(int32_t claw_settings);
 

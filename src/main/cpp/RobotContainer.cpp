@@ -28,6 +28,7 @@
 #include "commands/ReflectiveAlignCommand.h"
 #include "commands/MoveOverCommand.h"
 #include "commands/MoveClawCommand.h"
+#include "commands/SetSpeedByArmCommand.h"
 #include "subsystems/DriveSubsystem.h"
 #include "utils/JsonUtils.hpp"
 
@@ -97,6 +98,12 @@ RobotContainer::RobotContainer() : m_wrapper(m_drive, m_arm, m_limelight, m_leds
 }
 
 void RobotContainer::ConfigureButtonBindings() {
+  frc2::Trigger([] {return true;})
+      .WhileTrue(new SetSpeedByArmCommand(&m_drive, &m_arm,
+        [this] {return m_driverController.GetLeftTriggerAxis();},
+        [this] {return m_driverController.GetRightTriggerAxis();}
+      ));
+  
   frc2::JoystickButton(&m_driverController, ControlConstants::SetHeading90Button)
       .OnTrue(new frc2::InstantCommand([this] { m_drive.SetHeading(90_deg); }, {&m_drive}));
 
@@ -125,6 +132,7 @@ void RobotContainer::ConfigureButtonBindings() {
           [this] { m_drive.SwapSpeed(); },
           {&m_drive}));
   
+  /*
   frc2::Trigger([this] {return m_driverController.GetLeftTriggerAxis() > 0.5;})
       .OnTrue(new frc2::ConditionalCommand(
         MoveOverCommand(m_drive, -DriveConstants::kMoveOverSubTime),
@@ -138,6 +146,7 @@ void RobotContainer::ConfigureButtonBindings() {
         MoveOverCommand(m_drive, DriveConstants::kMoveOverTime),
         [this] {return m_limelight.IsSubstation();}
       ));
+  */
   
 
   // Map this to potentially reset just the rotation and not the position???

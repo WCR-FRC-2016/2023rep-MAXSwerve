@@ -113,9 +113,9 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
 
   // Convert the commanded speeds into the correct units for the drivetrain
   units::meters_per_second_t xSpeedDelivered =
-      xSpeedCommanded * m_speed;
+      xSpeedCommanded * m_speed * m_speed_factor;
   units::meters_per_second_t ySpeedDelivered =
-      ySpeedCommanded * m_speed;
+      ySpeedCommanded * m_speed * m_speed_factor;
   units::radians_per_second_t rotDelivered =
       m_currentRotation * DriveConstants::kMaxAngularSpeed; // TODO: Variable Speed
 
@@ -152,6 +152,7 @@ void DriveSubsystem::SetSpeed(units::meters_per_second_t value) { m_speed = valu
 units::meters_per_second_t DriveSubsystem::GetSpeed() { return m_speed; }
 void DriveSubsystem::SetRotSpeed(units::radians_per_second_t value) { m_angular_speed = value; }
 units::radians_per_second_t DriveSubsystem::GetRotSpeed() { return m_angular_speed; }
+void DriveSubsystem::SetSpeedFactor(double value) { m_speed_factor = value; }
 
 void DriveSubsystem::PrintSpeeds() {
   Logger::Log(LogLevel::Match) << "Driving Speed Set to: " << m_speed << LoggerCommand::Flush;

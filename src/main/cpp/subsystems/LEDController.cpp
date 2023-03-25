@@ -109,7 +109,12 @@ void LEDController::Circles() {
     for (int y=0; y<16; y++) {
       double d = sqrt((x-8)*(x-8) + (y-8)*(y-8));
       double s = 90+110*sin((i/200.0+d/10.0)*2*std::numbers::pi);
-      SetRGB(x,y, std::max(s,0.0), 0, 0);
+      s = std::max(s,0.0);
+      if (m_allianceIsRed) {
+        SetRGB(x,y, s, 0, 0);
+      } else {
+        SetRGB(x,y, 0, 0, s);
+      }
     }
   }
   Flush();
@@ -469,19 +474,12 @@ void LEDController::DrawAngle() {
 void LEDController::FlashConfirmation() {
   Clear();
 
-  if (j % 2 == 0) {
-    Fill(0, 0, 0);
-  } else {
-    Fill(50, 205, 50);
-  }
+  double s = sin(i/10.0)*0.5 + 0.5;
+  Fill(50*s, 205*s, 50*s);
 
   i++;
 
-  if (i >= 6) {
-    i = 0;
-    j++;
-  }
-  if (j >= 10) {
+  if (i >= 100) {
     this->state = this->prevState;
   }
 

@@ -105,7 +105,7 @@ RobotContainer::RobotContainer() : m_wrapper(m_drive, m_arm, m_limelight, m_leds
 
 void RobotContainer::ConfigureButtonBindings() {
   frc2::Trigger([] {return true;})
-      .WhileTrue(new SetSpeedByArmCommand(&m_drive, &m_arm,
+      .WhileTrue(new SetSpeedByArmCommand(m_drive, m_arm,
         [this] {return m_driverController.GetLeftTriggerAxis();},
         [this] {return m_driverController.GetRightTriggerAxis();}
       ));

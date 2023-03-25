@@ -101,6 +101,8 @@ RobotContainer::RobotContainer() : m_wrapper(m_drive, m_arm, m_limelight, m_leds
       {&m_arm}));
 
   m_limelight.Deactivate();
+
+  m_leds.SetAlliance(m_driveStation.GetAlliance() == DriverStation::kRed);
 }
 
 void RobotContainer::ConfigureButtonBindings() {
@@ -222,7 +224,7 @@ void RobotContainer::ConfigureButtonBindings() {
         m_leds.SetState(0); 
     }, {&m_leds}));
     frc2::POVButton(&m_manipController, 270, 0).OnTrue(new frc2::InstantCommand([this] { 
-        m_leds.SetState(0); 
+        m_leds.SetState(7); 
     }, {&m_leds}));
 }
 

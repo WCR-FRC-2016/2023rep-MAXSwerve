@@ -54,6 +54,8 @@ class RobotContainer {
   LEDController m_leds;
   AutoSubsystemWrapper m_wrapper;
 
+  DriverStation m_drivestation;
+
   bool m_relative = true;
   bool m_rate_limit = true;
 

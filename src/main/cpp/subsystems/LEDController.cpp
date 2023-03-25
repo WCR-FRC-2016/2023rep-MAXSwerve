@@ -524,3 +524,7 @@ void LEDController::SetHSV(int x, int y, int h, int s, int v) {
 void LEDController::Flush() {
   m_led.SetData(m_ledBuffer);
 }
+
+void LEDController::SetAlliance(bool isRed) {
+  m_allianceIsRed = isRed;
+}

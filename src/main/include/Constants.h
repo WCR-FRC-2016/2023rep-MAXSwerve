@@ -247,7 +247,6 @@ constexpr units::ampere_t kTurningMotorCurrentLimit = 20_A;
 }  // namespace ModuleConstants
 
 namespace AutoConstants {
-inline int32_t kSelectedAuto = 0;
 inline std::vector<AutoSequence> kAutoSequences;
 inline std::map<std::string, int32_t> kAutoSequencesMapped;
 

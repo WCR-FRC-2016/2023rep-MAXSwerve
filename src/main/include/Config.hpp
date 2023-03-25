@@ -71,9 +71,16 @@ inline void loadConfig() {
         AutoConstants::kAlignRotationSpeed = json["align-rotation-speed"].get<double>();
 
         // Autonomous Routines
-        AutoConstants::kSelectedAuto = json["auto-command"].get<int32_t>();
         AutoConstants::kAutoSequences = interpretJsonSequences(json["autonomous-routines"]);
         //mapAutoSequences();
+
+        // Set up autonomous command chooser
+        std::vector<std::string> autoVector {};
+        for (unsigned int i = 0; i < AutoConstants::kAutoSequences.size(); i++) {
+            std::string name = AutoConstants::kAutoSequences[i].SequenceName;
+            autoVector.push_back(name);
+        }
+        frc::SmartDashboard::PutStringArray("Auto List", autoVector);
 
         // Arm Constants
         ArmConstants::kArmLowOffset  = json["arm-low-offset"].get<double>();
@@ -90,7 +97,6 @@ inline void loadConfig() {
         // Other Stuff
 
 
-        frc::SmartDashboard::PutNumber("Config/Selected Auto", AutoConstants::kSelectedAuto);
         frc::SmartDashboard::PutNumber("Config/Max Speed", DriveConstants::kMaxSpeed.value());
         frc::SmartDashboard::PutNumber("Config/Fast Speed", DriveConstants::kFastSpeed.value());
         frc::SmartDashboard::PutNumber("Config/Slow Speed", DriveConstants::kLowSpeed.value());

@@ -25,4 +25,5 @@ private:
 
     double m_state;
     double m_elapsed_time = 0.00;
+    double m_target_time = 0.0;
 };

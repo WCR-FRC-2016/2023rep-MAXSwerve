@@ -58,6 +58,7 @@ class RobotContainer {
   bool m_rate_limit = true;
 
   // Autonomous
+  int m_selected_auto;
   uint32_t m_auto_command_index = 0;
 
   // The chooser for the autonomous routines

@@ -212,9 +212,9 @@ void RobotContainer::ConfigureButtonBindings() {
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
-    if (m_auto_command_index >= AutoConstants::kAutoSequences[AutoConstants::kSelectedAuto].Commands.size()) return nullptr;
+    if (m_auto_command_index >= AutoConstants::kAutoSequences[m_selected_auto].Commands.size()) return nullptr;
 
-    auto selected_command = AutoConstants::kAutoSequences[AutoConstants::kSelectedAuto].Commands[m_auto_command_index];
+    auto selected_command = AutoConstants::kAutoSequences[m_selected_auto].Commands[m_auto_command_index];
     m_auto_command_index++;
 
     switch(selected_command.CommandType) {
@@ -255,6 +255,14 @@ void RobotContainer::InitAutonomous() {
     m_drive.SetSpeed(AutoConstants::kAutoMaxSpeed);
     m_drive.SetRotSpeed(AutoConstants::kMaxAngularSpeed);
     m_arm.SetCollectUseState(false);
+
+    std::string name = frc::SmartDashboard::GetString("Auto Selector", ""); // TODO: default autonomous
+    
+    m_selected_auto = 0;
+
+    for (unsigned int i = 0; i < AutoConstants::kAutoSequences.size(); i++) {
+        if (AutoConstants::kAutoSequences[i].SequenceName == name) m_selected_auto = i;
+    }
 }
 
 void RobotContainer::PostConfigInit() { 

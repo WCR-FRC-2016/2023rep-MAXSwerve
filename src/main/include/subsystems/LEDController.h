@@ -20,7 +20,6 @@ class LEDController : public frc2::SubsystemBase {
    */
   void Periodic() override;
 
-  // Subsystem methods go here.
   void SetState(int state);
   int GetState();
   int pos(int x, int y);

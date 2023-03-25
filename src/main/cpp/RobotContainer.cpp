@@ -90,11 +90,7 @@ RobotContainer::RobotContainer() : m_wrapper(m_drive, m_arm, m_limelight, m_leds
         auto suck = m_manipController.GetLeftTriggerAxis() > 0.5 ? 1.0 : 0.0;
 
         //m_arm.DriveClaw(open_pressed - close_pressed);
-        bool hasPiece = m_arm.DriveCollectWheels(suck - spit);
-
-        if(hasPiece) {
-            m_leds.SetState(7);
-        }
+        m_arm.DriveCollectWheels(suck - spit);
 
         //PrintDebugStuff();
       },
@@ -106,11 +102,14 @@ RobotContainer::RobotContainer() : m_wrapper(m_drive, m_arm, m_limelight, m_leds
 }
 
 void RobotContainer::ConfigureButtonBindings() {
+  // Not Buttons:
   frc2::Trigger([] {return true;})
       .WhileTrue(new SetSpeedByArmCommand(m_drive, m_arm,
         [this] {return m_driverController.GetLeftTriggerAxis();},
         [this] {return m_driverController.GetRightTriggerAxis();}
       ));
+  frc2::Trigger([] {return m_arm.HasPiece();})
+      .OnTrue(new frc2::InstantCommand([this] { m_leds.SetState(7); }, {&m_leds}));
   
   frc2::JoystickButton(&m_driverController, ControlConstants::SetHeading90Button)
       .OnTrue(new frc2::InstantCommand([this] { m_drive.SetHeading(90_deg); }, {&m_drive}));

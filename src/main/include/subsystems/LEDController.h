@@ -39,6 +39,7 @@ class LEDController : public frc2::SubsystemBase {
   void DrawWord();
   void DrawLetter(char c, int x, int y);
   void DrawAngle();
+  void DrawConfirmation();
   void SetAngle(double angle); // Takes angle between -18 and 18 (scales up by 10)
 
  private:
@@ -51,9 +52,10 @@ class LEDController : public frc2::SubsystemBase {
   std::array<frc::AddressableLED::LEDData, kLength> m_ledBuffer;  // Reuse the buffer
 
   int i = 0;
-  //int j = 0;
+  int j = 0;
   int y = 0;
   int state = 0;
+  int prevState = 0;
   int angle = 0;
 
   // LED Brightness from config (shortened to fit more easily in expressions).

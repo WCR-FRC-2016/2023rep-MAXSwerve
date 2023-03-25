@@ -62,6 +62,9 @@ void LEDController::Periodic() {
     case 6: // Angles (for autobalance)
       DrawAngle();
       break;
+    case 7: // Confirmation (temporary state)
+      DrawConfirmation();
+      break;
     default:
       Clear();
       Flush();
@@ -75,7 +78,10 @@ void LEDController::Periodic() {
 // 3: Scrolling text
 // 4: Field-relative
 // 5: Robot-relative
-void LEDController::SetState(int state) {this->state = state;}
+void LEDController::SetState(int state) {
+  prevState = this->state;
+  this->state = state;
+}
 int LEDController::GetState() {return state;}
 
 void LEDController::Clear() {
@@ -452,6 +458,32 @@ void LEDController::DrawAngle() {
       double s2 = sin((angle/18.0-a/std::numbers::pi)*std::numbers::pi + std::numbers::pi/4);
       SetRGB(x, y, 60*pow(s2,10), 0, 50+50*s);
     }
+  }
+
+  Flush();
+}
+
+void LEDController::DrawConfirmation() {
+  Clear();
+
+  for (int x = 0; x < 16; x++) {
+    for (int y = 0; y < 16; y++) {
+      if (j % 2 == 0) {
+        SetRGB(x, y, 0, 0, 0);
+      } else {
+        SetRGB(x, y, 50, 205, 50);
+      }
+    }
+  }
+
+  i++;
+
+  if (i == 6) {
+    i = 0;
+    j++;
+  }
+  if (j == 10) {
+    this->state = this->prevState;
   }
 
   Flush();

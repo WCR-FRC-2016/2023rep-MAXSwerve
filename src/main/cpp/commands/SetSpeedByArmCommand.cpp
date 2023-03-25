@@ -16,14 +16,16 @@ void SetSpeedByArmCommand::Initialize() { }
 
 // Called repeatedly when this Command is scheduled to run
 void SetSpeedByArmCommand::Execute() {
-    Logger::Log(LogLevel::All) << "Lower angle in set spped" << m_arm.GetLowerAngle() << LoggerCommand::Flush;
+    Logger::Log(LogLevel::Match) << "Lower angle readout in SetSpeedByArmCommand: " << m_arm.GetLowerAngle() << LoggerCommand::Flush;
 
     // double anglePercentage = m_arm.GetLowerAngle() / 80_deg;
     double speedFactor = std::clamp(1.0 - (m_arm.GetLowerAngle() / 80_deg).value(), 0.2, 1.0);
-    Logger::Log(LogLevel::All) << "Speed factor with arm: " << speedFactor << LoggerCommand::Flush;
+    Logger::Log(LogLevel::Match) << "Speed factor with arm: " << speedFactor << LoggerCommand::Flush;
 
     speedFactor *= (1.0 - m_brake() / 2.0);  // Left Trigger Brake (1x - 0.5x)
     speedFactor *= (1.0 + m_turbo() / 2.0); // Right Trigger Turbo (1x - 1.5x)
+
+    Logger::Log(LogLevel::Match) << "Speed factor with turbo/brake: " << speedFactor << LoggerCommand::Flush;
 
     m_drive.SetSpeedFactor(speedFactor);
 }

@@ -195,7 +195,7 @@ void Arm::OverrideClawPos(double new_pos) { m_current_pos = new_pos; }
 // -1 Spits out
 bool Arm::DriveCollectWheels(double dir) {
   // If collecting and piece has already been collected, don't run motors, instead flash LEDs
-  if(dir > 0 && m_has_piece_sensor.Get()) {
+  if(dir > 0 && m_hasPieceSensor.Get()) {
     return true;
   } else {
     m_hand_right.Set(-dir);

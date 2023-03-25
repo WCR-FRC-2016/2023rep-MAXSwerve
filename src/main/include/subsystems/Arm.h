@@ -47,7 +47,7 @@ class Arm : public frc2::SubsystemBase {
   //void SetClawState(int32_t state);
 
   void DriveClaw(double dir);
-  void DriveCollectWheels(double dir);
+  bool DriveCollectWheels(double dir);
 
   void SetClaw(int32_t claw_settings);
 
@@ -72,7 +72,7 @@ class Arm : public frc2::SubsystemBase {
   frc::DigitalInput m_inner_switch;
 
   // Chris [TODO]: Need to confirm the port the sensor is on. Should this come from the config file?
-  frc::DigitalInput m_has_collected_sensor{6}; // Sensor for knowing if we've collected a piece
+  frc::DigitalInput m_hasPieceSensor{6}; // Sensor for knowing if we've collected a piece
 
   int m_state = 1;
   int m_goal_state = -1;

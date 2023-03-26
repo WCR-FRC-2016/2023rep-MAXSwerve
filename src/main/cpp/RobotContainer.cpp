@@ -28,7 +28,6 @@
 #include "commands/ReflectiveAlignCommand.h"
 #include "commands/MoveOverCommand.h"
 #include "commands/MoveClawCommand.h"
-#include "commands/SetSpeedByArmCommand.h"
 #include "subsystems/DriveSubsystem.h"
 #include "utils/JsonUtils.hpp"
 
@@ -92,6 +91,8 @@ RobotContainer::RobotContainer() : m_wrapper(m_drive, m_arm, m_limelight, m_leds
         //m_arm.DriveClaw(open_pressed - close_pressed);
         m_arm.DriveCollectWheels(suck - spit);
 
+        Logger::Log(LogLevel::Match) << "Lower angle: " << m_arm.GetLowerAngle() << LoggerCommand::Flush;
+        Logger::Log(LogLevel::Match) << "Upper angle: " << m_arm.GetUpperAngle() << LoggerCommand::Flush;
         //PrintDebugStuff();
       },
       {&m_arm}));
@@ -99,15 +100,15 @@ RobotContainer::RobotContainer() : m_wrapper(m_drive, m_arm, m_limelight, m_leds
   m_limelight.Deactivate();
 
   m_leds.SetAlliance(frc::DriverStation::GetAlliance() == frc::DriverStation::kRed);
+
+  m_setSpeedByArmCommand = new SetSpeedByArmCommand(m_drive, m_arm,
+        [this] {return m_driverController.GetLeftTriggerAxis();},
+        [this] {return m_driverController.GetRightTriggerAxis();}
+    );
 }
 
 void RobotContainer::ConfigureButtonBindings() {
   // Not Buttons:
-  frc2::Trigger([] {return true;})
-      .WhileTrue(new SetSpeedByArmCommand(m_drive, m_arm,
-        [this] {return m_driverController.GetLeftTriggerAxis();},
-        [this] {return m_driverController.GetRightTriggerAxis();}
-      ));
   frc2::Trigger([this] {return m_arm.HasPiece();})
       .OnTrue(new frc2::InstantCommand([this] { m_leds.SetState(7); }, {&m_leds}))
       .OnFalse(new frc2::InstantCommand([this] { m_leds.SetState(m_leds.GetPrevState()); }, {&m_leds}));
@@ -264,6 +265,10 @@ void RobotContainer::InitTeleop() {
     m_arm.SetCollectUseState(false);
     m_leds.SetState(m_relative?4:5);
     m_drive.PrintSpeeds();
+    
+    m_setSpeedByArmCommand->Schedule();
+    
+    m_leds.SetAlliance(frc::DriverStation::GetAlliance() == frc::DriverStation::kRed);
 }
 
 void RobotContainer::InitAutonomous() {
@@ -280,6 +285,8 @@ void RobotContainer::InitAutonomous() {
     for (unsigned int i = 0; i < AutoConstants::kAutoSequences.size(); i++) {
         if (AutoConstants::kAutoSequences[i].SequenceName == name) m_selected_auto = i;
     }
+
+    m_leds.SetAlliance(frc::DriverStation::GetAlliance() == frc::DriverStation::kRed);
 }
 
 void RobotContainer::PostConfigInit() { 

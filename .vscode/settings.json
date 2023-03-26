@@ -87,7 +87,11 @@
     "typeindex": "cpp",
     "typeinfo": "cpp",
     "variant": "cpp",
-    "*.inc": "cpp"
+    "*.inc": "cpp",
+    "any": "cpp",
+    "forward_list": "cpp",
+    "ranges": "cpp",
+    "valarray": "cpp"
   },
   "C_Cpp.errorSquiggles": "disabled"
 }

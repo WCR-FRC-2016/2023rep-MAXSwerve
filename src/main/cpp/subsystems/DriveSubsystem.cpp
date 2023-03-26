@@ -117,7 +117,7 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
   units::meters_per_second_t ySpeedDelivered =
       ySpeedCommanded * m_speed * m_speed_factor;
   units::radians_per_second_t rotDelivered =
-      m_currentRotation * DriveConstants::kMaxAngularSpeed; // TODO: Variable Speed
+      m_currentRotation * DriveConstants::kMaxAngularSpeed * m_speed_factor; // TODO: Variable Speed
 
   auto states = kDriveKinematics.ToSwerveModuleStates(
       fieldRelative

@@ -25,7 +25,7 @@
     "claw-move-time": 920,
     "use-limit-switches": false,
 
-    "default-slow": true,
+    "default-slow": false,
 
     "autonomous-routines": [
         {
@@ -183,7 +183,7 @@
             ]
         },
         {
-            "name": "Score, Cross, Balance (too long)",
+            "name": "Score, Cross, Collect (untested)",
             "commands": [
                 {
                     "type": 3,
@@ -235,9 +235,172 @@
                     }
                 },
                 {
+                    "type": 20,
+                    "data": {
+                        "arm-state": 1
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": { 
+                        "distance-x": 5.0,
+                        "speed-x": 0.5,
+                        "distance-y": 0.55,
+                        "speed-y": -0.25,
+                        "distance-rot": 200,
+                        "speed-rot": 22,
+                        "field-relative": true
+                    }
+                },
+                {
+                    "type": 22,
+                    "data": {
+                        "claw-state": 1,
+                        "time": 1.0
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Score, Go Around, Balance",
+            "commands": [
+                {
+                    "type": 3,
+                    "data": { 
+                        "angle": 180.0
+                    }
+                },
+                {
+                    "type": 20,
+                    "data": {
+                        "arm-state": 4
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": {
+                        "distance-x": 0.48,
+                        "speed-x": -1.0,
+                        "distance-y": 0.0,
+                        "speed-y": 0.0,
+                        "distance-rot": 0.0,
+                        "speed-rot": 0.0,
+                        "field-relative": false
+                    }
+                },
+                {
                     "type": 30,
                     "data": { 
-                        "time": 0.5
+                        "time": 3.0
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": {
+                        "distance-x": 0.44,
+                        "speed-x": 1.0,
+                        "distance-y": 0.0,
+                        "speed-y": 0.0,
+                        "distance-rot": 0.0,
+                        "speed-rot": 0.0,
+                        "field-relative": false
+                    }
+                },
+                {
+                    "type": 22,
+                    "data": {
+                        "claw-state": -1,
+                        "time": 0.7
+                    }
+                },
+                {
+                    "type": 20,
+                    "data": {
+                        "arm-state": 1
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": { 
+                        "distance-x": 4.0,
+                        "speed-x": -2.0,
+                        "distance-y": 0.2,
+                        "speed-y": 2.0,
+                        "field-relative": false
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": { 
+                        "distance-y": 1.5,
+                        "speed-y": -1.0,
+                        "field-relative": false
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": {
+                        "distance-x": 2.0,
+                        "speed-x": 0.5,
+                        "field-relative": false
+                    }
+                },
+                {
+                    "type": 2,
+                    "data": { }
+                }
+            ]
+        },
+        {
+            "name": "Score, Cross, Balance (too long)",
+            "commands": [
+                {
+                    "type": 3,
+                    "data": { 
+                        "angle": 180.0
+                    }
+                },
+                {
+                    "type": 20,
+                    "data": {
+                        "arm-state": 4
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": {
+                        "distance-x": 0.48,
+                        "speed-x": -1.0,
+                        "distance-y": 0.0,
+                        "speed-y": 0.0,
+                        "distance-rot": 0.0,
+                        "speed-rot": 0.0,
+                        "field-relative": false
+                    }
+                },
+                {
+                    "type": 30,
+                    "data": { 
+                        "time": 3.0
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": {
+                        "distance-x": 0.44,
+                        "speed-x": 1.0,
+                        "distance-y": 0.0,
+                        "speed-y": 0.0,
+                        "distance-rot": 0.0,
+                        "speed-rot": 0.0,
+                        "field-relative": false
+                    }
+                },
+                {
+                    "type": 22,
+                    "data": {
+                        "claw-state": -1,
+                        "time": 0.7
                     }
                 },
                 {

@@ -2,7 +2,7 @@
     "drive-max-speed": 4.0,
     "drive-max-rot-speed": 270.0,
     "fast-speed": 3.0,
-    "slow-speed": 1.0,
+    "slow-speed": 2.0,
     "fast-rot-speed": 270.0,
     "slow-rot-speed": 180.0,
     "align-speed": 1.0,
@@ -24,8 +24,9 @@
     "arm-high-d": 0,
     "claw-move-time": 920,
     "use-limit-switches": false,
+    "led-brightness": 0.2,
 
-    "default-slow": false,
+    "default-slow": true,
 
     "autonomous-routines": [
         {
@@ -183,7 +184,7 @@
             ]
         },
         {
-            "name": "Score, Cross, Collect (untested)",
+            "name": "Score, Cross, Collect (on right) (untested)",
             "commands": [
                 {
                     "type": 3,
@@ -262,7 +263,97 @@
             ]
         },
         {
-            "name": "Score, Go Around, Balance",
+            "name": "Score, Go Around, Balance (on left) (untested)",
+            "commands": [
+                {
+                    "type": 3,
+                    "data": { 
+                        "angle": 180.0
+                    }
+                },
+                {
+                    "type": 20,
+                    "data": {
+                        "arm-state": 4
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": {
+                        "distance-x": 0.48,
+                        "speed-x": -1.0,
+                        "distance-y": 0.0,
+                        "speed-y": 0.0,
+                        "distance-rot": 0.0,
+                        "speed-rot": 0.0,
+                        "field-relative": false
+                    }
+                },
+                {
+                    "type": 30,
+                    "data": { 
+                        "time": 3.0
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": {
+                        "distance-x": 0.44,
+                        "speed-x": 1.0,
+                        "distance-y": 0.0,
+                        "speed-y": 0.0,
+                        "distance-rot": 0.0,
+                        "speed-rot": 0.0,
+                        "field-relative": false
+                    }
+                },
+                {
+                    "type": 22,
+                    "data": {
+                        "claw-state": -1,
+                        "time": 0.7
+                    }
+                },
+                {
+                    "type": 20,
+                    "data": {
+                        "arm-state": 1
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": { 
+                        "distance-x": 4.0,
+                        "speed-x": -2.0,
+                        "distance-y": 0.4,
+                        "speed-y": -1.0,
+                        "field-relative": false
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": { 
+                        "distance-y": 1.5,
+                        "speed-y": 1.0,
+                        "field-relative": false
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": {
+                        "distance-x": 2.0,
+                        "speed-x": 0.5,
+                        "field-relative": false
+                    }
+                },
+                {
+                    "type": 2,
+                    "data": { }
+                }
+            ]
+        },
+        {
+            "name": "Score, Go Around, Balance (on right)",
             "commands": [
                 {
                     "type": 3,
@@ -562,6 +653,6 @@
         "error": false,
         "autonomous": true,
         "match": true,
-        "dev": false
+        "dev": true
     }
 }

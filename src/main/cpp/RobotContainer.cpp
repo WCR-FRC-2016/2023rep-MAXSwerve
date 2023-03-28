@@ -172,11 +172,13 @@ void RobotContainer::ConfigureButtonBindings() {
   // TODO: these shouldn't be backwards. What's going on?
   frc2::JoystickButton(&m_manipController,
                        ControlConstants::CloseClawButton)
-      .OnTrue(new MoveClawCommand(m_arm, 1.0));
+      .OnTrue(new MoveClawCommand(m_arm, 1.0))
+      .OnTrue(new frc2::InstantCommand([this] { m_leds.SetState(2); }, {&m_leds}));
   
   frc2::JoystickButton(&m_manipController,
                        ControlConstants::OpenClawButton)
-      .OnTrue(new MoveClawCommand(m_arm, -1.0));
+      .OnTrue(new MoveClawCommand(m_arm, -1.0))
+      .OnTrue(new frc2::InstantCommand([this] { m_leds.SetState(1); }, {&m_leds}));
 
   // Arm State Change Command
   frc2::JoystickButton(&m_manipController, ControlConstants::PosCarryButton)
@@ -225,7 +227,7 @@ void RobotContainer::ConfigureButtonBindings() {
         m_leds.SetState(0); 
     }, {&m_leds}));
     frc2::POVButton(&m_manipController, 270, 0).OnTrue(new frc2::InstantCommand([this] { 
-        m_leds.SetState(7); 
+        m_leds.SetState(8); 
     }, {&m_leds}));
 }
 

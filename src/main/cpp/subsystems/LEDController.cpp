@@ -149,7 +149,7 @@ void LEDController::Circles() {
 void LEDController::Cone() {
   Clear();
   for (int x=0; x<16; x++) {
-    int miny = 3*abs(x-8)+4;
+    int miny = 3*abs(x-8)+3;
 
     // Triangle of cone
     if (miny>0) {
@@ -166,7 +166,7 @@ void LEDController::Cone() {
     }
 
     // Base of cone
-    if (x>=2 && x<14) {
+    if (x>2 && x<14) {
       for (int y=14; y<16; y++) {
         SetRGB(x, y, 255, 70, 0);
       }

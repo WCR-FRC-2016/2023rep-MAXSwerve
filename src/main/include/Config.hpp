@@ -95,6 +95,7 @@ inline void loadConfig() {
         ArmConstants::kUseLimitSwitches = json["use-limit-switches"].get<bool>();
 
         // Other Stuff
+        IOConstants::kLEDBrightness = json["led-brightness"].get<double>();
 
 
         frc::SmartDashboard::PutNumber("Config/Max Speed", DriveConstants::kMaxSpeed.value());

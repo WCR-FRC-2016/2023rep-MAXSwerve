@@ -168,6 +168,7 @@ constexpr units::ampere_t kArmHighCurrentLimit   = 12_A; // Works between 4 and 
 
 inline double kClawMoveTime = 1000;
 inline bool kUseLimitSwitches = false;
+inline bool kUseTiming = false;
 
 inline double kArmLowP  = 0.4;
 inline double kArmLowI  = 0;

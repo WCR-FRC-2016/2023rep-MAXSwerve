@@ -522,9 +522,10 @@ void LEDController::FlashConfirmation() {
   Clear();
 
   double s = sin(i/25.0 *2*std::numbers::pi)*0.5 + 0.5;
-  Fill(50*s, 205*s, 50*s);
 
-  Pulse(50, 205, 20, 25);
+  for (int n = 0; n<kTotalLength; n++) {
+    SetRGB(n, 50*s, 205*s, 50*s);
+  }
 
   Flush();
 
@@ -549,9 +550,9 @@ void LEDController::Aperture() {
     double s = 0.4 + 0.6*sin((n/10.0 + i/20.0)*2*std::numbers::pi);
     s = std::clamp(s, 0.0, 1.0);
     if (((int) ((n+2)/10.0+i/20.0))%2==0) {
-      SetRGB(n+kLength, 0, 100*s, 255*s);
+      SetRGB(n+kLength, 0, 50*s, 255*s);
     } else {
-      SetRGB(n+kLength, 255*s, 100*s, 0);
+      SetRGB(n+kLength, 255*s, 50*s, 0);
     }
   }
 

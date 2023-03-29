@@ -21,7 +21,7 @@ using namespace ArmConstants;
 // Bottom arm at 0: 49.2 degrees
 
 // ABSOLUTE 0: (both limit switches in actuators are hit)
-// Bottom: 72.2
+// Bottom: 47.1
 // Upper: -52.5
 
 // Grabbing Low:
@@ -155,7 +155,8 @@ void Arm::DriveClaw(double dir) {
   if (ArmConstants::kUseLimitSwitches) {
     if (m_outer_switch.Get()) {
       Logger::Log(LogLevel::Dev) << "Outer Switch Active!" << LoggerCommand::Flush;
-      m_current_pos = 0;
+      //m_current_pos = 0;
+      if (dir>0) dir = 0;
 
       //m_claw_state = 0;
       //m_use_claw_state = false;
@@ -163,7 +164,8 @@ void Arm::DriveClaw(double dir) {
 
     if (m_inner_switch.Get()) {
       Logger::Log(LogLevel::Dev) << "Inner Switch Active!" << LoggerCommand::Flush;
-      m_current_pos = ArmConstants::kClawMoveTime;
+      //m_current_pos = ArmConstants::kClawMoveTime;
+      if (dir<0) dir = 0;
 
       //m_claw_state = 0;
       //m_use_claw_state = false;
@@ -176,12 +178,14 @@ void Arm::DriveClaw(double dir) {
     m_use_claw_state = false;
   */
   
-  if (dir<0 && m_current_pos>=ArmConstants::kClawMoveTime) return;
-  if (dir>0 && m_current_pos<=0) return;
+  if (ArmConstants::kUseTiming) {
+    if (dir<0 && m_current_pos>=ArmConstants::kClawMoveTime) return;
+    if (dir>0 && m_current_pos<=0) return;
+
+    m_current_pos -= dir*20;
+  }
 
   m_hand_grab.Set(dir);
-  
-  m_current_pos -= dir*20;
 }
 
 int Arm::GetClawPos() { return m_current_pos; }

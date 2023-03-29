@@ -5,11 +5,8 @@
 #include "RobotContainer.h"
 
 #include <frc/controller/PIDController.h>
-#include <frc/geometry/Translation2d.h>
 #include <frc/shuffleboard/Shuffleboard.h>
 #include <frc/smartdashboard/SmartDashboard.h>
-#include <frc/trajectory/Trajectory.h>
-#include <frc/trajectory/TrajectoryGenerator.h>
 #include <frc2/command/InstantCommand.h>
 #include <frc2/command/SequentialCommandGroup.h>
 #include <frc2/command/SwerveControllerCommand.h>
@@ -93,6 +90,10 @@ RobotContainer::RobotContainer() : m_wrapper(m_drive, m_arm, m_limelight, m_leds
 
         Logger::Log(LogLevel::Match) << "Lower angle: " << m_arm.GetLowerAngle() << LoggerCommand::Flush;
         Logger::Log(LogLevel::Match) << "Upper angle: " << m_arm.GetUpperAngle() << LoggerCommand::Flush;
+
+        Logger::Log(LogLevel::Important) << "Inner Switch: " << m_arm.GetInnerLimitSwitchState() << LoggerCommand::Flush;
+        Logger::Log(LogLevel::Important) << "Outer Switch: " << m_arm.GetOuterLimitSwitchState() << LoggerCommand::Flush;
+        Logger::Log(LogLevel::Important) << "Claw Position: " << m_arm.GetClawPos() << LoggerCommand::Flush;
         //PrintDebugStuff();
       },
       {&m_arm}));

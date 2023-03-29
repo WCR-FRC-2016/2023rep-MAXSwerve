@@ -93,6 +93,7 @@ inline void loadConfig() {
         ArmConstants::kArmHighD = json["arm-high-d"].get<double>();
         ArmConstants::kClawMoveTime = json["claw-move-time"].get<double>();
         ArmConstants::kUseLimitSwitches = json["use-limit-switches"].get<bool>();
+        ArmConstants::kUseTiming = json["use-timing"].get<bool>();
 
         // Other Stuff
         IOConstants::kLEDBrightness = json["led-brightness"].get<double>();

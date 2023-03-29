@@ -23,7 +23,8 @@
     "arm-high-i": 0,
     "arm-high-d": 0,
     "claw-move-time": 920,
-    "use-limit-switches": false,
+    "use-limit-switches": true,
+    "use-timing": false,
     "led-brightness": 0.2,
 
     "default-slow": true,
@@ -649,10 +650,10 @@
         "all": false,
         "info": false,
         "utility": false,
-        "important": false,
+        "important": true,
         "error": false,
-        "autonomous": true,
+        "autonomous": false,
         "match": true,
-        "dev": true
+        "dev": false
     }
 }

@@ -91,7 +91,9 @@
     "any": "cpp",
     "forward_list": "cpp",
     "ranges": "cpp",
-    "valarray": "cpp"
+    "valarray": "cpp",
+    "xlocbuf": "cpp",
+    "charconv": "cpp"
   },
   "C_Cpp.errorSquiggles": "disabled"
 }

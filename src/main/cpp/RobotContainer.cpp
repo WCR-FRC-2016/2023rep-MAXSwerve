@@ -111,8 +111,8 @@ RobotContainer::RobotContainer() : m_wrapper(m_drive, m_arm, m_limelight, m_leds
 void RobotContainer::ConfigureButtonBindings() {
   // Not Buttons:
   frc2::Trigger([this] {return m_arm.HasPiece();})
-      .OnTrue(new frc2::InstantCommand([this] { m_leds.SetState(7); }, {&m_leds}))
-      .OnFalse(new frc2::InstantCommand([this] { m_leds.SetState(m_leds.GetPrevState()); }, {&m_leds}));
+      .OnTrue(new frc2::InstantCommand([this] { m_leds.SetOverrideState(7); }, {&m_leds}))
+      .OnFalse(new frc2::InstantCommand([this] { m_leds.SetOverrideState(-1); }, {&m_leds}));
   
   frc2::JoystickButton(&m_driverController, ControlConstants::SetHeading90Button)
       .OnTrue(new frc2::InstantCommand([this] { m_drive.SetHeading(90_deg); }, {&m_drive}));
@@ -198,7 +198,8 @@ void RobotContainer::ConfigureButtonBindings() {
       .OnTrue(
           new frc2::InstantCommand([this] { m_arm.SetState(4); }, {&m_arm}));
 
-  frc2::JoystickButton(&m_manipController, ControlConstants::PosManualButton)
+  frc2::Trigger([this] {return (std::abs(m_manipController.GetLeftY()) > IOConstants::kDriveDeadband)
+                            || (std::abs(m_manipController.GetRightY()) > IOConstants::kDriveDeadband);})
       .OnTrue(
           new frc2::InstantCommand([this] { m_arm.SetState(-2); }, {&m_arm}));
 
@@ -266,7 +267,7 @@ void RobotContainer::InitTeleop() {
     m_drive.SetSpeed(DriveConstants::kDefaultSlow ? DriveConstants::kLowSpeed : DriveConstants::kFastSpeed);
     m_drive.SetRotSpeed(DriveConstants::kDefaultSlow ? DriveConstants::kLowRotSpeed : DriveConstants::kFastRotSpeed);
     m_arm.SetCollectUseState(false);
-    m_leds.SetState(m_relative?4:5);
+    //m_leds.SetState(m_relative?4:5);
     m_drive.PrintSpeeds();
     
     m_setSpeedByArmCommand->Schedule();

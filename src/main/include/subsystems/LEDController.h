@@ -22,6 +22,8 @@ class LEDController : public frc2::SubsystemBase {
 
   void SetState(int state);
   int GetState();
+  void SetOverrideState(int state);
+  int GetOverrideState();
   int GetPrevState();
   int pos(int x, int y);
   void SetRGB(int index, int r, int g, int b);
@@ -61,6 +63,7 @@ class LEDController : public frc2::SubsystemBase {
   int j = 0;
   int y = 0;
   int state = 8;
+  int overrideState = -1;
   int prevState = 0;
   int angle = 0;
   bool m_allianceIsRed;

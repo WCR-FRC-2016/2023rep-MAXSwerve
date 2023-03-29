@@ -36,7 +36,7 @@ void LEDController::Periodic() {
   }
   //*/
 
-  switch (state) {
+  switch (overrideState==-1?state:overrideState) {
     case 0:
       Circles();
       break;
@@ -51,13 +51,17 @@ void LEDController::Periodic() {
       break;
     case 4: // Field-relative (blue)
       Fill(0,0,255);
+      Pulse(0,0,255,20);
       DrawLetter('F', 7, 6);
       Flush();
+      i++; i%=20;
       break;
     case 5: // Robot-relative (red)
       Fill(255,0,0);
+      Pulse(255,0,0,20);
       DrawLetter('R', 7, 6);
       Flush();
+      i++; i%=20;
       break;
     case 6: // Angles (for autobalance)
       DrawAngle();
@@ -92,6 +96,13 @@ void LEDController::SetState(int state) {
   }
 }
 int LEDController::GetState() {return state;}
+void LEDController::SetOverrideState(int state) {
+  if (overrideState!=state) {
+    overrideState = state;
+    i = 0;
+  }
+}
+int LEDController::GetOverrideState() {return overrideState;}
 int LEDController::GetPrevState() {return prevState;}
 
 void LEDController::Clear() {
@@ -546,6 +557,7 @@ void LEDController::Aperture() {
     SetRGB(y, 15-x,    43, 56, 127);
   }
   
+  /*
   for (int n=0; n < kLength2; n++) {
     double s = 0.4 + 0.6*sin((n/10.0 + i/20.0)*2*std::numbers::pi);
     s = std::clamp(s, 0.0, 1.0);
@@ -555,11 +567,30 @@ void LEDController::Aperture() {
       SetRGB(n+kLength, 255*s, 50*s, 0);
     }
   }
+  */
+
+  //*
+  SetRGB(0+kLength, 0, 50, 255);
+  SetRGB(1+kLength, 0, 25, 127);
+  SetRGB(46+kLength, 127, 25, 0);
+  SetRGB(47+kLength, 255, 50, 0);
+  SetRGB(99+kLength, 0, 50, 255);
+  SetRGB(98+kLength, 0, 25, 127);
+  SetRGB(52+kLength, 127, 25, 0);
+  SetRGB(51+kLength, 255, 50, 0);
+
+  int y = 46 - ((i*i)/100)%46
+  SetRGB(y+kLength, 127, 127, 127);
+  SetRGB(99-y+kLength, 127, 127, 127);
+  /*/
+  // TODO: better animation here
+  
+  //*/
 
   Flush();
 
   i++;
-  i%=40;
+  //i%=40;
 }
 
 void LEDController::SetAngle(double angle) {

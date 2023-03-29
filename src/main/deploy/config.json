@@ -29,6 +29,35 @@
 
     "default-slow": true,
 
+    "log-comment": 
+    "During a match, make sure these levels are on: [Important, Match]",
+
+    "log-levels": {
+        "LOG-COMMENT-A":
+        "These aren't really ever used, all makes all log levels work and none disables it",
+        "none": false,
+        "all": false,
+
+        "LOG-COMMENT-B":
+        "Misc levels used for testing [DISABLE FOR MATCHES]",
+        "info": false,
+        "utility": false,
+        "error": false,
+        "dev": false,
+
+        "LOG-COMMENT-C":
+        "Outputs all autonomous things, don't know if this should be on during match [currently not]",
+        "autonomous": false,
+        
+        "LOG-COMMENT-D":
+        "All levels we want on during match",
+        "match": true,
+        "important": true
+    },
+
+    "ROUTINE-COMMENT": 
+    "Maybe we should relocate this to a different file???",
+
     "autonomous-routines": [
         {
             "name": "High Cube x Line",
@@ -643,19 +672,5 @@
                 }
             ]
         }
-    ],
-
-    "log-comment": "During a match, make sure these levels are on: [Important, Match]",
-
-    "log-levels": {
-        "none": false,
-        "all": false,
-        "info": false,
-        "utility": false,
-        "important": true,
-        "error": false,
-        "autonomous": false,
-        "match": true,
-        "dev": false
-    }
+    ]
 }

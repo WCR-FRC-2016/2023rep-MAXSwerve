@@ -579,7 +579,7 @@ void LEDController::Aperture() {
   SetRGB(52+kLength, 127, 25, 0);
   SetRGB(51+kLength, 255, 50, 0);
 
-  int y = 46 - ((i*i)/100)%46
+  int y = 46 - ((i*i)/100)%46;
   SetRGB(y+kLength, 127, 127, 127);
   SetRGB(99-y+kLength, 127, 127, 127);
   /*/

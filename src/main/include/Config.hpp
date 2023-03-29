@@ -60,7 +60,7 @@ inline void loadConfig() {
 
         DriveConstants::kMaxAngularSpeed = units::radians_per_second_t{max_rot_speed_rads};
 
-        Logger::Log(LogLevel::All) << "Max Rot Speed: " << max_rot_speed_rads << LoggerCommand::Flush;
+        Logger::Log(LogLevel::Dev) << "Max Rot Speed: " << max_rot_speed_rads << LoggerCommand::Flush;
 
         // Auto Constants
         AutoConstants::kAutoMaxSpeed = units::meters_per_second_t{json["auto-max-speed"].get<double>()};

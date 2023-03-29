@@ -645,6 +645,8 @@
         }
     ],
 
+    "log-comment": "During a match, make sure these levels are on: [Important, Match]",
+
     "log-levels": {
         "none": false,
         "all": false,

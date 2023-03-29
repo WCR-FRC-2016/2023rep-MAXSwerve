@@ -88,12 +88,12 @@ RobotContainer::RobotContainer() : m_wrapper(m_drive, m_arm, m_limelight, m_leds
         //m_arm.DriveClaw(open_pressed - close_pressed);
         m_arm.DriveCollectWheels(suck - spit);
 
-        Logger::Log(LogLevel::Match) << "Lower angle: " << m_arm.GetLowerAngle() << LoggerCommand::Flush;
-        Logger::Log(LogLevel::Match) << "Upper angle: " << m_arm.GetUpperAngle() << LoggerCommand::Flush;
+        Logger::Log(LogLevel::Dev) << "Lower angle: " << m_arm.GetLowerAngle() << LoggerCommand::Flush;
+        Logger::Log(LogLevel::Dev) << "Upper angle: " << m_arm.GetUpperAngle() << LoggerCommand::Flush;
 
-        Logger::Log(LogLevel::Important) << "Inner Switch: " << m_arm.GetInnerLimitSwitchState() << LoggerCommand::Flush;
-        Logger::Log(LogLevel::Important) << "Outer Switch: " << m_arm.GetOuterLimitSwitchState() << LoggerCommand::Flush;
-        Logger::Log(LogLevel::Important) << "Claw Position: " << m_arm.GetClawPos() << LoggerCommand::Flush;
+        Logger::Log(LogLevel::Dev) << "Inner Switch: " << m_arm.GetInnerLimitSwitchState() << LoggerCommand::Flush;
+        Logger::Log(LogLevel::Dev) << "Outer Switch: " << m_arm.GetOuterLimitSwitchState() << LoggerCommand::Flush;
+        Logger::Log(LogLevel::Dev) << "Claw Position: " << m_arm.GetClawPos() << LoggerCommand::Flush;
         //PrintDebugStuff();
       },
       {&m_arm}));

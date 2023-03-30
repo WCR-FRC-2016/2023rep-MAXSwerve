@@ -116,8 +116,6 @@ inline units::radians_per_second_t kLowRotSpeed  = 0.0_rad_per_s;
 inline double kMoveOverTime = 600;
 inline double kMoveOverSubTime = 600;
 
-inline double kTargetBalanceRoll = 0;
-
 constexpr double kDirectionSlewRate = 1.2;   // radians per second
 // This controls the drive slew (damping on drive)
 constexpr double kMagnitudeSlewRate = 1.8;   // percent per second (1 = 100%)
@@ -253,6 +251,10 @@ inline std::map<std::string, int32_t> kAutoSequencesMapped;
 
 inline double kAlignSpeed = 1;
 inline double kAlignRotationSpeed = 2.0;
+
+inline double kBalanceTargetRoll = 0;
+inline double kBalanceP          = 0.025;
+inline units::meters_per_second_t kBalanceMaxSpeed = 0.25_mps;
 
 inline auto    kAutoMaxSpeed = 1_mps;
 constexpr auto kMaxAcceleration = 3_mps_sq;

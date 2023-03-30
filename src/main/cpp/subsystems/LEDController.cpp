@@ -547,14 +547,15 @@ void LEDController::FlashConfirmation() {
 void LEDController::Aperture() {
   Clear();
 
+  // LED panel Aperture symbol
   for (unsigned int n = 0; n<aperture_points.size(); n++) {
     int x = aperture_points[n].first;
     int y = aperture_points[n].second;
 
-    SetRGB(x, y,       43, 56, 127);
-    SetRGB(15-y, x,    43, 56, 127);
-    SetRGB(15-x, 15-y, 43, 56, 127);
-    SetRGB(y, 15-x,    43, 56, 127);
+    SetRGB(x, y,       43, 56, 127); // Upper left
+    SetRGB(15-y, x,    43, 56, 127); // Upper right
+    SetRGB(15-x, 15-y, 43, 56, 127); // Lower right
+    SetRGB(y, 15-x,    43, 56, 127); // Lower left
   }
   
   /*
@@ -569,7 +570,7 @@ void LEDController::Aperture() {
   }
   */
 
-  //*
+  /*
   SetRGB(0+kLength, 0, 50, 255);
   SetRGB(1+kLength, 0, 25, 127);
   SetRGB(46+kLength, 127, 25, 0);
@@ -583,8 +584,61 @@ void LEDController::Aperture() {
   SetRGB(y+kLength, 127, 127, 127);
   SetRGB(99-y+kLength, 127, 127, 127);
   /*/
-  // TODO: better animation here
+  // LED strip logic
+  d1yv+=0.02; d1y+=d1yv;
+  if (d1y>46) {
+    if (drop_mode) d1y-=46;
+    else {
+      d1y = 92-d1y;
+      d1yv = -d1yv;
+      d1s = !d1s;
+    }
+  }
+  if (d1y<0) {
+    d1y+=46;
+    if (!drop_mode) d1s = !d1s;
+  }
+  if (d1yv>4) d1yv=4;
   
+  d2yv+=0.02; d2y+=d2yv;
+  if (d2y>46) {
+    if (drop_mode) d2y-=46;
+    else {
+      d2y = 92-d2y;
+      d2yv = -d2yv;
+      d2s = !d2s;
+    }
+  }
+  if (d2y<0) {
+    d2y+=46;
+    if (!drop_mode) d2s = !d2s;
+  }
+  if (d2yv>4) d2yv=4;
+
+  // LED strip portals
+  if (drop_mode) {
+    SetRGB(kLength+0,    0, 100, 255);
+    SetRGB(kLength+1,    0,  50, 127);
+    SetRGB(kLength+46, 127,  50,   0);
+    SetRGB(kLength+47, 255, 100,   0);
+  } else {
+    SetRGB(kLength+0,  255, 100,   0);
+    SetRGB(kLength+1,  127,  50,   0);
+    SetRGB(kLength+46,   0,  50, 127);
+    SetRGB(kLength+47,   0, 100, 255);
+  }
+  SetRGB(kLength+51, 255, 100,   0);
+  SetRGB(kLength+52, 127,  50,   0);
+  SetRGB(kLength+97,   0,  50, 127);
+  SetRGB(kLength+98,   0, 100, 255);
+  SetRGB(kLength+99,   0,   0,   0);
+  
+  // LED strip dots
+  if (d1s) SetRGB(kLength+46-floor(d1y),   0, 100, 255);
+  else     SetRGB(kLength+52+floor(d1y),   0, 100, 255);
+  
+  if (d2s) SetRGB(kLength+46-floor(d2y), 255, 100,   0);
+  else     SetRGB(kLength+52+floor(d2y), 255, 100,   0);
   //*/
 
   Flush();

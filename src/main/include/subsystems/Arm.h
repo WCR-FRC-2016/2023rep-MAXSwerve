@@ -6,9 +6,14 @@
 
 #include <frc2/command/SubsystemBase.h>
 #include <frc/controller/PIDController.h>
+#include <frc/DigitalInput.h>
 
+#include <units/angle.h>
+
+#include "ActuatorModule.h"
 #include "CTREMagEncoder.h"
 #include "Constants.h"
+
 
 class Arm : public frc2::SubsystemBase {
  public:
@@ -20,8 +25,34 @@ class Arm : public frc2::SubsystemBase {
   void Periodic() override;
 
   // Subsystem methods go here.
-  void TurnToAngles(double low, double high);
+  void SetState(double new_state);
+  double GetGoalState();
+  void TurnToAngles(units::degree_t low, units::degree_t high);
+  void Drive(double low, double high);
   void PrintTestEncoder();
+
+  units::degree_t GetUpperAngle();
+  units::degree_t GetLowerAngle();
+  double GetRawUpperAngle();
+  double GetRawLowerAngle();
+
+  bool GetOuterLimitSwitchState();
+  bool GetInnerLimitSwitchState();
+
+  int GetClawPos();
+  void OverrideClawPos(double new_pos);
+
+  bool HasPiece();
+
+  void SetCollectUseState(bool state);
+  void SetCollectState(int32_t state);
+  //void SetClawUseState(bool state);
+  //void SetClawState(int32_t state);
+
+  void DriveClaw(double dir);
+  void DriveCollectWheels(double dir);
+
+  void SetClaw(int32_t claw_settings);
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be
@@ -30,12 +61,31 @@ class Arm : public frc2::SubsystemBase {
   rev::CANSparkMax m_hand_left; // Motor to control left hand wheels
   rev::CANSparkMax m_hand_right; // Motor to control right hand wheels
   rev::CANSparkMax m_hand_grab; // Motor to control hand opening/closing
-  rev::CANSparkMax m_arm_low; // Motor to control lower arm
-  rev::CANSparkMax m_arm_high; // Motor to control upper arm
+  
+  ActuatorModule m_low_actuator;
+  ActuatorModule m_high_actuator;
   
   frc2::PIDController m_arm_low_pid;
   frc2::PIDController m_arm_high_pid;
 
   CTREMagEncoder m_low_encoder;
   CTREMagEncoder m_high_encoder;
+
+  frc::DigitalInput m_outer_switch;
+  frc::DigitalInput m_inner_switch;
+
+  frc::DigitalInput m_hasPieceSensor{4}; // Sensor for knowing if we've collected a piece
+
+  int m_state = 1;
+  int m_goal_state = -1;
+  int m_next_goal_state = -1;
+
+  bool m_use_collect_state = false;
+  int m_collect_state = 1;
+
+  //bool m_use_claw_state = false;
+  // Cube = 0, Cone = 1
+
+  // Warning: direction inverted from DriveClaw.
+  int m_current_pos = 0;
 };

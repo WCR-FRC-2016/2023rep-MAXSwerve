@@ -1,22 +1,78 @@
-# MAXSwerve C++ Template v2023.1
+# Winner's Circle Robotics 2023 Rep
 
-See [the online changelog](https://github.com/REVrobotics/MAXSwerve-Cpp-Template/blob/main/CHANGELOG.md) for information about updates to the template that may have been released since you created your project.
+## This Year's Goals
 
-## Description
+- Teleop Automation
+- Swerve
 
-A template project for an FRC swerve drivetrain that uses REV MAXSwerve Modules.
+## Game Info
 
-Note that this is meant to be used with a drivetrain composed of four MAXSwerve Modules, each configured with two SPARKS MAX, a NEO as the driving motor, a NEO 550 as the turning motor, and a REV Through Bore Encoder as the absolute turning encoder.
+[Charged Up!](https://firstroboticsbc.org/first-robotics-competition/charged-up-game-and-season/)
 
-To get started, make sure you have calibrated the zero offsets for the absolute encoders in the Hardware Client using the `Absolute Encoder` tab under the associated turning SPARK MAX devices.
+## Tools
 
-## Prerequisites
+### Standard Tools
 
-* SPARK MAX Firmware v1.6.2 - Adds features that are required for swerve
-* REVLib v2023.1.2 - Includes APIs for the new firmware features
+- [WPILib 2023](https://docs.wpilib.org/en/stable/docs/zero-to-robot/step-2/wpilib-setup.html)
+    - [What's new in 2023](https://docs.wpilib.org/en/stable/docs/yearly-overview/yearly-changelog.html)
+- [Limelight](https://docs.limelightvision.io/en/latest/)
 
-## Configuration
+### VsCode Extensions
 
-It is possible that this project will not work for your robot right out of the box. Various things like the CAN IDs, PIDF gains, chassis configuration, etc. must be determined for your own robot!
+- [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools): IntelliSense & Beautifier
+    - Uses [Clang syntax](https://clang.llvm.org/docs/ClangFormatStyleOptions.html) for settings
+    - [Clang Format Quick Tutorial](https://leimao.github.io/blog/Clang-Format-Quick-Tutorial/)
 
-These values can be adjusted in the `Constants.h` file.
+## Helpful Links
+
+- [Google's c++ Style Guide](https://google.github.io/styleguide/cppguide.html)
+
+## Tasks for the Year
+
+- [x] Update code for new swerve modules
+- [x] Add variable speed
+- [x] Fix acceleration?
+- [ ] Write autonomous routines
+    - [ ] Routine A: Score two from furthest-from-loading-bay
+    - [x] Routine B: Score one
+    - [x] Routine C: Score one and auto-balance
+    - [x] Routine D: Taxi
+    - [ ] Finalize list
+- [x] Create subsystems for robot code
+    - [x] Drivebase
+        - [ ] Snap to rotation
+    - [x] Arm
+    - [x] Collector
+- [x] Controller Design
+    - [x] Document and share controller design
+- [ ] Tele-auto scoring
+    - [x] Detect AprilTags
+    - [x] Align robot to AprilTags
+    - [x] Align robot to reflective tape
+    - [x] Auto extend arm to right height
+    - [ ] Auto score
+- [x] Tele-auto balance
+    - [x] Get balance of robot
+    - [x] Maneuver robot based on balance
+- [ ] Tele-auto loading
+    - [x] AprilTags work for scoring repurposed
+    - [ ] Auto collect
+- [x] Tele-auto arm levels
+- [ ] Color detection?
+- [x] Driver camera
+- [x] Limelight 3 configured
+- [ ] ~~Auto-mono-piece-control~~
+- [x] LED Panel
+    - [x] Request indicator for human player
+    - [ ] ~~Align indicator based on reflective tape in case Limelight visual fails~~
+- [ ] Sound effects!
+- [x] Care for code
+    - [x] Document
+    - [x] Refactor
+    - [x] Level based logging
+        - [x] Update to include units library
+    - [x] JSON/YAML config instead of flat text
+
+## Reference
+
+https://github.com/REVrobotics/MAXSwerve-Cpp-Template/

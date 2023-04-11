@@ -17,7 +17,10 @@ enum LogLevel : uint32_t
     Utility = 1 << 1,
     Important = 1 << 2,
     Error = 1 << 3,
-    Dev = 1 << 4
+    Dev = 1 << 4,
+    Autonomous = 1 << 5,
+    Match = 1 << 6,
+    All = UINT_MAX
 };
 
 enum class LoggerCommand
@@ -29,6 +32,7 @@ class Logger
 {
 public:
     Logger &operator<<(const std::string &);
+   // Logger &operator<<(const bool &);
     Logger &operator<<(const int &);
     Logger &operator<<(const float &);
     Logger &operator<<(const double &);
@@ -74,6 +78,10 @@ private:
             return "Error";
         case 1 << 4:
             return "Dev";
+        case 1 << 5:
+            return "Autonomous";
+        case 1 << 6:
+            return "Match";
         default:
             return "Invalid";
         }

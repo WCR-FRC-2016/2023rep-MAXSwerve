@@ -5,20 +5,24 @@
 #pragma once
 
 #include <frc/XboxController.h>
+#include <frc/DriverStation.h>
 #include <frc/controller/PIDController.h>
 #include <frc/controller/ProfiledPIDController.h>
 #include <frc/smartdashboard/SendableChooser.h>
 #include <frc2/command/Command.h>
 #include <frc2/command/InstantCommand.h>
+#include <frc2/command/ConditionalCommand.h>
 #include <frc2/command/PIDCommand.h>
 #include <frc2/command/ParallelRaceGroup.h>
 #include <frc2/command/RunCommand.h>
 
 #include "Constants.h"
+#include "autonomous/AutoInterpreter.hpp"
 #include "subsystems/DriveSubsystem.h"
 #include "subsystems/Arm.h"
 #include "subsystems/Limelight.h"
 #include "subsystems/LEDController.h"
+#include "commands/SetSpeedByArmCommand.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -33,10 +37,17 @@ class RobotContainer {
 
   frc2::Command* GetAutonomousCommand();
 
+  void PostConfigInit();
+  void InitTeleop();
+  void InitAutonomous();
+
+  SetSpeedByArmCommand* m_setSpeedByArmCommand;
+
  private:
   // The driver's controller
   frc::XboxController m_driverController{IOConstants::kDriverControllerPort};
   frc::XboxController m_manipController{IOConstants::kManipControllerPort};
+  //frc::XboxController m_debugController{IOConstants::kDebugControllerPort};
 
   // The robot's subsystems and commands are defined here...
 
@@ -45,10 +56,14 @@ class RobotContainer {
   Arm m_arm;
   Limelight m_limelight;
   LEDController m_leds;
+  AutoSubsystemWrapper m_wrapper;
+
   bool m_relative = true;
   bool m_rate_limit = true;
 
-  bool m_low_speed = true;
+  // Autonomous
+  int m_selected_auto;
+  uint32_t m_auto_command_index = 0;
 
   // The chooser for the autonomous routines
   frc::SendableChooser<frc2::Command*> m_chooser;

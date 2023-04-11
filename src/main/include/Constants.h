@@ -11,8 +11,12 @@
 #include <units/length.h>
 #include <units/velocity.h>
 #include <frc/XboxController.h>
+#include <frc/trajectory/Trajectory.h>
 
 #include <numbers>
+#include <map>
+
+#include "autonomous/AutoSequence.hpp"
 
 #pragma once
 
@@ -25,7 +29,40 @@
  * they are needed.
  */
 
-// TODO: Convert move of these to be config based rather than constexpr variables
+// Drive Controller:
+//  : Drive:          Left Stick [Rotate]  [x]
+//  : Rotate:         Right Stick [Rotate] [x]
+//  : X Mode:         X      [x]
+//  : Field Relative: Y      [x]
+//  : Reset Odometry: Select [x]
+//  : Swap Speed:     Start  [x]
+//  : Align Reflect:  Left Bumper   [x]
+//  : Align AprilTag: Right Bumper  [x]
+//  : Slide Left:     Left Trigger  [x]
+//  : Slide Right:    Right Trigger [x]
+
+// Manipulator Controller:
+//  : Arm High:       Left Stick  [Manual Mode Only] [x]
+//  : Arm Low:        Right Stick [Manual Mode Only] [x]
+//  : Manual Mode:    Back [x]
+//  : Mid Goal:       X    [x] TODO: Ensure these are correct
+//  : High Goal:      Y    [x] TODO: Ensure these are correct
+//  : Carry Position: A    [x] TODO: Ensure these are correct
+//  : Piece Station:  B    [x] TODO: Ensure these are correct
+//  : Close Claw:     Left Bumper   [x]
+//  : Open Claw:      Right Bumper  [x]
+//  : Spit:           Left Trigger  [x]
+//  : Collect:        Right Trigger [x]
+//  : LED Cone        DPAD right    [x]
+//  : LED Cube        DPAD left     [x]
+
+// Unimplemented [Manipulator]
+//  : LED Hypno:      ? [ ]
+
+// Debug Controller:
+//  : Absolute Zero:  Start
+
+// TODO: Convert more of these to be config based rather than constexpr variables
 // Some examples include:
 //     . Button Mappings?
 //     . Speeds, such as max total speed (as well as the mode swap speeds?)
@@ -34,31 +71,50 @@
 //     . Controller deadbands (which are the deadzones of the controller)
 
 namespace ControlConstants {
-    // Joystick Value [Currently Inline]
-
-    // Fire While Held Button
-    constexpr int xModeButton = frc::XboxController::Button::kX;
-    constexpr int DebugLEDButton = frc::XboxController::Button::kX;
-
-    // Fire Once Button
-    constexpr int RelativeButton = frc::XboxController::Button::kY;
-    constexpr int RateLimitButton = frc::XboxController::Button::kB;
-    constexpr int DebugPrintButton = frc::XboxController::Button::kA;
-    constexpr int SwapSpeedButton = frc::XboxController::Button::kLeftBumper;
-    constexpr int AlignButton = frc::XboxController::Button::kRightBumper;
+    // Driver Controller
+    constexpr int SetHeading90Button = frc::XboxController::Button::kA; // DEBUG!!! TODO: remove
+    constexpr int AutoBalanceButton  = frc::XboxController::Button::kB; // DEBUG!!! TODO: remove
+    constexpr int xModeButton        = frc::XboxController::Button::kX;
+    constexpr int RelativeButton     = frc::XboxController::Button::kY;
     constexpr int ResetHeadingButton = frc::XboxController::Button::kBack;
-    constexpr int PosButton = frc::XboxController::Button::kStart;
+    constexpr int SwapSpeedButton    = frc::XboxController::Button::kStart;
+    constexpr int AlignRTButton      = frc::XboxController::Button::kLeftBumper;
+    constexpr int AlignATButton      = frc::XboxController::Button::kRightBumper;
+    
+    // Manipulator Controller
+    constexpr int PosCarryButton  = frc::XboxController::Button::kA;
+    constexpr int PosMedButton    = frc::XboxController::Button::kX;
+    constexpr int PosHighButton   = frc::XboxController::Button::kY;
+    constexpr int PosSubButton    = frc::XboxController::Button::kB;
+    constexpr int PosManualButton = frc::XboxController::Button::kBack;
+    constexpr int CloseClawButton = frc::XboxController::Button::kRightBumper;
+    constexpr int OpenClawButton  = frc::XboxController::Button::kLeftBumper;
+    //constexpr int LEDConeButton   = frc::XboxController::
+
+    // TODO
+    constexpr int DebugLEDButton = frc::XboxController::Button::kX; // TODO
+
+    // Debug Controller
+    constexpr int PosZeroButton   = frc::XboxController::Button::kStart;
 }
 
 namespace DriveConstants {
 // Driving Parameters - Note that these are not the maximum capable speeds of
 // the robot, rather the allowed maximum speeds
-inline units::meters_per_second_t kMaxSpeed = 4.8_mps;
-constexpr units::radians_per_second_t kMaxAngularSpeed{2 / 2 * std::numbers::pi};
+inline units::meters_per_second_t  kMaxSpeed      = 4.8_mps;
+inline units::meters_per_second_t  kDriveMaxSpeed = 4.8_mps;
+inline units::radians_per_second_t kMaxAngularSpeed{2 / 2 * std::numbers::pi};
+
+inline bool kDefaultSlow = false;
 
 // Mode Switch Speeds
-inline units::meters_per_second_t FastSpeed = 3.0_mps;
-inline units::meters_per_second_t LowSpeed = 1.0_mps;
+inline units::meters_per_second_t  kFastSpeed    = 3.0_mps;
+inline units::meters_per_second_t  kLowSpeed     = 1.0_mps;
+inline units::radians_per_second_t kFastRotSpeed = 0.0_rad_per_s;
+inline units::radians_per_second_t kLowRotSpeed  = 0.0_rad_per_s;
+
+inline double kMoveOverTime = 600;
+inline double kMoveOverSubTime = 600;
 
 constexpr double kDirectionSlewRate = 1.2;   // radians per second
 // This controls the drive slew (damping on drive)
@@ -75,43 +131,53 @@ constexpr units::meter_t kWheelBase =
     0.665_m;
 
 // Angular offsets of the modules relative to the chassis in radians
-constexpr double kFrontLeftChassisAngularOffset = -std::numbers::pi / 2;
+constexpr double kFrontLeftChassisAngularOffset  = -std::numbers::pi / 2;
 constexpr double kFrontRightChassisAngularOffset = 0;
-constexpr double kRearLeftChassisAngularOffset = std::numbers::pi;
-constexpr double kRearRightChassisAngularOffset = std::numbers::pi / 2;
+constexpr double kRearLeftChassisAngularOffset   = std::numbers::pi;
+constexpr double kRearRightChassisAngularOffset  = std::numbers::pi / 2;
 
 // SPARK MAX CAN IDs
-constexpr int kFrontLeftDrivingCanId = 4;
-constexpr int kRearLeftDrivingCanId = 6;
-constexpr int kFrontRightDrivingCanId = 2;
-constexpr int kRearRightDrivingCanId = 8;
+constexpr int kFrontLeftDrivingCanId  = 15;
+constexpr int kRearLeftDrivingCanId   = 14;
+constexpr int kRearRightDrivingCanId  = 13;
+constexpr int kFrontRightDrivingCanId = 12;
 
-constexpr int kFrontLeftTurningCanId = 3;
-constexpr int kRearLeftTurningCanId = 5;
-constexpr int kFrontRightTurningCanId = 1;
-constexpr int kRearRightTurningCanId = 7;
+constexpr int kFrontLeftTurningCanId  = 11;
+constexpr int kRearLeftTurningCanId   = 10;
+constexpr int kRearRightTurningCanId  = 9;
+constexpr int kFrontRightTurningCanId = 8;
 }  // namespace DriveConstants
 
 namespace ArmConstants {
-constexpr int kHandLeftId = 0; // TODO!
-constexpr int kHandRightId = 0; // TODO!
-constexpr int kHandGrabId = 0; // TODO!
-constexpr int kArmLowId = 0; // TODO!
-constexpr int kArmHighId = 0; // TODO!
+constexpr int kHandRightId = 2;
+constexpr int kHandGrabId  = 3;
+constexpr int kHandLeftId  = 4;
+constexpr int kArmLowId    = 6;
+constexpr int kArmHighId   = 7;
 
-constexpr units::ampere_t kHandLeftCurrentLimit = 30_A; // TODO!
-constexpr units::ampere_t kHandRightCurrentLimit = 30_A; // TODO!
-constexpr units::ampere_t kHandGrabCurrentLimit = 30_A; // TODO!
-constexpr units::ampere_t kArmLowCurrentLimit = 30_A; // TODO!
-constexpr units::ampere_t kArmHighCurrentLimit = 30_A; // TODO!
+constexpr int kArmLowEncoderId  = 3; // DIO slot 3 on RoboRio 2.0
+constexpr int kArmHighEncoderId = 2; // DIO slot 2 on RoboRio 2.0
 
-constexpr double kArmLowP = 0.04; // TODO!
-constexpr double kArmLowI = 0; // TODO!
-constexpr double kArmLowD = 0; // TODO!
+constexpr units::ampere_t kHandLeftCurrentLimit  = 26_A; // Works between 2 and 26 amps [Johnson Electric PLG Motor -> https://www.andymark.com/products/johnson-electric-gearmotor-and-output-shaft]
+constexpr units::ampere_t kHandRightCurrentLimit = 26_A; // Works between 2 and 26 amps [Johnson Electric PLG Motor -> https://www.andymark.com/products/johnson-electric-gearmotor-and-output-shaft]
+constexpr units::ampere_t kHandGrabCurrentLimit  = 50_A; // Update this
+constexpr units::ampere_t kArmLowCurrentLimit    = 12_A;  // Very hard to find, max found on amazon listing (doug said change to 4) [ECO-WORTHY 14mm/s 1000N -> https://www.amazon.com/ECO-LLC-Actuator-Mounting-Brackets/dp/B07L7XCSDW/ref=sr_1_2?c=ts&keywords=Linear+Motion+Actuators&qid=1678491620&refinements=p_89%3AECO-WORTHY&s=industrial&sr=1-2-catcorr&ts_id=350654011]
+constexpr units::ampere_t kArmHighCurrentLimit   = 12_A; // Works between 4 and 12 amps [PA-04 -> https://www.progressiveautomations.com/products/linear-actuator-ip66]
 
-constexpr double kArmHighP = 0.04; // TODO!
-constexpr double kArmHighI = 0; // TODO!
-constexpr double kArmHighD = 0; // TODO!
+inline double kClawMoveTime = 1000;
+inline bool kUseLimitSwitches = false;
+inline bool kUseTiming = false;
+
+inline double kArmLowP  = 0.4;
+inline double kArmLowI  = 0;
+inline double kArmLowD  = 0;
+
+inline double kArmHighP = 0.4;
+inline double kArmHighI = 0;
+inline double kArmHighD = 0;
+
+inline double kArmLowOffset = 0.0;
+inline double kArmHighOffset = 0.0;
 } // namespace ArmConstants
 
 namespace ModuleConstants {
@@ -154,16 +220,18 @@ constexpr units::radian_t kTurningEncoderPositionPIDMinInput = 0_rad;
 constexpr units::radian_t kTurningEncoderPositionPIDMaxInput =
     units::radian_t{kTurningEncoderPositionFactor};
 
-constexpr double kDrivingP = 0.04;
-constexpr double kDrivingI = 0;
-constexpr double kDrivingD = 0;
+// Still may need to be adjusted
+constexpr double kDrivingP  = 0.04;
+constexpr double kDrivingI  = 0;
+constexpr double kDrivingD  = 0;
 constexpr double kDrivingFF = (1 / kDriveWheelFreeSpeedRps);
 constexpr double kDrivingMinOutput = -1;
 constexpr double kDrivingMaxOutput = 1;
 
-constexpr double kTurningP = 1;
-constexpr double kTurningI = 0;
-constexpr double kTurningD = 0;
+// Still may need to be adjusted
+constexpr double kTurningP  = 1;
+constexpr double kTurningI  = 0;
+constexpr double kTurningD  = 0;
 constexpr double kTurningFF = 0;
 constexpr double kTurningMinOutput = -1;
 constexpr double kTurningMaxOutput = 1;
@@ -178,19 +246,32 @@ constexpr units::ampere_t kTurningMotorCurrentLimit = 20_A;
 }  // namespace ModuleConstants
 
 namespace AutoConstants {
-constexpr auto kMaxSpeed = 3_mps;
+inline std::vector<AutoSequence> kAutoSequences;
+inline std::map<std::string, int32_t> kAutoSequencesMapped;
+
+inline double kAlignSpeed = 1;
+inline double kAlignRotationSpeed = 2.0;
+
+inline double kBalanceTargetRoll = 0;
+inline double kBalanceP          = 0.025;
+inline units::meters_per_second_t kBalanceMaxSpeed = 0.25_mps;
+
+inline auto    kAutoMaxSpeed = 1_mps;
 constexpr auto kMaxAcceleration = 3_mps_sq;
 constexpr auto kMaxAngularSpeed = 3.142_rad_per_s;
 constexpr auto kMaxAngularAcceleration = 3.142_rad_per_s_sq;
 
-constexpr units::meter_t kAutoTargetX = -6.5_in;
+constexpr units::meter_t kAutoTargetX = -6.75_in;
 constexpr units::meter_t kAutoTargetZ = 1_m;
 constexpr units::meter_t kAutoTargetDeadzone = 1_in;
 constexpr units::radian_t kAutoTargetAngularDeadzone = 2.5_deg;
 
-constexpr double kPXController = 0.5;
-constexpr double kPYController = 0.5;
-constexpr double kPThetaController = 0.5;
+constexpr units::degree_t kAutoReflectiveTargetX = -12_deg;
+
+// TEMPORARY INLINE
+inline double kPXController = 0.5;
+inline double kPYController = 0.5;
+inline double kPThetaController = 0.5;
 
 extern const frc::TrapezoidProfile<units::radians>::Constraints
     kThetaControllerConstraints;
@@ -199,5 +280,7 @@ extern const frc::TrapezoidProfile<units::radians>::Constraints
 namespace IOConstants {
 constexpr int kDriverControllerPort = 0;
 constexpr int kManipControllerPort = 1;
+constexpr int kDebugControllerPort = 2;
 constexpr double kDriveDeadband = 0.15;
+inline double kLEDBrightness = 0.2;
 }  // namespace IOConstants

@@ -20,6 +20,8 @@ std::string Logger::constructName()
     auto levels = (m_global_level & m_level);
     uint32_t level_count = 0;
 
+    if (m_level == UINT_MAX) return "All";
+
     for (auto i = 0; i < 32; i++)
     {
         if ((levels & (1 << i)) != 0)
@@ -42,6 +44,14 @@ Logger &Logger::operator<<(const std::string &message)
     wpi::outs() << message;
     return *this;
 }
+
+// Logger &Logger::operator<<(const bool &state) {
+//     if (!checkLevel())
+//         return *this;
+
+//     wpi::outs() << (state ? "True" : "False");
+//     return *this;
+// }
 
 Logger &Logger::operator<<(const int &number)
 {

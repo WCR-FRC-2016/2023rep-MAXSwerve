@@ -6,11 +6,17 @@
 
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandScheduler.h>
+#include <cscore_oo.h>
+#include <cameraserver/CameraServer.h>
 
+#include "Constants.h"
 #include "Config.hpp"
 
 void Robot::RobotInit() {
   loadConfig();
+  m_container.PostConfigInit();
+
+  cs::UsbCamera camera = frc::CameraServer::StartAutomaticCapture();
 }
 
 /**
@@ -28,7 +34,8 @@ void Robot::RobotPeriodic() { frc2::CommandScheduler::GetInstance().Run(); }
  * can use it to reset any subsystem information you want to clear when the
  * robot is disabled.
  */
-void Robot::DisabledInit() {}
+void Robot::DisabledInit() {
+}
 
 void Robot::DisabledPeriodic() {}
 
@@ -37,6 +44,10 @@ void Robot::DisabledPeriodic() {}
  * RobotContainer} class.
  */
 void Robot::AutonomousInit() {
+  DriveConstants::kMaxSpeed = AutoConstants::kAutoMaxSpeed;
+
+  m_container.InitAutonomous();
+
   m_autonomousCommand = m_container.GetAutonomousCommand();
 
   if (m_autonomousCommand != nullptr) {
@@ -44,7 +55,15 @@ void Robot::AutonomousInit() {
   }
 }
 
-void Robot::AutonomousPeriodic() {}
+void Robot::AutonomousPeriodic() {
+  if (m_autonomousCommand != nullptr && m_autonomousCommand->IsFinished()) {
+    m_autonomousCommand = m_container.GetAutonomousCommand();
+
+    if (m_autonomousCommand != nullptr) {
+      m_autonomousCommand->Schedule();
+    }
+  }
+}
 
 void Robot::TeleopInit() {
   // This makes sure that the autonomous stops running when
@@ -55,6 +74,9 @@ void Robot::TeleopInit() {
     m_autonomousCommand->Cancel();
     m_autonomousCommand = nullptr;
   }
+
+  m_container.InitTeleop();
+  DriveConstants::kMaxSpeed = DriveConstants::kDriveMaxSpeed;
 }
 
 /**

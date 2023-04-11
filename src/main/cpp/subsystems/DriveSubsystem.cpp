@@ -32,8 +32,7 @@ DriveSubsystem::DriveSubsystem()
                  frc::Rotation2d(units::degree_t{m_gyro.GetAngle()}),
                  {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
                   m_rearLeft.GetPosition(), m_rearRight.GetPosition()},
-                 frc::Pose2d{}},
-      m_actuator(9) {}
+                 frc::Pose2d{}} {}
 
 void DriveSubsystem::Periodic() {
   // Implementation of subsystem periodic method goes here.
@@ -114,11 +113,11 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
 
   // Convert the commanded speeds into the correct units for the drivetrain
   units::meters_per_second_t xSpeedDelivered =
-      xSpeedCommanded * m_speed;
+      xSpeedCommanded * m_speed * m_speed_factor;
   units::meters_per_second_t ySpeedDelivered =
-      ySpeedCommanded * m_speed;
+      ySpeedCommanded * m_speed * m_speed_factor;
   units::radians_per_second_t rotDelivered =
-      m_currentRotation * DriveConstants::kMaxAngularSpeed;
+      m_currentRotation * DriveConstants::kMaxAngularSpeed * m_speed_factor; // TODO: Variable Speed
 
   auto states = kDriveKinematics.ToSwerveModuleStates(
       fieldRelative
@@ -151,10 +150,31 @@ void DriveSubsystem::SetX() {
 // Speed
 void DriveSubsystem::SetSpeed(units::meters_per_second_t value) { m_speed = value; }
 units::meters_per_second_t DriveSubsystem::GetSpeed() { return m_speed; }
+void DriveSubsystem::SetRotSpeed(units::radians_per_second_t value) { m_angular_speed = value; }
+units::radians_per_second_t DriveSubsystem::GetRotSpeed() { return m_angular_speed; }
+void DriveSubsystem::SetSpeedFactor(double value) { m_speed_factor = value; }
+
+void DriveSubsystem::PrintSpeeds() {
+  Logger::Log(LogLevel::Match) << "Driving Speed Set to: " << m_speed << LoggerCommand::Flush;
+  Logger::Log(LogLevel::Match) << "Rotation Speed Set to: " << m_angular_speed << LoggerCommand::Flush;
+}
+
+void DriveSubsystem::SwapSpeed() {
+  if (m_speed == DriveConstants::kMaxSpeed) {
+    m_speed = DriveConstants::kLowSpeed;
+    m_angular_speed = DriveConstants::kLowRotSpeed;
+  }
+  else {
+    m_speed = DriveConstants::kMaxSpeed;
+    m_angular_speed = DriveConstants::kFastRotSpeed;
+  }
+
+  PrintSpeeds();
+}
 
 void DriveSubsystem::SetModuleStates(
     wpi::array<frc::SwerveModuleState, 4> desiredStates) {
-  kDriveKinematics.DesaturateWheelSpeeds(&desiredStates, AutoConstants::kMaxSpeed);
+  kDriveKinematics.DesaturateWheelSpeeds(&desiredStates, AutoConstants::kAutoMaxSpeed);
   m_frontLeft.SetDesiredState(desiredStates[0]);
   m_frontRight.SetDesiredState(desiredStates[1]);
   m_rearLeft.SetDesiredState(desiredStates[2]);
@@ -172,7 +192,20 @@ units::degree_t DriveSubsystem::GetHeading() const {
   return units::degree_t{m_gyro.GetAngle()};
 }
 
-void DriveSubsystem::ZeroHeading() { m_gyro.Reset(); }
+units::degree_t DriveSubsystem::GetPitch() {
+  return units::degree_t{m_gyro.GetPitch()};
+}
+
+units::degree_t DriveSubsystem::GetRoll() {
+  return units::degree_t{m_gyro.GetRoll()};
+}
+
+void DriveSubsystem::SetHeading(units::degree_t heading) {
+  m_gyro.Reset();
+  m_gyro.SetAngleAdjustment(heading.value()); // TODO: check sign
+}
+
+void DriveSubsystem::ZeroHeading() { SetHeading(0_deg); }
 
 double DriveSubsystem::GetTurnRate() { return -m_gyro.GetRate(); }
 

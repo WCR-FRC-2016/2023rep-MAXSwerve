@@ -12,7 +12,6 @@
 #include <frc/kinematics/SwerveDriveOdometry.h>
 #include <frc2/command/SubsystemBase.h>
 
-#include "ActuatorModule.h"
 #include "CTREMagEncoder.h"
 #include "Constants.h"
 #include "MAXSwerveModule.h"
@@ -44,7 +43,6 @@ class DriveSubsystem : public frc2::SubsystemBase {
   void Drive(units::meters_per_second_t xSpeed,
              units::meters_per_second_t ySpeed, units::radians_per_second_t rot,
              bool fieldRelative, bool rateLimit);
-
   /**
    * Sets the wheels into an X formation to prevent movement.
    */
@@ -53,6 +51,11 @@ class DriveSubsystem : public frc2::SubsystemBase {
   // Speed
   void SetSpeed(units::meters_per_second_t value);
   units::meters_per_second_t GetSpeed();
+
+  void SetSpeedFactor(double value);
+  
+  void SetRotSpeed(units::radians_per_second_t value);
+  units::radians_per_second_t GetRotSpeed();
 
   /**
    * Resets the drive encoders to currently read a position of 0.
@@ -67,9 +70,28 @@ class DriveSubsystem : public frc2::SubsystemBase {
   /**
    * Returns the heading of the robot.
    *
-   * @return the robot's heading in degrees, from 180 to 180
+   * @return the robot's heading in degrees, from -180 to 180
    */
   units::degree_t GetHeading() const;
+
+  /**
+   * Returns the pitch of the robot.
+   *
+   * @return the robot's pitch in degrees, from -180 to 180
+   */
+  units::degree_t GetPitch();
+
+  /**
+   * Returns the roll of the robot.
+   *
+   * @return the robot's roll in degrees, from -180 to 180
+   */
+  units::degree_t GetRoll();
+
+  /**
+   * Sets the heading of the robot.
+   */
+  void SetHeading(units::degree_t heading);
 
   /**
    * Zeroes the heading of the robot.
@@ -97,20 +119,18 @@ class DriveSubsystem : public frc2::SubsystemBase {
    */
   void ResetOdometry(frc::Pose2d pose);
 
-  frc::SwerveDriveKinematics<4> kDriveKinematics{
-      frc::Translation2d{DriveConstants::kWheelBase / 2,
-                         DriveConstants::kTrackWidth / 2},
-      frc::Translation2d{DriveConstants::kWheelBase / 2,
-                         -DriveConstants::kTrackWidth / 2},
-      frc::Translation2d{-DriveConstants::kWheelBase / 2,
-                         DriveConstants::kTrackWidth / 2},
-      frc::Translation2d{-DriveConstants::kWheelBase / 2,
-                         -DriveConstants::kTrackWidth / 2}};
-  
-  CTREMagEncoder m_mag_encoder;
+  void SwapSpeed();
+  void PrintSpeeds();
 
-    // :(
-    ActuatorModule m_actuator;
+  frc::SwerveDriveKinematics<4> kDriveKinematics{
+      frc::Translation2d{DriveConstants::kWheelBase / 2.0,
+                         DriveConstants::kTrackWidth / 2.0},
+      frc::Translation2d{DriveConstants::kWheelBase / 2.0,
+                         -DriveConstants::kTrackWidth / 2.0},
+      frc::Translation2d{-DriveConstants::kWheelBase / 2.0,
+                         DriveConstants::kTrackWidth / 2.0},
+      frc::Translation2d{-DriveConstants::kWheelBase / 2.0,
+                         -DriveConstants::kTrackWidth / 2.0}};
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be
@@ -125,7 +145,9 @@ class DriveSubsystem : public frc2::SubsystemBase {
   AHRS m_gyro;
 
   // Current Speed
-  units::meters_per_second_t m_speed = DriveConstants::LowSpeed;  
+  units::meters_per_second_t m_speed = DriveConstants::kLowSpeed;
+  units::radians_per_second_t m_angular_speed = DriveConstants::kLowRotSpeed;
+  double m_speed_factor = 1.0;
 
   // Slew rate filter variables for controlling lateral acceleration
   double m_currentRotation = 0.0;

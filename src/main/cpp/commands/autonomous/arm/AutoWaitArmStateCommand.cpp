@@ -9,8 +9,8 @@ AutoWaitArmStateCommand::AutoWaitArmStateCommand(AutoSubsystemWrapper& wrapper, 
     AddRequirements(&m_wrapper.m_arm);
 }
 bool AutoWaitArmStateCommand::IsFinished() {
-    Logger::Log(LogLevel::All) << "Is Finished: " << (m_wrapper.m_arm.GetGoalState() == -1) << LoggerCommand::Flush;
-    Logger::Log(LogLevel::All) << "State: " << std::to_string(m_wrapper.m_arm.GetGoalState()) << LoggerCommand::Flush;
+    Logger::Log(LogLevel::Autonomous) << "Is Finished: " << (m_wrapper.m_arm.GetGoalState() == -1) << LoggerCommand::Flush;
+    Logger::Log(LogLevel::Autonomous) << "State: " << std::to_string(m_wrapper.m_arm.GetGoalState()) << LoggerCommand::Flush;
 
     return m_wrapper.m_arm.GetGoalState() == -1;
 }

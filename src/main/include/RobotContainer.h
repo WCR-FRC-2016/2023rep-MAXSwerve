@@ -5,6 +5,7 @@
 #pragma once
 
 #include <frc/XboxController.h>
+#include <frc/DriverStation.h>
 #include <frc/controller/PIDController.h>
 #include <frc/controller/ProfiledPIDController.h>
 #include <frc/smartdashboard/SendableChooser.h>
@@ -21,6 +22,7 @@
 #include "subsystems/Arm.h"
 #include "subsystems/Limelight.h"
 #include "subsystems/LEDController.h"
+#include "commands/SetSpeedByArmCommand.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -38,6 +40,8 @@ class RobotContainer {
   void PostConfigInit();
   void InitTeleop();
   void InitAutonomous();
+
+  SetSpeedByArmCommand* m_setSpeedByArmCommand;
 
  private:
   // The driver's controller

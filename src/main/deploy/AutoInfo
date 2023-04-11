@@ -84,8 +84,9 @@ AutoWaitArmStateCommand [21]: [x]
 
 AutoDriveClawCommand [22]: [x]
  . Description:
-    : A command that sets the claw collect state
+    : A command that sets the claw collect state for a specified amount of time
  . claw-state -> int: State to set the claw collect state [1 collects, 0 stops, -1 rejects]
+ . time       -> double: Amount of time to run the claw for
 
 AutoTimedClawCloseCommand [23]: [ ]
  . Description:

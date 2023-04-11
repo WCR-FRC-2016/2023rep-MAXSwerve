@@ -41,6 +41,9 @@ class Arm : public frc2::SubsystemBase {
 
   int GetClawPos();
   void OverrideClawPos(double new_pos);
+
+  bool HasPiece();
+
   void SetCollectUseState(bool state);
   void SetCollectState(int32_t state);
   //void SetClawUseState(bool state);
@@ -70,6 +73,8 @@ class Arm : public frc2::SubsystemBase {
 
   frc::DigitalInput m_outer_switch;
   frc::DigitalInput m_inner_switch;
+
+  frc::DigitalInput m_hasPieceSensor{4}; // Sensor for knowing if we've collected a piece
 
   int m_state = 1;
   int m_goal_state = -1;

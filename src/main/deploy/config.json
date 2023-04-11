@@ -2,14 +2,16 @@
     "drive-max-speed": 4.0,
     "drive-max-rot-speed": 270.0,
     "fast-speed": 3.0,
-    "slow-speed": 1.0,
+    "slow-speed": 2.0,
     "fast-rot-speed": 270.0,
     "slow-rot-speed": 180.0,
     "align-speed": 1.0,
     "align-rotation-speed": 2.0,
     "move-over-time": 600,
     "move-over-sub-time": 1000,
-    "target-balance-roll": -1.32,
+    "balance-target-roll": -1.32,
+    "balance-p": 0.025,
+    "balance-max-speed": 0.25,
     "auto-max-speed": 3.0,
     "auto-pcontroller-x": 0.5,
     "auto-pcontroller-y": 0.5,
@@ -23,9 +25,40 @@
     "arm-high-i": 0,
     "arm-high-d": 0,
     "claw-move-time": 920,
-    "use-limit-switches": false,
+    "use-limit-switches": true,
+    "use-timing": false,
+    "led-brightness": 0.2,
 
     "default-slow": true,
+
+    "log-comment": 
+    "During a match, make sure these levels are on: [Important, Match]",
+
+    "log-levels": {
+        "LOG-COMMENT-A":
+        "These aren't really ever used, all makes all log levels work and none disables it",
+        "none": false,
+        "all": false,
+
+        "LOG-COMMENT-B":
+        "Misc levels used for testing [DISABLE FOR MATCHES]",
+        "info": false,
+        "utility": false,
+        "error": false,
+        "dev": false,
+
+        "LOG-COMMENT-C":
+        "Outputs all autonomous things, don't know if this should be on during match [currently not]",
+        "autonomous": false,
+        
+        "LOG-COMMENT-D":
+        "All levels we want on during match",
+        "match": true,
+        "important": true
+    },
+
+    "ROUTINE-COMMENT": 
+    "Maybe we should relocate this to a different file???",
 
     "autonomous-routines": [
         {
@@ -183,7 +216,7 @@
             ]
         },
         {
-            "name": "Score, Cross, Balance (too long)",
+            "name": "Score, Cross, Collect (on right) (untested)",
             "commands": [
                 {
                     "type": 3,
@@ -235,9 +268,262 @@
                     }
                 },
                 {
+                    "type": 20,
+                    "data": {
+                        "arm-state": 1
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": { 
+                        "distance-x": 5.0,
+                        "speed-x": 0.5,
+                        "distance-y": 0.55,
+                        "speed-y": -0.25,
+                        "distance-rot": 200,
+                        "speed-rot": 22,
+                        "field-relative": true
+                    }
+                },
+                {
+                    "type": 22,
+                    "data": {
+                        "claw-state": 1,
+                        "time": 1.0
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Score, Go Around, Balance (on left) (untested)",
+            "commands": [
+                {
+                    "type": 3,
+                    "data": { 
+                        "angle": 180.0
+                    }
+                },
+                {
+                    "type": 20,
+                    "data": {
+                        "arm-state": 4
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": {
+                        "distance-x": 0.48,
+                        "speed-x": -1.0,
+                        "distance-y": 0.0,
+                        "speed-y": 0.0,
+                        "distance-rot": 0.0,
+                        "speed-rot": 0.0,
+                        "field-relative": false
+                    }
+                },
+                {
                     "type": 30,
                     "data": { 
-                        "time": 0.5
+                        "time": 3.0
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": {
+                        "distance-x": 0.44,
+                        "speed-x": 1.0,
+                        "distance-y": 0.0,
+                        "speed-y": 0.0,
+                        "distance-rot": 0.0,
+                        "speed-rot": 0.0,
+                        "field-relative": false
+                    }
+                },
+                {
+                    "type": 22,
+                    "data": {
+                        "claw-state": -1,
+                        "time": 0.7
+                    }
+                },
+                {
+                    "type": 20,
+                    "data": {
+                        "arm-state": 1
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": { 
+                        "distance-x": 4.0,
+                        "speed-x": -2.0,
+                        "distance-y": 0.4,
+                        "speed-y": -1.0,
+                        "field-relative": false
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": { 
+                        "distance-y": 1.5,
+                        "speed-y": 1.0,
+                        "field-relative": false
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": {
+                        "distance-x": 2.0,
+                        "speed-x": 0.5,
+                        "field-relative": false
+                    }
+                },
+                {
+                    "type": 2,
+                    "data": { }
+                }
+            ]
+        },
+        {
+            "name": "Score, Go Around, Balance (on right)",
+            "commands": [
+                {
+                    "type": 3,
+                    "data": { 
+                        "angle": 180.0
+                    }
+                },
+                {
+                    "type": 20,
+                    "data": {
+                        "arm-state": 4
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": {
+                        "distance-x": 0.48,
+                        "speed-x": -1.0,
+                        "distance-y": 0.0,
+                        "speed-y": 0.0,
+                        "distance-rot": 0.0,
+                        "speed-rot": 0.0,
+                        "field-relative": false
+                    }
+                },
+                {
+                    "type": 30,
+                    "data": { 
+                        "time": 3.0
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": {
+                        "distance-x": 0.44,
+                        "speed-x": 1.0,
+                        "distance-y": 0.0,
+                        "speed-y": 0.0,
+                        "distance-rot": 0.0,
+                        "speed-rot": 0.0,
+                        "field-relative": false
+                    }
+                },
+                {
+                    "type": 22,
+                    "data": {
+                        "claw-state": -1,
+                        "time": 0.7
+                    }
+                },
+                {
+                    "type": 20,
+                    "data": {
+                        "arm-state": 1
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": { 
+                        "distance-x": 4.0,
+                        "speed-x": -2.0,
+                        "distance-y": 0.2,
+                        "speed-y": 2.0,
+                        "field-relative": false
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": { 
+                        "distance-y": 1.5,
+                        "speed-y": -1.0,
+                        "field-relative": false
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": {
+                        "distance-x": 2.0,
+                        "speed-x": 0.5,
+                        "field-relative": false
+                    }
+                },
+                {
+                    "type": 2,
+                    "data": { }
+                }
+            ]
+        },
+        {
+            "name": "Score, Cross, Balance (too long)",
+            "commands": [
+                {
+                    "type": 3,
+                    "data": { 
+                        "angle": 180.0
+                    }
+                },
+                {
+                    "type": 20,
+                    "data": {
+                        "arm-state": 4
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": {
+                        "distance-x": 0.48,
+                        "speed-x": -1.0,
+                        "distance-y": 0.0,
+                        "speed-y": 0.0,
+                        "distance-rot": 0.0,
+                        "speed-rot": 0.0,
+                        "field-relative": false
+                    }
+                },
+                {
+                    "type": 30,
+                    "data": { 
+                        "time": 3.0
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": {
+                        "distance-x": 0.44,
+                        "speed-x": 1.0,
+                        "distance-y": 0.0,
+                        "speed-y": 0.0,
+                        "distance-rot": 0.0,
+                        "speed-rot": 0.0,
+                        "field-relative": false
+                    }
+                },
+                {
+                    "type": 22,
+                    "data": {
+                        "claw-state": -1,
+                        "time": 0.7
                     }
                 },
                 {
@@ -388,17 +674,5 @@
                 }
             ]
         }
-    ],
-
-    "log-levels": {
-        "none": false,
-        "all": false,
-        "info": false,
-        "utility": false,
-        "important": false,
-        "error": false,
-        "autonomous": true,
-        "match": true,
-        "dev": false
-    }
+    ]
 }

@@ -5,11 +5,8 @@
 #include "RobotContainer.h"
 
 #include <frc/controller/PIDController.h>
-#include <frc/geometry/Translation2d.h>
 #include <frc/shuffleboard/Shuffleboard.h>
 #include <frc/smartdashboard/SmartDashboard.h>
-#include <frc/trajectory/Trajectory.h>
-#include <frc/trajectory/TrajectoryGenerator.h>
 #include <frc2/command/InstantCommand.h>
 #include <frc2/command/SequentialCommandGroup.h>
 #include <frc2/command/SwerveControllerCommand.h>
@@ -69,6 +66,8 @@ RobotContainer::RobotContainer() : m_wrapper(m_drive, m_arm, m_limelight, m_leds
         },
         {&m_drive}));
 
+  // Collect command
+  // Chris TODO: Should this be a command on the arm?
   m_arm.SetDefaultCommand(frc2::RunCommand(
       [this] {
         // Arm
@@ -89,14 +88,32 @@ RobotContainer::RobotContainer() : m_wrapper(m_drive, m_arm, m_limelight, m_leds
         //m_arm.DriveClaw(open_pressed - close_pressed);
         m_arm.DriveCollectWheels(suck - spit);
 
+        Logger::Log(LogLevel::Dev) << "Lower angle: " << m_arm.GetLowerAngle() << LoggerCommand::Flush;
+        Logger::Log(LogLevel::Dev) << "Upper angle: " << m_arm.GetUpperAngle() << LoggerCommand::Flush;
+
+        Logger::Log(LogLevel::Dev) << "Inner Switch: " << m_arm.GetInnerLimitSwitchState() << LoggerCommand::Flush;
+        Logger::Log(LogLevel::Dev) << "Outer Switch: " << m_arm.GetOuterLimitSwitchState() << LoggerCommand::Flush;
+        Logger::Log(LogLevel::Dev) << "Claw Position: " << m_arm.GetClawPos() << LoggerCommand::Flush;
         //PrintDebugStuff();
       },
       {&m_arm}));
 
   m_limelight.Deactivate();
+
+  m_leds.SetAlliance(frc::DriverStation::GetAlliance() == frc::DriverStation::kRed);
+
+  m_setSpeedByArmCommand = new SetSpeedByArmCommand(m_drive, m_arm,
+        [this] {return m_driverController.GetLeftTriggerAxis();},
+        [this] {return m_driverController.GetRightTriggerAxis();}
+    );
 }
 
 void RobotContainer::ConfigureButtonBindings() {
+  // Not Buttons:
+  frc2::Trigger([this] {return m_arm.HasPiece();})
+      .OnTrue(new frc2::InstantCommand([this] { m_leds.SetOverrideState(7); }, {&m_leds}))
+      .OnFalse(new frc2::InstantCommand([this] { m_leds.SetOverrideState(-1); }, {&m_leds}));
+  
   frc2::JoystickButton(&m_driverController, ControlConstants::SetHeading90Button)
       .OnTrue(new frc2::InstantCommand([this] { m_drive.SetHeading(90_deg); }, {&m_drive}));
 
@@ -125,6 +142,7 @@ void RobotContainer::ConfigureButtonBindings() {
           [this] { m_drive.SwapSpeed(); },
           {&m_drive}));
   
+  /*
   frc2::Trigger([this] {return m_driverController.GetLeftTriggerAxis() > 0.5;})
       .OnTrue(new frc2::ConditionalCommand(
         MoveOverCommand(m_drive, -DriveConstants::kMoveOverSubTime),
@@ -138,6 +156,7 @@ void RobotContainer::ConfigureButtonBindings() {
         MoveOverCommand(m_drive, DriveConstants::kMoveOverTime),
         [this] {return m_limelight.IsSubstation();}
       ));
+  */
   
 
   // Map this to potentially reset just the rotation and not the position???
@@ -154,11 +173,13 @@ void RobotContainer::ConfigureButtonBindings() {
   // TODO: these shouldn't be backwards. What's going on?
   frc2::JoystickButton(&m_manipController,
                        ControlConstants::CloseClawButton)
-      .OnTrue(new MoveClawCommand(m_arm, 1.0));
+      .OnTrue(new MoveClawCommand(m_arm, 1.0))
+      .OnTrue(new frc2::InstantCommand([this] { m_leds.SetState(2); }, {&m_leds}));
   
   frc2::JoystickButton(&m_manipController,
                        ControlConstants::OpenClawButton)
-      .OnTrue(new MoveClawCommand(m_arm, -1.0));
+      .OnTrue(new MoveClawCommand(m_arm, -1.0))
+      .OnTrue(new frc2::InstantCommand([this] { m_leds.SetState(1); }, {&m_leds}));
 
   // Arm State Change Command
   frc2::JoystickButton(&m_manipController, ControlConstants::PosCarryButton)
@@ -177,7 +198,8 @@ void RobotContainer::ConfigureButtonBindings() {
       .OnTrue(
           new frc2::InstantCommand([this] { m_arm.SetState(4); }, {&m_arm}));
 
-  frc2::JoystickButton(&m_manipController, ControlConstants::PosManualButton)
+  frc2::Trigger([this] {return (std::abs(m_manipController.GetLeftY()) > IOConstants::kDriveDeadband)
+                            || (std::abs(m_manipController.GetRightY()) > IOConstants::kDriveDeadband);})
       .OnTrue(
           new frc2::InstantCommand([this] { m_arm.SetState(-2); }, {&m_arm}));
 
@@ -207,7 +229,7 @@ void RobotContainer::ConfigureButtonBindings() {
         m_leds.SetState(0); 
     }, {&m_leds}));
     frc2::POVButton(&m_manipController, 270, 0).OnTrue(new frc2::InstantCommand([this] { 
-        m_leds.SetState(0); 
+        m_leds.SetState(8); 
     }, {&m_leds}));
 }
 
@@ -245,8 +267,12 @@ void RobotContainer::InitTeleop() {
     m_drive.SetSpeed(DriveConstants::kDefaultSlow ? DriveConstants::kLowSpeed : DriveConstants::kFastSpeed);
     m_drive.SetRotSpeed(DriveConstants::kDefaultSlow ? DriveConstants::kLowRotSpeed : DriveConstants::kFastRotSpeed);
     m_arm.SetCollectUseState(false);
-    m_leds.SetState(m_relative?4:5);
+    //m_leds.SetState(m_relative?4:5);
     m_drive.PrintSpeeds();
+    
+    m_setSpeedByArmCommand->Schedule();
+    
+    m_leds.SetAlliance(frc::DriverStation::GetAlliance() == frc::DriverStation::kRed);
 }
 
 void RobotContainer::InitAutonomous() {
@@ -256,13 +282,15 @@ void RobotContainer::InitAutonomous() {
     m_drive.SetRotSpeed(AutoConstants::kMaxAngularSpeed);
     m_arm.SetCollectUseState(false);
 
-    std::string name = frc::SmartDashboard::GetString("Auto Selector", ""); // TODO: default autonomous
+    std::string name = frc::SmartDashboard::GetString("Auto Selector", "");
     
     m_selected_auto = 0;
 
     for (unsigned int i = 0; i < AutoConstants::kAutoSequences.size(); i++) {
         if (AutoConstants::kAutoSequences[i].SequenceName == name) m_selected_auto = i;
     }
+
+    m_leds.SetAlliance(frc::DriverStation::GetAlliance() == frc::DriverStation::kRed);
 }
 
 void RobotContainer::PostConfigInit() { 

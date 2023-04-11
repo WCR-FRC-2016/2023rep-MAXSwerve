@@ -13,7 +13,7 @@ using namespace DriveConstants;
 LEDController::LEDController() {
   // Default to a length of 512, start empty output
   // Length is expensive to set, so only set it once, then just update data
-  m_led.SetLength(kLength);
+  m_led.SetLength(kTotalLength);
   m_led.SetData(m_ledBuffer);
   m_led.Start();
 }
@@ -36,7 +36,7 @@ void LEDController::Periodic() {
   }
   //*/
 
-  switch (state) {
+  switch (overrideState==-1?state:overrideState) {
     case 0:
       Circles();
       break;
@@ -51,16 +51,26 @@ void LEDController::Periodic() {
       break;
     case 4: // Field-relative (blue)
       Fill(0,0,255);
+      Pulse(0,0,255,20);
       DrawLetter('F', 7, 6);
       Flush();
+      i++; i%=20;
       break;
     case 5: // Robot-relative (red)
       Fill(255,0,0);
+      Pulse(255,0,0,20);
       DrawLetter('R', 7, 6);
       Flush();
+      i++; i%=20;
       break;
     case 6: // Angles (for autobalance)
       DrawAngle();
+      break;
+    case 7: // Confirmation (temporary state)
+      FlashConfirmation();
+      break;
+    case 8:
+      Aperture();
       break;
     default:
       Clear();
@@ -76,14 +86,34 @@ void LEDController::Periodic() {
 // 4: Field-relative
 // 5: Robot-relative
 // 6: Draw angle
-void LEDController::SetState(int state) {this->state = state;}
+// 7: Flash Confirmation
+// 8: Aperture
+void LEDController::SetState(int state) {
+  if (this->state!=state) {
+    prevState = this->state;
+    this->state = state;
+    i = 0;
+  }
+}
 int LEDController::GetState() {return state;}
+void LEDController::SetOverrideState(int state) {
+  if (overrideState!=state) {
+    overrideState = state;
+    i = 0;
+  }
+}
+int LEDController::GetOverrideState() {return overrideState;}
+int LEDController::GetPrevState() {return prevState;}
 
 void LEDController::Clear() {
   for (int x=0; x<32; x++) {
     for (int y=0; y<16; y++) {
       SetRGB(x, y, 0, 0, 0);
     }
+  }
+
+  for (int n=0; n < kLength2; n++) {
+    SetRGB(n+kLength, 0, 0, 0);
   }
   //Flush();
 }
@@ -96,15 +126,32 @@ void LEDController::Fill(int r, int g, int b) {
   }
 }
 
+void LEDController::Pulse(int r, int g, int b, int loop) {
+  for (int n=0; n < kLength2; n++) {
+    double s = 0.4 + 0.6*sin((n/10.0 + i*1.0/loop)*2*std::numbers::pi);
+    s = std::clamp(s, 0.0, 1.0);
+    SetRGB(n+kLength, r*s, g*s, b*s);
+  }
+}
+
 void LEDController::Circles() {
   Clear();
   for (int x=0; x<16; x++) {
     for (int y=0; y<16; y++) {
       double d = sqrt((x-8)*(x-8) + (y-8)*(y-8));
       double s = 90+110*sin((i/200.0+d/10.0)*2*std::numbers::pi);
-      SetRGB(x,y, std::max(s,0.0), 0, 0);
+      s = std::max(s,0.0);
+      if (m_allianceIsRed) {
+        SetRGB(x,y, s, 0, 0);
+      } else {
+        SetRGB(x,y, 0, 0, s);
+      }
     }
   }
+
+  if (m_allianceIsRed) Pulse(255,0,0, 20);
+  else Pulse(0,0,255, 20);
+
   Flush();
   i++;
   i%=200;
@@ -113,7 +160,7 @@ void LEDController::Circles() {
 void LEDController::Cone() {
   Clear();
   for (int x=0; x<16; x++) {
-    int miny = 3*abs(x-8)+4;
+    int miny = 3*abs(x-8)+3;
 
     // Triangle of cone
     if (miny>0) {
@@ -130,12 +177,15 @@ void LEDController::Cone() {
     }
 
     // Base of cone
-    if (x>=2 && x<14) {
+    if (x>2 && x<14) {
       for (int y=14; y<16; y++) {
         SetRGB(x, y, 255, 70, 0);
       }
     }
   }
+
+  Pulse(255, 70, 0, 50);
+
   Flush();
   i++;
   i%=100;
@@ -173,28 +223,15 @@ void LEDController::Cube2() {
 
   for (int y = 4; y<12; y++) {
     for (int x = 4; x<12; x++) {
-      if (((x-8.5)*(x-8.5)+(y-8.5)*(y- 8.5))<20)
-        SetRGB(x, y, 110, 0, 255);
+      SetRGB(x, y, 110, 0, 255);
     }
   }
 
-  /*
-  SetRGB(9, 1, 1, 0, 2);
-  SetRGB(9, 14, 1, 0, 2);
-  for (int x=10;x<22;x++) {
-    SetRGB(x, 2, 1, 0, 2);
-    SetRGB(x, 13, 1, 0, 2);
+  for (int n=0; n < kLength2; n++) {
+    double s = sin((i/75.0+n/10.0)*2*std::numbers::pi);
+    double s2 = sin((i/75.0+n/10.0)*std::numbers::pi + std::numbers::pi/4);
+    SetRGB(n+kLength, 60*pow(s2,10), 0, 50+50*s);
   }
-  for (int x=12;x<20;x++) {
-    SetRGB(x, 3, 1, 0, 2);
-    SetRGB(x, 2, 11, 0, 25);
-    
-    SetRGB(x, 12, 1, 0, 2);
-    SetRGB(x, 13, 11, 0, 25);
-  }
-  SetRGB(22, 1, 1, 0, 2);
-  SetRGB(22, 14, 1, 0, 2);
-  */
 
   Flush();
 
@@ -226,6 +263,9 @@ void LEDController::DrawWord() {
   for (int k=0; k<(int) strlen(word.c_str()); k++) {
     DrawLetter(word[k], 4*k+16-floor(i/4), 6);
   }
+
+  Pulse(0, 0, 255, (4*strlen(word.c_str())+16)*4);
+
   Flush();
 
   i++;
@@ -371,7 +411,20 @@ void LEDController::DrawLetter(char c, int x, int y) {
       SetRGB(x+1,y+2, 0, 0, 255);
       break;
     case 'Q':
-      //TODO
+      // TODO: Make better Q
+      //  X
+      // X X
+      // X X
+      // XXX
+      //  XX
+      for (int y2=y+1;y2<y+4;y2++) {
+        SetRGB(x,y2,   0, 0, 255);
+        SetRGB(x+2,y2, 0, 0, 255);
+      }
+      SetRGB(x+1,y,   0, 0, 255);
+      SetRGB(x+1,y+3, 0, 0, 255);
+      SetRGB(x+1,y+4, 0, 0, 255);
+      SetRGB(x+3,y+4, 0, 0, 255);
       break;
     case 'R':
       for (int y2=y;y2<y+5;y2++) {
@@ -440,6 +493,17 @@ void LEDController::DrawLetter(char c, int x, int y) {
         SetRGB(x+1,y2, 0, 0, 255);
       }
       break;
+    case 'Z':
+      SetRGB(x,y,     0, 0, 255);
+      SetRGB(x+1,y,   0, 0, 255);
+      SetRGB(x+2,y,   0, 0, 255);
+      SetRGB(x+2,y+1, 0, 0, 255);
+      SetRGB(x+1,y+2, 0, 0, 255);
+      SetRGB(x,y+3,   0, 0, 255);
+      SetRGB(x,y+4,   0, 0, 255);
+      SetRGB(x+1,y+4, 0, 0, 255);
+      SetRGB(x+2,y+4, 0, 0, 255);
+      break;
     default:
       return;
   }
@@ -456,7 +520,131 @@ void LEDController::DrawAngle() {
     }
   }
 
+  for (int n=0; n < kLength2; n++) {
+    double s = sin((angle/18.0+n/10.0)*2*std::numbers::pi);
+    double s2 = sin((angle/18.0+n/10.0)*std::numbers::pi + std::numbers::pi/4);
+    SetRGB(n+kLength, 60*pow(s2,10), 0, 50+50*s);
+  }
+
   Flush();
+}
+
+void LEDController::FlashConfirmation() {
+  Clear();
+
+  double s = sin(i/25.0 *2*std::numbers::pi)*0.5 + 0.5;
+
+  for (int n = 0; n<kTotalLength; n++) {
+    SetRGB(n, 50*s, 205*s, 50*s);
+  }
+
+  Flush();
+
+  i++;
+  i%=100;
+}
+
+void LEDController::Aperture() {
+  Clear();
+
+  // LED panel Aperture symbol
+  for (unsigned int n = 0; n<aperture_points.size(); n++) {
+    int x = aperture_points[n].first;
+    int y = aperture_points[n].second;
+
+    SetRGB(x, y,       43, 56, 127); // Upper left
+    SetRGB(15-y, x,    43, 56, 127); // Upper right
+    SetRGB(15-x, 15-y, 43, 56, 127); // Lower right
+    SetRGB(y, 15-x,    43, 56, 127); // Lower left
+  }
+  
+  /*
+  for (int n=0; n < kLength2; n++) {
+    double s = 0.4 + 0.6*sin((n/10.0 + i/20.0)*2*std::numbers::pi);
+    s = std::clamp(s, 0.0, 1.0);
+    if (((int) ((n+2)/10.0+i/20.0))%2==0) {
+      SetRGB(n+kLength, 0, 50*s, 255*s);
+    } else {
+      SetRGB(n+kLength, 255*s, 50*s, 0);
+    }
+  }
+  */
+
+  /*
+  SetRGB(0+kLength, 0, 50, 255);
+  SetRGB(1+kLength, 0, 25, 127);
+  SetRGB(46+kLength, 127, 25, 0);
+  SetRGB(47+kLength, 255, 50, 0);
+  SetRGB(99+kLength, 0, 50, 255);
+  SetRGB(98+kLength, 0, 25, 127);
+  SetRGB(52+kLength, 127, 25, 0);
+  SetRGB(51+kLength, 255, 50, 0);
+
+  int y = 46 - ((i*i)/100)%46;
+  SetRGB(y+kLength, 127, 127, 127);
+  SetRGB(99-y+kLength, 127, 127, 127);
+  /*/
+  // LED strip logic
+  d1yv+=0.02; d1y+=d1yv;
+  if (d1y>46) {
+    if (drop_mode) d1y-=46;
+    else {
+      d1y = 92-d1y;
+      d1yv = -d1yv;
+      d1s = !d1s;
+    }
+  }
+  if (d1y<0) {
+    d1y+=46;
+    if (!drop_mode) d1s = !d1s;
+  }
+  if (d1yv>4) d1yv=4;
+  
+  d2yv+=0.02; d2y+=d2yv;
+  if (d2y>46) {
+    if (drop_mode) d2y-=46;
+    else {
+      d2y = 92-d2y;
+      d2yv = -d2yv;
+      d2s = !d2s;
+    }
+  }
+  if (d2y<0) {
+    d2y+=46;
+    if (!drop_mode) d2s = !d2s;
+  }
+  if (d2yv>4) d2yv=4;
+
+  // LED strip portals
+  if (drop_mode) {
+    SetRGB(kLength+0,    0, 100, 255);
+    SetRGB(kLength+1,    0,  50, 127);
+    SetRGB(kLength+46, 127,  50,   0);
+    SetRGB(kLength+47, 255, 100,   0);
+  } else {
+    SetRGB(kLength+0,  255, 100,   0);
+    SetRGB(kLength+1,  127,  50,   0);
+    SetRGB(kLength+46,   0,  50, 127);
+    SetRGB(kLength+47,   0, 100, 255);
+  }
+  SetRGB(kLength+51, 255, 100,   0);
+  SetRGB(kLength+52, 127,  50,   0);
+  SetRGB(kLength+97,   0,  50, 127);
+  SetRGB(kLength+98,   0, 100, 255);
+  SetRGB(kLength+99,   0,   0,   0);
+  
+  // LED strip dots
+  if (d1s) SetRGB(kLength+46-floor(d1y),   0, 100, 255);
+  else     SetRGB(kLength+52+floor(d1y),   0, 100, 255);
+  
+  if (d2s) SetRGB(kLength+46-floor(d2y), 255, 100,   0);
+  else     SetRGB(kLength+52+floor(d2y), 255, 100,   0);
+  //*/
+
+  Flush();
+
+  i++;
+  //i%=40;
 }
 
 void LEDController::SetAngle(double angle) {
@@ -465,18 +653,22 @@ void LEDController::SetAngle(double angle) {
 
 int LEDController::pos(int x, int y) {
   if (x<0 || y<0 || x>=16 || y>=16) return -1;
-  int output = floor(x/2)*32;
-  if (x%2==0) {
-    output+=y;
+  int nx = 15-x; int ny = 15-y;
+  int output = floor(nx/2)*32;
+  if (nx%2==0) {
+    output+=ny;
   } else {
-    output+=31-y;
+    output+=31-ny;
   }
   return output;
 }
 
 void LEDController::SetRGB(int index, int r, int g, int b) {
-  if (index<0 || index>=kLength) return;
+  if (index<0 || index>=kTotalLength) return;
   m_ledBuffer[index].SetRGB(r*bright, g*bright, b*bright);
+  /*if (index >= kLength) {
+    m_ledBuffer[index+kLength2].SetRGB(r*bright, g*bright, b*bright);
+  }*/
 }
 
 void LEDController::SetRGB(int x, int y, int r, int g, int b) {
@@ -484,8 +676,11 @@ void LEDController::SetRGB(int x, int y, int r, int g, int b) {
 }
 
 void LEDController::SetHSV(int index, int h, int s, int v) {
-  if (index<0 || index>=kLength) return;
+  if (index<0 || index>=kTotalLength) return;
   m_ledBuffer[index].SetHSV(h, s, v*bright);
+  /*if (index >= kLength) {
+    m_ledBuffer[index+kLength2].SetHSV(h*bright, s*bright, v*bright);
+  }*/
 }
 
 void LEDController::SetHSV(int x, int y, int h, int s, int v) {
@@ -494,4 +689,8 @@ void LEDController::SetHSV(int x, int y, int h, int s, int v) {
 
 void LEDController::Flush() {
   m_led.SetData(m_ledBuffer);
+}
+
+void LEDController::SetAlliance(bool isRed) {
+  m_allianceIsRed = isRed;
 }

@@ -62,7 +62,7 @@
 // Debug Controller:
 //  : Absolute Zero:  Start
 
-// TODO: Convert move of these to be config based rather than constexpr variables
+// TODO: Convert more of these to be config based rather than constexpr variables
 // Some examples include:
 //     . Button Mappings?
 //     . Speeds, such as max total speed (as well as the mode swap speeds?)
@@ -116,8 +116,6 @@ inline units::radians_per_second_t kLowRotSpeed  = 0.0_rad_per_s;
 inline double kMoveOverTime = 600;
 inline double kMoveOverSubTime = 600;
 
-inline double kTargetBalanceRoll = 0;
-
 constexpr double kDirectionSlewRate = 1.2;   // radians per second
 // This controls the drive slew (damping on drive)
 constexpr double kMagnitudeSlewRate = 1.8;   // percent per second (1 = 100%)
@@ -163,11 +161,12 @@ constexpr int kArmHighEncoderId = 2; // DIO slot 2 on RoboRio 2.0
 constexpr units::ampere_t kHandLeftCurrentLimit  = 26_A; // Works between 2 and 26 amps [Johnson Electric PLG Motor -> https://www.andymark.com/products/johnson-electric-gearmotor-and-output-shaft]
 constexpr units::ampere_t kHandRightCurrentLimit = 26_A; // Works between 2 and 26 amps [Johnson Electric PLG Motor -> https://www.andymark.com/products/johnson-electric-gearmotor-and-output-shaft]
 constexpr units::ampere_t kHandGrabCurrentLimit  = 50_A; // Update this
-constexpr units::ampere_t kArmLowCurrentLimit    = 4_A;  // Very hard to find, max found on amazon listing (doug said change to 4) [ECO-WORTHY 14mm/s 1000N -> https://www.amazon.com/ECO-LLC-Actuator-Mounting-Brackets/dp/B07L7XCSDW/ref=sr_1_2?c=ts&keywords=Linear+Motion+Actuators&qid=1678491620&refinements=p_89%3AECO-WORTHY&s=industrial&sr=1-2-catcorr&ts_id=350654011]
+constexpr units::ampere_t kArmLowCurrentLimit    = 12_A;  // Very hard to find, max found on amazon listing (doug said change to 4) [ECO-WORTHY 14mm/s 1000N -> https://www.amazon.com/ECO-LLC-Actuator-Mounting-Brackets/dp/B07L7XCSDW/ref=sr_1_2?c=ts&keywords=Linear+Motion+Actuators&qid=1678491620&refinements=p_89%3AECO-WORTHY&s=industrial&sr=1-2-catcorr&ts_id=350654011]
 constexpr units::ampere_t kArmHighCurrentLimit   = 12_A; // Works between 4 and 12 amps [PA-04 -> https://www.progressiveautomations.com/products/linear-actuator-ip66]
 
 inline double kClawMoveTime = 1000;
 inline bool kUseLimitSwitches = false;
+inline bool kUseTiming = false;
 
 inline double kArmLowP  = 0.4;
 inline double kArmLowI  = 0;
@@ -253,6 +252,10 @@ inline std::map<std::string, int32_t> kAutoSequencesMapped;
 inline double kAlignSpeed = 1;
 inline double kAlignRotationSpeed = 2.0;
 
+inline double kBalanceTargetRoll = 0;
+inline double kBalanceP          = 0.025;
+inline units::meters_per_second_t kBalanceMaxSpeed = 0.25_mps;
+
 inline auto    kAutoMaxSpeed = 1_mps;
 constexpr auto kMaxAcceleration = 3_mps_sq;
 constexpr auto kMaxAngularSpeed = 3.142_rad_per_s;
@@ -279,5 +282,5 @@ constexpr int kDriverControllerPort = 0;
 constexpr int kManipControllerPort = 1;
 constexpr int kDebugControllerPort = 2;
 constexpr double kDriveDeadband = 0.15;
-constexpr double kLEDBrightness = 1.0;
+inline double kLEDBrightness = 0.2;
 }  // namespace IOConstants

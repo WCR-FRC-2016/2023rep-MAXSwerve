@@ -21,7 +21,7 @@ using namespace ArmConstants;
 // Bottom arm at 0: 49.2 degrees
 
 // ABSOLUTE 0: (both limit switches in actuators are hit)
-// Bottom: 72.2
+// Bottom: 47.1
 // Upper: -52.5
 
 // Grabbing Low:
@@ -152,10 +152,11 @@ void Arm::DriveClaw(double dir) {
   //Logger::Log(LogLevel::All) << "Outer: " << m_outer_switch.Get() << ", Inner: " << m_inner_switch.Get() << LoggerCommand::Flush;
 
   // TODO: Fix Limit Switches (still dont work)
-  /*if (ArmConstants::kUseLimitSwitches) {
+  if (ArmConstants::kUseLimitSwitches) {
     if (m_outer_switch.Get()) {
       Logger::Log(LogLevel::Dev) << "Outer Switch Active!" << LoggerCommand::Flush;
-      if (dir < 0) dir = 0.0;
+      //m_current_pos = 0;
+      if (dir>0) dir = 0;
 
       //m_claw_state = 0;
       //m_use_claw_state = false;
@@ -163,12 +164,13 @@ void Arm::DriveClaw(double dir) {
 
     if (m_inner_switch.Get()) {
       Logger::Log(LogLevel::Dev) << "Inner Switch Active!" << LoggerCommand::Flush;
-      if (dir > 0) dir = 0.0;
+      //m_current_pos = ArmConstants::kClawMoveTime;
+      if (dir<0) dir = 0;
 
       //m_claw_state = 0;
       //m_use_claw_state = false;
     }
-  } */
+  }
 
   /*
   // Verify we aren't using claw state when it's 0
@@ -176,12 +178,14 @@ void Arm::DriveClaw(double dir) {
     m_use_claw_state = false;
   */
   
-  if (dir<0 && m_current_pos>=ArmConstants::kClawMoveTime) return;
-  if (dir>0 && m_current_pos<=0) return;
+  if (ArmConstants::kUseTiming) {
+    if (dir<0 && m_current_pos>=ArmConstants::kClawMoveTime) return;
+    if (dir>0 && m_current_pos<=0) return;
+
+    m_current_pos -= dir*20;
+  }
 
   m_hand_grab.Set(dir);
-  
-  m_current_pos -= dir*20;
 }
 
 int Arm::GetClawPos() { return m_current_pos; }
@@ -191,11 +195,19 @@ int Arm::GetClawPos() { return m_current_pos; }
 // ArmConstants::kClawMoveTime is fully cone position
 void Arm::OverrideClawPos(double new_pos) { m_current_pos = new_pos; }
 
+bool Arm::HasPiece() { return !m_hasPieceSensor.Get(); }
+
 //  1 Sucks in
 // -1 Spits out
 void Arm::DriveCollectWheels(double dir) {
-  m_hand_right.Set(-dir);
-  m_hand_left.Set(dir);
+  // If collecting and piece has already been collected, don't run motors
+  if (dir > 0 && HasPiece()) {
+    m_hand_right.Set(0.0);
+    m_hand_left.Set(0.0);
+  } else {
+    m_hand_right.Set(-dir);
+    m_hand_left.Set(dir);
+  }
 }
 
 void Arm::Drive(double low, double high) {

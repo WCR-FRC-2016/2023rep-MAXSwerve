@@ -51,6 +51,8 @@ class DriveSubsystem : public frc2::SubsystemBase {
   // Speed
   void SetSpeed(units::meters_per_second_t value);
   units::meters_per_second_t GetSpeed();
+
+  void SetSpeedFactor(double value);
   
   void SetRotSpeed(units::radians_per_second_t value);
   units::radians_per_second_t GetRotSpeed();
@@ -145,6 +147,7 @@ class DriveSubsystem : public frc2::SubsystemBase {
   // Current Speed
   units::meters_per_second_t m_speed = DriveConstants::kLowSpeed;
   units::radians_per_second_t m_angular_speed = DriveConstants::kLowRotSpeed;
+  double m_speed_factor = 1.0;
 
   // Slew rate filter variables for controlling lateral acceleration
   double m_currentRotation = 0.0;

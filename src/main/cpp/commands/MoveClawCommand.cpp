@@ -37,6 +37,11 @@ void MoveClawCommand::End(bool interrupted) {
 
 // Returns true when the command should end.
 bool MoveClawCommand::IsFinished() {
-    if (m_dir>0) return m_arm.GetClawPos()<=0;
-    else return m_arm.GetClawPos()>=ArmConstants::kClawMoveTime;
+    if (ArmConstants::kUseTiming) {
+        if (m_dir>0) return m_arm.GetClawPos()<=0;
+        else return m_arm.GetClawPos()>=ArmConstants::kClawMoveTime;
+    } else {
+        if (m_dir>0) return m_arm.GetOuterLimitSwitchState();
+        else return m_arm.GetInnerLimitSwitchState();
+    }
 }

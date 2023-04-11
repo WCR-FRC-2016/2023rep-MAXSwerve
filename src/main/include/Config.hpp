@@ -50,7 +50,6 @@ inline void loadConfig() {
         DriveConstants::kLowSpeed = units::meters_per_second_t(json["slow-speed"].get<double>());
         DriveConstants::kMoveOverTime = json["move-over-time"].get<double>();
         DriveConstants::kMoveOverSubTime = json["move-over-sub-time"].get<double>();
-        DriveConstants::kTargetBalanceRoll = json["target-balance-roll"].get<double>();
         DriveConstants::kDefaultSlow = json["default-slow"].get<bool>();
 
         auto max_rot_speed = json["drive-max-rot-speed"].get<double>();
@@ -60,7 +59,7 @@ inline void loadConfig() {
 
         DriveConstants::kMaxAngularSpeed = units::radians_per_second_t{max_rot_speed_rads};
 
-        Logger::Log(LogLevel::All) << "Max Rot Speed: " << max_rot_speed_rads << LoggerCommand::Flush;
+        Logger::Log(LogLevel::Dev) << "Max Rot Speed: " << max_rot_speed_rads << LoggerCommand::Flush;
 
         // Auto Constants
         AutoConstants::kAutoMaxSpeed = units::meters_per_second_t{json["auto-max-speed"].get<double>()};
@@ -69,6 +68,9 @@ inline void loadConfig() {
         AutoConstants::kPThetaController = json["auto-pcontroller-theta"].get<double>();
         AutoConstants::kAlignSpeed = json["align-speed"].get<double>();
         AutoConstants::kAlignRotationSpeed = json["align-rotation-speed"].get<double>();
+        AutoConstants::kBalanceTargetRoll = json["balance-target-roll"].get<double>();
+        AutoConstants::kBalanceP = json["balance-p"].get<double>();
+        AutoConstants::kBalanceMaxSpeed = units::meters_per_second_t{json["balance-max-speed"].get<double>()};
 
         // Autonomous Routines
         AutoConstants::kAutoSequences = interpretJsonSequences(json["autonomous-routines"]);
@@ -93,8 +95,10 @@ inline void loadConfig() {
         ArmConstants::kArmHighD = json["arm-high-d"].get<double>();
         ArmConstants::kClawMoveTime = json["claw-move-time"].get<double>();
         ArmConstants::kUseLimitSwitches = json["use-limit-switches"].get<bool>();
+        ArmConstants::kUseTiming = json["use-timing"].get<bool>();
 
         // Other Stuff
+        IOConstants::kLEDBrightness = json["led-brightness"].get<double>();
 
 
         frc::SmartDashboard::PutNumber("Config/Max Speed", DriveConstants::kMaxSpeed.value());

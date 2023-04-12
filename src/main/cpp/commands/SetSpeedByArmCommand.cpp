@@ -19,11 +19,11 @@ void SetSpeedByArmCommand::Execute() {
     // double anglePercentage = m_arm.GetUpperAngle() / 80_deg;
     units::degree_t angle = m_arm.GetUpperAngle();
     if (angle > 270_deg) angle -= 360_deg;
-    double speedFactor = std::clamp(1.0 - 0.5*(angle/80_deg).value(), 0.5, 1.0); // Arm Lift Brake (1x - 0.5x)
+    double speedFactor = std::clamp(1.0 - 0.1*(angle/80_deg).value(), 0.9, 1.0); // Arm Lift Brake (1x - 0.9x)
     //Logger::Log(LogLevel::Match) << "Speed factor with arm: " << speedFactor << LoggerCommand::Flush;
 
-    speedFactor *= (1.0 - m_brake() * 0.6);  // Left Trigger Brake (1x - 0.4x)
-    speedFactor *= (1.0 + m_turbo() * 0.6); // Right Trigger Turbo (1x - 1.6x)
+    speedFactor *= (1.0 - m_brake() * 0.72);  // Left Trigger Brake (1x - 0.28x)
+    speedFactor *= (1.0 + m_turbo() * 0.4); // Right Trigger Turbo (1x - 1.4x)
 
     Logger::Log(LogLevel::Dev) << "Speed factor with turbo/brake: " << speedFactor << LoggerCommand::Flush;
 

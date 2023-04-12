@@ -75,7 +75,7 @@ class LEDController : public frc2::SubsystemBase {
   double d1s = false;
   double d2y = 22.2;
   double d2yv = 0.8;
-  double d2s = false;
+  double d2s = true;
   bool drop_mode = true;
 
   // LED Brightness from config (shortened to fit more easily in expressions).

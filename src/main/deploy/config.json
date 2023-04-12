@@ -21,7 +21,7 @@
     "arm-low-p":  0.2,
     "arm-low-i":  0,
     "arm-low-d":  0,
-    "arm-high-p": 0.005,
+    "arm-high-p": 0.01, "arm-high-p-old": 0.005,
     "arm-high-i": 0,
     "arm-high-d": 0,
     "claw-move-time": 920,
@@ -29,7 +29,7 @@
     "use-timing": false,
     "led-brightness": 0.2,
 
-    "default-slow": true,
+    "default-slow": false,
 
     "log-comment": 
     "During a match, make sure these levels are on: [Important, Match]",
@@ -62,7 +62,77 @@
 
     "autonomous-routines": [
         {
-            "name": "High Cube x Line",
+            "name": "Score, Cross (on left)",
+            "commands": [
+                {
+                    "type": 3,
+                    "data": {
+                        "angle": 180.0
+                    }
+                },
+                {
+                    "type": 20,
+                    "data": {
+                        "arm-state": 4
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": {
+                        "distance-x": 0.48,
+                        "speed-x": -1.0,
+                        "distance-y": 0.0,
+                        "speed-y": 0.0,
+                        "distance-rot": 0.0,
+                        "speed-rot": 0.0,
+                        "field-relative": false
+                    }
+                },
+                {
+                    "type": 30,
+                    "data": { 
+                        "time": 3.0
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": {
+                        "distance-x": 0.44,
+                        "speed-x": 1.0,
+                        "distance-y": 0.0,
+                        "speed-y": 0.0,
+                        "distance-rot": 0.0,
+                        "speed-rot": 0.0,
+                        "field-relative": false
+                    }
+                },
+                {
+                    "type": 22,
+                    "data": {
+                        "claw-state": -1,
+                        "time": 0.7
+                    }
+                },
+                {
+                    "type": 20,
+                    "data": {
+                        "arm-state": 1
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": {
+                        "distance-x": 4.0,
+                        "speed-x": -2.0,
+                        "distance-y": 0.5,
+                        "speed-y": -1.0,
+                        "field-relative": false
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Score, Cross (on right)",
             "commands": [
                 {
                     "type": 3,
@@ -295,7 +365,7 @@
             ]
         },
         {
-            "name": "Score, Go Around, Balance (on left) (untested)",
+            "name": "Score, Go Around, Balance (on left)",
             "commands": [
                 {
                     "type": 3,
@@ -355,7 +425,7 @@
                 {
                     "type": 1,
                     "data": { 
-                        "distance-x": 4.0,
+                        "distance-x": 4.2,
                         "speed-x": -2.0,
                         "distance-y": 0.4,
                         "speed-y": -1.0,
@@ -365,7 +435,7 @@
                 {
                     "type": 1,
                     "data": { 
-                        "distance-y": 1.5,
+                        "distance-y": 2.0,
                         "speed-y": 1.0,
                         "field-relative": false
                     }
@@ -373,8 +443,8 @@
                 {
                     "type": 1,
                     "data": {
-                        "distance-x": 2.0,
-                        "speed-x": 0.5,
+                        "distance-x": 2.4,
+                        "speed-x": 0.6,
                         "field-relative": false
                     }
                 },
@@ -447,7 +517,7 @@
                     "data": { 
                         "distance-x": 4.0,
                         "speed-x": -2.0,
-                        "distance-y": 0.2,
+                        "distance-y": 0.5,
                         "speed-y": 2.0,
                         "field-relative": false
                     }
@@ -463,7 +533,7 @@
                 {
                     "type": 1,
                     "data": {
-                        "distance-x": 2.0,
+                        "distance-x": 2.7,
                         "speed-x": 0.5,
                         "field-relative": false
                     }
@@ -582,6 +652,131 @@
                 {
                     "type": 2,
                     "data": { }
+                }
+            ]
+        },
+        {
+            "name": "Move Back, Balance",
+            "commands": [
+                {
+                    "type": 3,
+                    "data": { 
+                        "angle": 180.0
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": {
+                        "distance-x": 0.48,
+                        "speed-x": -1.0,
+                        "distance-y": 0.0,
+                        "speed-y": 0.0,
+                        "distance-rot": 0.0,
+                        "speed-rot": 0.0,
+                        "field-relative": false
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": { 
+                        "distance-x": 2.0,
+                        "speed-x": -0.5,
+                        "field-relative": false
+                    }
+                },
+                {
+                    "type": 2,
+                    "data": { }
+                }
+            ]
+        },
+        {
+            "name": "Just Score",
+            "commands": [
+                {
+                    "type": 3,
+                    "data": {
+                        "angle": 180.0
+                    }
+                },
+                {
+                    "type": 20,
+                    "data": {
+                        "arm-state": 4
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": {
+                        "distance-x": 0.48,
+                        "speed-x": -1.0,
+                        "distance-y": 0.0,
+                        "speed-y": 0.0,
+                        "distance-rot": 0.0,
+                        "speed-rot": 0.0,
+                        "field-relative": false
+                    }
+                },
+                {
+                    "type": 30,
+                    "data": { 
+                        "time": 1.8
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": {
+                        "distance-x": 0.44,
+                        "speed-x": 0.5,
+                        "distance-y": 0.0,
+                        "speed-y": 0.0,
+                        "distance-rot": 0.0,
+                        "speed-rot": 0.0,
+                        "field-relative": false
+                    }
+                },
+                {
+                    "type": 22,
+                    "data": {
+                        "claw-state": -1,
+                        "time": 0.7
+                    }
+                },
+                {
+                    "type": 20,
+                    "data": {
+                        "arm-state": 1
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": {
+                        "distance-x": 0.48,
+                        "speed-x": -1.0,
+                        "distance-y": 0.0,
+                        "speed-y": 0.0,
+                        "distance-rot": 0.0,
+                        "speed-rot": 0.0,
+                        "field-relative": false
+                    }
+                },
+                {
+                    "type": 30,
+                    "data": { 
+                        "time": 2.3
+                    }
+                },
+                {
+                    "type": 1,
+                    "data": {
+                        "distance-x": 0.52,
+                        "speed-x": 1.0,
+                        "distance-y": 0.0,
+                        "speed-y": 0.0,
+                        "distance-rot": 0.0,
+                        "speed-rot": 0.0,
+                        "field-relative": false
+                    }
                 }
             ]
         },

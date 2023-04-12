@@ -16,6 +16,7 @@ MoveClawCommand::MoveClawCommand(Arm& arm, double dir) : m_arm(arm), m_dir(dir) 
 
 // Called when the command is initially scheduled.
 void MoveClawCommand::Initialize() {
+    m_frames = 0;
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -24,8 +25,16 @@ void MoveClawCommand::Execute() {
     Logger::Log(LogLevel::Dev) << "Direction: " << m_dir << "\n";
     Logger::Log(LogLevel::Dev) << "Position: " << m_arm.GetClawPos() << LoggerCommand::Flush;
 
-    if (!IsFinished()) {
+    bool at_end;
+    if (m_dir>0) at_end = m_arm.GetOuterLimitSwitchState();
+    else at_end = m_arm.GetInnerLimitSwitchState();
+
+    if (at_end) {
+        m_arm.DriveClaw(0);
+        m_frames++;
+    } else {
         m_arm.DriveClaw(m_dir);
+        m_frames=0;
     }
 }
 
@@ -41,7 +50,6 @@ bool MoveClawCommand::IsFinished() {
         if (m_dir>0) return m_arm.GetClawPos()<=0;
         else return m_arm.GetClawPos()>=ArmConstants::kClawMoveTime;
     } else {
-        if (m_dir>0) return m_arm.GetOuterLimitSwitchState();
-        else return m_arm.GetInnerLimitSwitchState();
+        return m_frames >= 3;
     }
 }

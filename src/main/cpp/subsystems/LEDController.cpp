@@ -598,7 +598,7 @@ void LEDController::Aperture() {
     d1y+=46;
     if (!drop_mode) d1s = !d1s;
   }
-  if (d1yv>4) d1yv=4;
+  if (d1yv>3) d1yv=3;
   
   d2yv+=0.02; d2y+=d2yv;
   if (d2y>46) {
@@ -613,7 +613,7 @@ void LEDController::Aperture() {
     d2y+=46;
     if (!drop_mode) d2s = !d2s;
   }
-  if (d2yv>4) d2yv=4;
+  if (d2yv>3) d2yv=3;
 
   // LED strip portals
   if (drop_mode) {
@@ -644,7 +644,11 @@ void LEDController::Aperture() {
   Flush();
 
   i++;
-  //i%=40;
+  if (i==200) drop_mode = false;
+  if (i==600) {
+    drop_mode = true;
+    i = 0;
+  }
 }
 
 void LEDController::SetAngle(double angle) {

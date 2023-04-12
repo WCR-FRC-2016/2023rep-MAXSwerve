@@ -36,4 +36,6 @@ private:
   Arm& m_arm;
   
   double m_dir;
+
+  int m_frames = 0;
 };

@@ -74,12 +74,14 @@ void Arm::Periodic() {
       low = -23_deg; high = 64.4_deg;
       break;
     case 3: // High Tier
-      low = -43.5_deg; high = 108.0_deg;
+      low = -23_deg; high = 108.0_deg;
       break;
-    case 4: // Substation
-      low = -23_deg; high = 71.4_deg;
+    case 4: // Substation (cubes)
+      low = -23_deg; high = 70.4_deg;
       break;
-    case 5: // Carry / Intermediate
+    /*case 5: // Substation (cones)
+      low = -23_deg; high = 69.4_deg;
+      break;*/
     case 6: // Absolute Zero
       low = 0_deg; high = 0_deg;
       break;

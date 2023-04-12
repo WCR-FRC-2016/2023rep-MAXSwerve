@@ -2,7 +2,7 @@
     "drive-max-speed": 4.0,
     "drive-max-rot-speed": 270.0,
     "fast-speed": 3.0,
-    "slow-speed": 2.0,
+    "slow-speed": 1.5,
     "fast-rot-speed": 270.0,
     "slow-rot-speed": 180.0,
     "align-speed": 1.0,

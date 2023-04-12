@@ -15,6 +15,8 @@ AutoBalanceCommand::AutoBalanceCommand(AutoSubsystemWrapper& wrapper) : m_wrappe
 }
 void AutoBalanceCommand::Initialize() {
     m_old_state = m_wrapper.m_leds.GetState();
+
+    m_wrapper.m_leds.SetState(6);
 }
 void AutoBalanceCommand::Execute() {
     double speed = (m_wrapper.m_drive.GetRoll().value()-AutoConstants::kBalanceTargetRoll)*AutoConstants::kBalanceP;
@@ -22,6 +24,7 @@ void AutoBalanceCommand::Execute() {
     speed = std::clamp(speed, -1.0, 1.0);
     Logger::Log(LogLevel::Autonomous) << "Gyro Roll: " << m_wrapper.m_drive.GetRoll() << LoggerCommand::Flush;
 
+    m_wrapper.m_leds.SetAngle(m_wrapper.m_drive.GetRoll().value()-AutoConstants::kBalanceTargetRoll);
 
     m_wrapper.m_drive.Drive(speed * -1 * AutoConstants::kBalanceMaxSpeed, 0_mps, 0_rad_per_s, false, true);
 }

@@ -1,5 +1,12 @@
 # Winner's Circle Robotics 2023 Rep
 
+Team 5492's Swerve Robot code for the 2023 game [Charged Up!](https://firstroboticsbc.org/first-robotics-competition/charged-up-game-and-season/) (Based on MAXSwerve's 2023 [C++ Template](https://github.com/REVrobotics/MAXSwerve-Cpp-Template))
+
+## Authors
+
+- Robin 
+- Zach
+
 ## This Year's Goals
 
 - Teleop Automation
@@ -23,11 +30,20 @@
     - Uses [Clang syntax](https://clang.llvm.org/docs/ClangFormatStyleOptions.html) for settings
     - [Clang Format Quick Tutorial](https://leimao.github.io/blog/Clang-Format-Quick-Tutorial/)
 
+### FRC Libraries
+- NavX
+- REVLib
+- FRC New Command Lib
+
+### Outside Libraries
+
+- [Nlohmann Json](https://github.com/nlohmann/json)
+
 ## Helpful Links
 
 - [Google's c++ Style Guide](https://google.github.io/styleguide/cppguide.html)
 
-## Tasks for the Year
+## Tasks for the 2023 Season
 
 - [x] Update code for new swerve modules
 - [x] Add variable speed
